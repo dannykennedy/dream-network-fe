@@ -25,8 +25,9 @@ const render = () => {
                 redirect_uri={`${window.location.origin}/implicit/callback`}
             >
                 <StoreProvider store={store}>
-                    <Route path="/" exact component={App} />
+                    <Route exact path="/" component={App} />
                     <Route
+                        exact
                         path="/implicit/callback"
                         component={ImplicitCallback}
                     />
