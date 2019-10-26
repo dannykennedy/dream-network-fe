@@ -48,11 +48,17 @@ const App = withAuth(({ fetchData, auth }) => {
             </header>
 
             <div id={"App-body"}>
-                <div id={"notes-area"}>
-                    <InputArea />
-                    <PostsArea />
-                </div>
-                <ChartsArea />
+                {authenticated ? (
+                    <div>
+                        <div id={"notes-area"}>
+                            <InputArea />
+                            <PostsArea />
+                        </div>
+                        <ChartsArea />
+                    </div>
+                ) : (
+                    <div>Please log in!</div>
+                )}
             </div>
         </div>
     );
