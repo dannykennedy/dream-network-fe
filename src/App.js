@@ -7,9 +7,13 @@ import Navbar from "./components/Navbar";
 import InputArea from "./components/InputArea";
 import ChartsArea from "./components/Chartsarea";
 import PostsArea from "./components/PostsArea";
+import { withAuth } from "@okta/okta-react";
+import { useAuth } from "./auth";
 
-function App(props) {
-    const { fetchData } = props;
+const App = withAuth(({ fetchData, auth }) => {
+    // const { fetchData } = props;
+
+    const [authenticated, user] = useAuth(auth);
 
     useEffect(() => {
         fetchData();
@@ -18,6 +22,16 @@ function App(props) {
     return (
         <div className="App">
             <Navbar siteTitle={"Dream Network"} />
+            {authenticated !== null && (
+                <button
+                    onClick={() =>
+                        authenticated ? auth.logout() : auth.login()
+                    }
+                    className="App-link"
+                >
+                    Log {authenticated ? "out" : "in"}
+                </button>
+            )}
             <div id={"App-body"}>
                 <div id={"notes-area"}>
                     <InputArea />
@@ -27,7 +41,7 @@ function App(props) {
             </div>
         </div>
     );
-}
+});
 
 // these parts of state are passed in as props
 const mapStateToProps = state => {
