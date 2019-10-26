@@ -17,7 +17,7 @@ function InputArea({ addPost }) {
             lastName: "Kennedy",
             timePosted: new Date().toISOString(),
             tags: null,
-            userId: 1,
+            userId: 3,
         };
 
         addPost(post);

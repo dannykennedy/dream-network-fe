@@ -1,4 +1,5 @@
-const baseUrl = "http://localhost:8080";
+// const baseUrl = "http://localhost:8080";
+const baseUrl = "https://dream-network-be.herokuapp.com";
 
 // INITIAL STATE
 const initialState = {
@@ -132,7 +133,7 @@ const deleteTagFromUI = (tagId, noteId) => {
 export const fetchData = () => {
     return dispatch => {
         dispatch(dataRequest());
-        fetch("http://localhost:8080/notes/1")
+        fetch(`${baseUrl}/notes/3`)
             .then(d => d.json())
             .then(json => {
                 console.log("json" + json);
@@ -151,7 +152,7 @@ export const addPost = post => {
         dispatch(addPostToState(post));
 
         // Then add to database
-        fetch("http://localhost:8080/notes", {
+        fetch(`${baseUrl}/notes`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -189,7 +190,7 @@ export const deleteNote = noteId => {
         dispatch(deletePostFromUI(noteId));
 
         // Then delete from database
-        fetch(`http://localhost:8080/notes/${noteId}`, {
+        fetch(`${baseUrl}/notes/${noteId}`, {
             method: "DELETE",
         })
             .then(response => {
@@ -213,7 +214,7 @@ export const deleteTag = (tagId, noteId) => {
         dispatch(deleteTagFromUI(tagId, noteId));
 
         // Then delete from database
-        fetch(`http://localhost:8080/tags/delete/${tagId}`, {
+        fetch(`${baseUrl}/tags/delete/${tagId}`, {
             method: "POST",
         })
             .then(response => {
