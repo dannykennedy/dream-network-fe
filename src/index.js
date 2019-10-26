@@ -15,23 +15,24 @@ serviceWorker.unregister();
 
 // Need to wrap app in a store provider component, otherwise "cannot get store in the context of App"
 const render = () => {
+    console.log("Origin!", window.location.origin);
+
     ReactDOM.render(
-        <StoreProvider store={store}>
-            <Router>
-                <Security
-                    issuer={`${process.env.REACT_APP_OKTA_ORG_URL}/oauth2/default`}
-                    client_id={process.env.REACT_APP_OKTA_CLIENT_ID}
-                    redirect_uri={`${window.location.origin}/implicit/callback`}
-                >
+        <Router>
+            <Security
+                issuer={`${process.env.REACT_APP_OKTA_ORG_URL}/oauth2/default`}
+                client_id={process.env.REACT_APP_OKTA_CLIENT_ID}
+                redirect_uri={`${window.location.origin}/implicit/callback`}
+            >
+                <StoreProvider store={store}>
                     <Route path="/" exact component={App} />
                     <Route
                         path="/implicit/callback"
                         component={ImplicitCallback}
                     />
-                </Security>
-            </Router>
-            ,
-        </StoreProvider>,
+                </StoreProvider>
+            </Security>
+        </Router>,
         document.getElementById("root")
     );
 };
