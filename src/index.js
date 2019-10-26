@@ -28,7 +28,7 @@ const render = () => {
                     <Route exact path="/" component={App} />
                     <Route
                         exact
-                        path="/implicit/callback"
+                        path="/implicit/callback/"
                         component={ImplicitCallback}
                     />
                 </StoreProvider>
