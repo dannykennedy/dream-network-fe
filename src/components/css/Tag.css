@@ -1,0 +1,68 @@
+/* TAG */
+.tag {
+    border-radius: 5px;
+    width: auto;
+    color: white;
+    display: inline-block;
+    padding: 7px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.tag-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.date,
+.delete,
+.priority {
+    background-color: rgba(214, 52, 52, 0.6);
+}
+.date:hover,
+.delete:hover,
+.priority:hover {
+    background-color: rgba(214, 52, 52, 0.8);
+    text-decoration: none;
+    color: white;
+}
+.person {
+    background-color: rgba(244, 152, 58, 0.8);
+}
+.person:hover {
+    background-color: rgba(244, 152, 58, 1);
+    text-decoration: none;
+    color: white;
+}
+.location {
+    background-color: rgba(110, 176, 82, 0.7);
+}
+.location:hover {
+    background-color: rgba(110, 176, 82, 0.9);
+    text-decoration: none;
+    color: white;
+}
+.other {
+    background-color: rgba(63, 139, 241, 0.7);
+}
+.other:hover {
+    background-color: rgba(63, 139, 241, 0.9);
+    text-decoration: none;
+    color: white;
+}
+.no-type {
+    background-color: rgba(108, 107, 125, 0.7);
+}
+.no-type:hover {
+    background-color: rgba(108, 107, 125, 0.9);
+    text-decoration: none;
+    color: white;
+}
+
+.tag-name {
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+/* END TAG */
