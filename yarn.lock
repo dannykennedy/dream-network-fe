@@ -1104,12 +1104,12 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@okta/configuration-validation@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@okta/configuration-validation/-/configuration-validation-0.3.0.tgz#41954ce0567b25b7ff0d4eb7fc60468a709444d7"
-  integrity sha512-GWu+IpqkpE+Pl2BgxiF2CxuQpo0ZpeTG4M6musJXzVX70RNdH0wuM+SCIjT+yTbzcHl0LpXkC58M2YQtT2OSrw==
+"@okta/configuration-validation@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@okta/configuration-validation/-/configuration-validation-0.4.1.tgz#6fa4520bc96c27b3d7aedcb0523de1fbceee9105"
+  integrity sha512-p8QcApCSyAXtlyB7p7jXkAkcTedvK9WFkmEduVA3XxQQVs3njxD9vTooFj4+AF6WNRIuGOis/utL7m0BzYkyVw==
 
-"@okta/okta-auth-js@^2.0.0":
+"@okta/okta-auth-js@^2.6.3":
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-2.9.0.tgz#668cf95003cd2196871b98e13317d8f35f459108"
   integrity sha512-GO0u1vRmMybPPINWyEZ68muBIt+gPOxaEOfgB22uRLBbsStgr2mnLFFmVpc9gNOpcEDgKI49px9pUrHda3Dqhg==
@@ -1123,13 +1123,13 @@
     tiny-emitter "1.1.0"
     xhr2 "0.1.3"
 
-"@okta/okta-react@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-react/-/okta-react-1.2.0.tgz#3a7e4512af282a03267af7db0c76f6bc98d65765"
-  integrity sha512-g1SDBDQTh38/r0r8QLhpTO6Kyyjte9jGCfdi97inSaj+CLVkOS0vmt/LjFrY1IKH6UUlmkUSIzjvrT8x47H41w==
+"@okta/okta-react@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@okta/okta-react/-/okta-react-1.2.3.tgz#113057a724a5f779f26187d6e7b603e0b8645ac8"
+  integrity sha512-t90/4SF0svpaVCEjbbUyr9pW0pXGMZuDvms53lIp30b8Rk78uV1MSEqjbLuHGw+ai7twdJCxvAaA/YwXO+EOfA==
   dependencies:
-    "@okta/configuration-validation" "^0.3.0"
-    "@okta/okta-auth-js" "^2.0.0"
+    "@okta/configuration-validation" "^0.4.1"
+    "@okta/okta-auth-js" "^2.6.3"
     babel-runtime "^6.26.0"
     prop-types "^15.5.10"
 
