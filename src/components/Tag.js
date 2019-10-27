@@ -3,7 +3,6 @@ import FontAwesome from "react-fontawesome";
 import { connect } from "react-redux";
 import { deleteTag as _deleteTag } from "../ducks";
 import "./css/Tag.css";
-import { log } from "util";
 
 // No icon for 'other' type tags
 const icons = {

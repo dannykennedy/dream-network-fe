@@ -5,10 +5,6 @@ import LoadingNotice from "./LoadingNotice";
 import Dropdown from "./Dropdown";
 import "./css/Card.css";
 
-function openDropdown() {
-    console.log("opening the dropdown");
-}
-
 function Card({ entryText, firstName, lastName, noteId, timePosted, tags }) {
     return (
         <div id={noteId} className="item-card">

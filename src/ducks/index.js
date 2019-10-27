@@ -170,16 +170,18 @@ export const addPost = post => {
             .then(data => data.json())
             .then(json => {
                 console.log("got tags: ", json);
-                post.tags = [];
 
-                json.map(responseRow => {
-                    let tag = {
-                        tagName: responseRow.name,
-                        tagType: responseRow.type,
-                        tagId: responseRow.tagId,
-                    };
-                    post.tags = [tag, ...post.tags];
-                });
+                post = {
+                    ...post,
+                    tags: json.map(responseRow => {
+                        return {
+                            tagName: responseRow.name,
+                            tagType: responseRow.type,
+                            tagId: responseRow.tagId,
+                        };
+                    }),
+                };
+
                 console.log("new Post: ", post);
 
                 dispatch(replacePostWithTaggedPost(post));
