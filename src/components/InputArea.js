@@ -4,7 +4,7 @@ import { addPost as _addPost } from "../ducks";
 import uuidV4 from "../modules/uuid";
 import "./css/InputArea.css";
 
-function InputArea({ addPost }) {
+function InputArea({ addPost, given_name, family_name, preferred_username }) {
     const [noteText, setNoteText] = useState("");
 
     function handleSubmit(e) {
@@ -13,11 +13,12 @@ function InputArea({ addPost }) {
         let post = {
             entryText: noteText,
             noteId: uuidV4(),
-            firstName: "Dan",
-            lastName: "Kennedy",
+            firstName: given_name,
+            lastName: family_name,
             timePosted: new Date().toISOString(),
             tags: null,
             userId: 3,
+            userName: preferred_username,
         };
 
         addPost(post);

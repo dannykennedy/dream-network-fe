@@ -21,8 +21,11 @@ const App = withAuth(({ fetchData, auth }) => {
     }
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        if (user) {
+            console.log(`the email in App.js is ${user.email}`);
+            fetchData(user.email);
+        }
+    }, [fetchData, user]);
 
     return (
         <div className="App">
@@ -32,6 +35,9 @@ const App = withAuth(({ fetchData, auth }) => {
                     <span id="navbar-site-title">Dream Network</span>
                 </div>
                 <div id="navbar-menu-items">
+                    <div>
+                        <span>{user ? `Welcome, ${user.given_name}` : ""}</span>
+                    </div>
                     <div className="navbar-icon">
                         {authenticated !== null && (
                             <button
@@ -61,8 +67,24 @@ const App = withAuth(({ fetchData, auth }) => {
                 {authenticated ? (
                     <div>
                         <div id={"notes-area"}>
-                            <InputArea />
-                            <PostsArea />
+                            {user && (
+                                <div>
+                                    <InputArea
+                                        preferred_username={
+                                            user.preferred_username
+                                        }
+                                        given_name={user.given_name}
+                                        family_name={user.family_name}
+                                    />
+                                    <PostsArea
+                                        preferred_username={
+                                            user.preferred_username
+                                        }
+                                        given_name={user.given_name}
+                                        family_name={user.family_name}
+                                    />
+                                </div>
+                            )}
                         </div>
                         <ChartsArea />
                     </div>

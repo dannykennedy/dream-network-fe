@@ -1,5 +1,5 @@
-// const baseUrl = "http://localhost:8080";
-const baseUrl = "https://dream-network-be.herokuapp.com";
+const baseUrl = "http://localhost:8080";
+// const baseUrl = "https://dream-network-be.herokuapp.com";
 
 // INITIAL STATE
 const initialState = {
@@ -135,10 +135,12 @@ const deleteTagFromUI = (tagId, noteId) => {
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
 
 // GET POSTS ON INITIAL LOAD
-export const fetchData = () => {
+export const fetchData = userEmail => {
+    console.log(`the email in index.js is ${userEmail}`);
+
     return dispatch => {
         dispatch(dataRequest());
-        fetch(`${baseUrl}/notes/3`)
+        fetch(`${baseUrl}/notes/${userEmail}`)
             .then(d => d.json())
             .then(json => {
                 console.log("json" + json);
