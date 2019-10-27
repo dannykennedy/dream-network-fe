@@ -59,14 +59,19 @@ export default (state = initialState, action) => {
                 }),
             };
         case actionTypes.DELETE_TAG:
-            alert("Deleting " + action.payload.tagId);
             return {
                 ...state,
-                posts: state.posts.map(note => {
-                    if (note.noteId === action.payload.noteId) {
-                        console.log("found it");
+                posts: state.posts.map(post => {
+                    if (post.noteId === action.payload.noteId) {
+                        return {
+                            ...post,
+                            tags: post.tags.filter(
+                                tag => tag.tagId !== action.payload.tagId
+                            ),
+                        };
+                    } else {
+                        return post;
                     }
-                    return note;
                 }),
             };
         case actionTypes.ERROR:

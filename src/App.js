@@ -40,7 +40,17 @@ const App = withAuth(({ fetchData, auth }) => {
                                 }
                                 className="App-link"
                             >
-                                Log {authenticated ? "out" : "in"}
+                                {authenticated ? (
+                                    <div>
+                                        <span>Log out </span>
+                                        <FontAwesome name="sign-out-alt" />
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <span>Log in </span>
+                                        <FontAwesome name="sign-in-alt" />
+                                    </div>
+                                )}
                             </button>
                         )}
                     </div>

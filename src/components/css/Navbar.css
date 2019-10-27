@@ -26,3 +26,11 @@
     padding-right: 10px;
     cursor: pointer;
 }
+
+.navbar-icon button {
+    background-color: inherit;
+    color: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    border: none;
+}
