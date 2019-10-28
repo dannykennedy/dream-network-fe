@@ -136,14 +136,11 @@ const deleteTagFromUI = (tagId, noteId) => {
 
 // GET POSTS ON INITIAL LOAD
 export const fetchData = userEmail => {
-    console.log(`the email in index.js is ${userEmail}`);
-
     return dispatch => {
         dispatch(dataRequest());
         fetch(`${baseUrl}/notes/${userEmail}`)
             .then(d => d.json())
             .then(json => {
-                console.log("json" + json);
                 dispatch(dataSuccess(json));
             })
             .catch(err => {

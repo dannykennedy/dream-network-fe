@@ -3,7 +3,7 @@ import Card from "./Card";
 import { connect } from "react-redux";
 import LoadingNotice from "./LoadingNotice";
 
-function PostsArea({ posts, given_name, family_name, preferred_username }) {
+function PostsArea({ posts }) {
     return !posts ? (
         <LoadingNotice loadingText="Loading posts" />
     ) : (

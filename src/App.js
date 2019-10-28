@@ -22,7 +22,6 @@ const App = withAuth(({ fetchData, auth }) => {
 
     useEffect(() => {
         if (user) {
-            console.log(`the email in App.js is ${user.email}`);
             fetchData(user.email);
         }
     }, [fetchData, user]);
@@ -89,7 +88,9 @@ const App = withAuth(({ fetchData, auth }) => {
                         <ChartsArea />
                     </div>
                 ) : (
-                    <div>Please log in!</div>
+                    <div style={{ marginLeft: 20, marginTop: 20 }}>
+                        <span>Please log in!</span>
+                    </div>
                 )}
             </div>
         </div>
