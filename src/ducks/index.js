@@ -1,5 +1,5 @@
-const baseUrl = "http://localhost:8080";
-// const baseUrl = "https://dream-network-be.herokuapp.com";
+// const baseUrl = "http://localhost:8080";
+const baseUrl = "https://dream-network-be.herokuapp.com";
 
 // INITIAL STATE
 const initialState = {
