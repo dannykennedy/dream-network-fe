@@ -1,46 +1,3 @@
-// import React, { Component } from "react";
-// import { EditorState, convertToRaw, ContentState } from "draft-js";
-// import { Editor } from "react-draft-wysiwyg";
-// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-// import "./css/PostEditor.css";
-// import draftToHtml from "draftjs-to-html";
-
-// class PostEditor extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             editorState: EditorState.createEmpty(),
-//         };
-//     }
-
-//     onEditorStateChange = editorState => {
-//         this.setState({
-//             editorState,
-//         });
-//     };
-
-//     saveText = () => {
-//         console.log(draftToHtml(convertToRaw(this.state.getCurrentContent())));
-//     };
-
-//     render() {
-//         const { editorState } = this.state;
-//         return (
-//             <div>
-//                 <Editor
-//                     editorState={editorState}
-//                     wrapperClassName="demo-wrapper"
-//                     editorClassName="demo-editor"
-//                     onEditorStateChange={this.onEditorStateChange}
-//                 />
-//                 <button onClick={this.saveText} className="button-standard">
-//                     Save to your private journal
-//                 </button>
-//             </div>
-//         );
-//     }
-// }
-
 import React, { Component } from "react";
 import { EditorState, convertToRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
@@ -48,6 +5,10 @@ import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./css/PostEditor.css";
+import uuidV4 from "../modules/uuid";
+// Dispatch
+import { connect } from "react-redux";
+import { addPost as _addPost } from "../ducks";
 
 class PostEditor extends Component {
     constructor(props) {
@@ -63,7 +24,7 @@ class PostEditor extends Component {
                 editorState,
             };
         }
-        this.saveText = this.saveText.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     onEditorStateChange = editorState => {
@@ -72,9 +33,23 @@ class PostEditor extends Component {
         });
     };
 
-    saveText = html => {
-        console.log(html);
-    };
+    handleSubmit(noteText, props) {
+        let post = {
+            entryText: noteText,
+            noteId: uuidV4(),
+            firstName: "Dan",
+            lastName: "Kennedy",
+            timePosted: new Date().toISOString(),
+            tags: null,
+            userId: 3,
+            userName: "dannykennedy@email.com",
+        };
+
+        console.log(post);
+
+        props.addPost(post);
+        // setNoteText(""); // Clear textarea
+    }
 
     render() {
         const { editorState } = this.state;
@@ -123,11 +98,12 @@ class PostEditor extends Component {
                     }}
                 />
                 <button
-                    onClick={function() {
-                        console.log(
+                    onClick={() => {
+                        this.handleSubmit(
                             draftToHtml(
                                 convertToRaw(editorState.getCurrentContent())
-                            )
+                            ),
+                            this.props
                         );
                     }}
                     className="button-standard"
@@ -139,11 +115,18 @@ class PostEditor extends Component {
     }
 }
 
-export default PostEditor;
+// these parts of state are passed in as props
+const mapStateToProps = state => {
+    return {
+        posts: state.posts,
+    };
+};
 
-// {/* <textarea
-//     disabled
-//     value={draftToHtml(
-//         convertToRaw(editorState.getCurrentContent())
-//     )}
-// /> */}
+const mapDispatchToProps = {
+    addPost: _addPost,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(PostEditor);

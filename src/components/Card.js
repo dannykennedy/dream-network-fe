@@ -4,8 +4,11 @@ import { parseTimestamp } from "../modules/parseDate";
 import LoadingNotice from "./LoadingNotice";
 import Dropdown from "./Dropdown";
 import "./css/Card.css";
+var ReactDOMServer = require("react-dom/server");
+var HtmlToReactParser = require("html-to-react").Parser;
 
 function Card({ entryText, firstName, lastName, noteId, timePosted, tags }) {
+    var _htmlToReactParser = new HtmlToReactParser();
     return (
         <div id={noteId} className="item-card">
             <div className="inner-card">
@@ -34,7 +37,9 @@ function Card({ entryText, firstName, lastName, noteId, timePosted, tags }) {
                     </div>
                 </div>
                 <div className="card-body">
-                    <p className="card-body-text">{entryText}</p>
+                    <div className="card-body-text">
+                        {_htmlToReactParser.parse(entryText)}
+                    </div>
                     <div className="card-edit-area">
                         <textarea className="card-edit-textarea"></textarea>
                         <button className="button-standard card-button-savetext">

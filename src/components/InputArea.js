@@ -32,7 +32,7 @@ function InputArea({ addPost, given_name, family_name, preferred_username }) {
         <div>
             <PostEditor />
 
-            <form onSubmit={handleSubmit} id="input-area-form">
+            {/* <form onSubmit={handleSubmit} id="input-area-form">
                 <textarea
                     value={noteText}
                     onChange={e => setNoteText(e.target.value)}
@@ -50,7 +50,7 @@ function InputArea({ addPost, given_name, family_name, preferred_username }) {
                 >
                     Submit
                 </button>
-            </form>
+            </form> */}
         </div>
     );
 }

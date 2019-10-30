@@ -6,6 +6,7 @@
         "@okta/okta-react": "1.2.3",
         "draft-js": "^0.11.1",
         "draftjs-to-html": "^0.8.4",
+        "html-to-react": "^1.4.2",
         "react": "^16.10.2",
         "react-dom": "^16.10.2",
         "react-draft-wysiwyg": "^1.13.2",

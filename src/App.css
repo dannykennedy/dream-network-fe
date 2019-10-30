@@ -46,6 +46,8 @@ textarea {
     margin-bottom: 5px;
     cursor: pointer;
     font-size: 1em;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 .button-standard:hover {
     background-color: rgba(63, 139, 241, 0.9);
