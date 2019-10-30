@@ -4,7 +4,6 @@ import { parseTimestamp } from "../modules/parseDate";
 import LoadingNotice from "./LoadingNotice";
 import Dropdown from "./Dropdown";
 import "./css/Card.css";
-var ReactDOMServer = require("react-dom/server");
 var HtmlToReactParser = require("html-to-react").Parser;
 
 function Card({ entryText, firstName, lastName, noteId, timePosted, tags }) {

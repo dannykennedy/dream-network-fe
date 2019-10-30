@@ -9,6 +9,8 @@ import uuidV4 from "../modules/uuid";
 // Dispatch
 import { connect } from "react-redux";
 import { addPost as _addPost } from "../ducks";
+// Config
+import editorConfig from "../modules/editorConfig";
 
 class PostEditor extends Component {
     constructor(props) {
@@ -60,42 +62,7 @@ class PostEditor extends Component {
                     wrapperClassName="demo-wrapper"
                     editorClassName="demo-editor"
                     onEditorStateChange={this.onEditorStateChange}
-                    toolbar={{
-                        options: [
-                            "inline",
-                            "link",
-                            "history",
-                            "image",
-                            "blockType",
-                        ],
-                        inline: {
-                            options: ["bold", "italic", "superscript"],
-                        },
-                        blockType: {
-                            inDropdown: true,
-                            options: ["Normal", "H2", "Blockquote"],
-                            className: undefined,
-                            component: undefined,
-                            dropdownClassName: undefined,
-                        },
-                        image: {
-                            className: undefined,
-                            component: undefined,
-                            popupClassName: undefined,
-                            urlEnabled: true,
-                            uploadEnabled: true,
-                            alignmentEnabled: true,
-                            uploadCallback: undefined,
-                            previewImage: false,
-                            inputAccept:
-                                "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-                            alt: { present: false, mandatory: false },
-                            defaultSize: {
-                                height: "auto",
-                                width: "auto",
-                            },
-                        },
-                    }}
+                    toolbar={editorConfig}
                 />
                 <button
                     onClick={() => {
