@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { addPost as _addPost } from "../ducks";
 import uuidV4 from "../modules/uuid";
 import "./css/InputArea.css";
+// import { Editor } from "react-draft-wysiwyg";
+// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import PostEditor from "./PostEditor";
 
 function InputArea({ addPost, given_name, family_name, preferred_username }) {
     const [noteText, setNoteText] = useState("");
@@ -27,6 +30,8 @@ function InputArea({ addPost, given_name, family_name, preferred_username }) {
 
     return (
         <div>
+            <PostEditor />
+
             <form onSubmit={handleSubmit} id="input-area-form">
                 <textarea
                     value={noteText}

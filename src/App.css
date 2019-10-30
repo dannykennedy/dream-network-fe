@@ -38,7 +38,7 @@ textarea {
 .button-standard {
     justify-self: center;
     border-radius: 5px;
-    width: 5em;
+    width: auto;
     color: white;
     background-color: rgba(63, 139, 241, 0.7);
     padding: 7px;
