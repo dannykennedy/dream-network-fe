@@ -3,13 +3,13 @@ import "./App.css";
 import { connect } from "react-redux";
 import { fetchData as _fetchData } from "./ducks";
 // Components
-import InputArea from "./components/InputArea";
 import ChartsArea from "./components/Chartsarea";
 import PostsArea from "./components/PostsArea";
 import { withAuth } from "@okta/okta-react";
 import { useAuth } from "./auth";
 import FontAwesome from "react-fontawesome";
 import "./components/css/Navbar.css";
+import PostEditor from "./components/PostEditor";
 
 const App = withAuth(({ fetchData, auth }) => {
     // const { fetchData } = props;
@@ -68,7 +68,7 @@ const App = withAuth(({ fetchData, auth }) => {
                         <div id={"notes-area"}>
                             {user && (
                                 <div>
-                                    <InputArea
+                                    <PostEditor
                                         preferred_username={
                                             user.preferred_username
                                         }

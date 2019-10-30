@@ -39,18 +39,14 @@ class PostEditor extends Component {
         let post = {
             entryText: noteText,
             noteId: uuidV4(),
-            firstName: "Dan",
-            lastName: "Kennedy",
+            firstName: props.given_name,
+            lastName: props.family_name,
             timePosted: new Date().toISOString(),
             tags: null,
             userId: 3,
-            userName: "dannykennedy@email.com",
+            userName: props.preferred_username,
         };
-
-        console.log(post);
-
         props.addPost(post);
-        // setNoteText(""); // Clear textarea
     }
 
     render() {
