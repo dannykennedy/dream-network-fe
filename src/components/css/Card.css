@@ -107,6 +107,10 @@
     display: none;
 }
 
+.dropbtn {
+    background-color: transparent;
+}
+
 @keyframes slideLeft {
     from {
         margin-left: -1%;

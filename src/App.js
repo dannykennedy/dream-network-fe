@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { connect } from "react-redux";
-import { fetchData as _fetchData } from "./ducks";
+import {
+    fetchData as _fetchData,
+    fetchAllData as _fetchAllData,
+} from "./ducks";
 // Components
 import ChartsArea from "./components/Chartsarea";
 import PostsArea from "./components/PostsArea";
@@ -11,7 +14,7 @@ import FontAwesome from "react-fontawesome";
 import "./components/css/Navbar.css";
 import PostEditor from "./components/PostEditor";
 
-const App = withAuth(({ fetchData, auth }) => {
+const App = withAuth(({ fetchData, fetchAllData, auth }) => {
     // const { fetchData } = props;
 
     const [authenticated, user] = useAuth(auth);
@@ -25,6 +28,10 @@ const App = withAuth(({ fetchData, auth }) => {
             fetchData(user.email);
         }
     }, [fetchData, user]);
+
+    useEffect(() => {
+        fetchAllData();
+    }, [fetchAllData]);
 
     return (
         <div className="App">
@@ -76,6 +83,7 @@ const App = withAuth(({ fetchData, auth }) => {
                                         family_name={user.family_name}
                                     />
                                     <PostsArea
+                                        user={user}
                                         preferred_username={
                                             user.preferred_username
                                         }
@@ -88,8 +96,16 @@ const App = withAuth(({ fetchData, auth }) => {
                         <ChartsArea />
                     </div>
                 ) : (
-                    <div style={{ marginLeft: 20, marginTop: 20 }}>
-                        <span>Please log in!</span>
+                    <div>
+                        <div id={"notes-area"}>
+                            <PostsArea
+                                user={null}
+                                preferred_username={null}
+                                given_name={null}
+                                family_name={null}
+                            />
+                        </div>
+                        <ChartsArea />
                     </div>
                 )}
             </div>
@@ -106,6 +122,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     fetchData: _fetchData,
+    fetchAllData: _fetchAllData,
 };
 
 export default connect(

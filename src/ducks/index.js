@@ -3,6 +3,7 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 // INITIAL STATE
 const initialState = {
     posts: null,
+    publicPosts: null,
     loading: true,
 };
 
@@ -10,6 +11,7 @@ const initialState = {
 const actionTypes = {
     DATA_REQUEST: "DATA_REQUEST",
     DATA_SUCCESS: "DATA_SUCCESS",
+    LOGGEDOUT_DATA_SUCCESS: "LOGGEDOUT_DATA_SUCCESS",
     DATA_FAILURE: "DATA_FAILURE",
     ADD_POST: "ADD_POST",
     DELETE_POST: "DELETE_POST",
@@ -30,6 +32,13 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 posts: action.payload,
+            };
+        case actionTypes.LOGGEDOUT_DATA_SUCCESS:
+            console.log("All data success");
+            return {
+                ...state,
+                loading: false,
+                publicPosts: action.payload,
             };
         case actionTypes.DATA_FAILURE:
             console.log("data failure");
@@ -100,6 +109,13 @@ const dataSuccess = payload => {
     };
 };
 
+const loggedOutDataSuccess = payload => {
+    return {
+        type: actionTypes.LOGGEDOUT_DATA_SUCCESS,
+        payload,
+    };
+};
+
 const replacePostWithTaggedPost = payload => {
     return {
         type: actionTypes.REPLACE_POST_WITH_TAGGED_POST,
@@ -141,6 +157,20 @@ export const fetchData = userEmail => {
             .then(d => d.json())
             .then(json => {
                 dispatch(dataSuccess(json));
+            })
+            .catch(err => {
+                dispatch({ type: actionTypes.DATA_FAILURE, payload: err });
+            });
+    };
+};
+
+export const fetchAllData = () => {
+    return dispatch => {
+        dispatch(dataRequest());
+        fetch(`${baseUrl}/notes/`)
+            .then(d => d.json())
+            .then(json => {
+                dispatch(loggedOutDataSuccess(json));
             })
             .catch(err => {
                 dispatch({ type: actionTypes.DATA_FAILURE, payload: err });

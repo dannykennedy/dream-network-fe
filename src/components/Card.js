@@ -6,7 +6,15 @@ import Dropdown from "./Dropdown";
 import "./css/Card.css";
 var HtmlToReactParser = require("html-to-react").Parser;
 
-function Card({ entryText, firstName, lastName, noteId, timePosted, tags }) {
+function Card({
+    user,
+    entryText,
+    firstName,
+    lastName,
+    noteId,
+    timePosted,
+    tags,
+}) {
     var _htmlToReactParser = new HtmlToReactParser();
     return (
         <div id={noteId} className="item-card">
@@ -27,12 +35,14 @@ function Card({ entryText, firstName, lastName, noteId, timePosted, tags }) {
                         </div>
                     </div>
                     <div className="card-options dropdown">
-                        <Dropdown
-                            onChange={() => {
-                                console.log("changed");
-                            }}
-                            noteId={noteId}
-                        />
+                        {user && (
+                            <Dropdown
+                                onChange={() => {
+                                    console.log("changed");
+                                }}
+                                noteId={noteId}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className="card-body">
