@@ -1,5 +1,4 @@
-// const baseUrl = "http://localhost:8080";
-const baseUrl = "https://dream-network-be.herokuapp.com";
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 // INITIAL STATE
 const initialState = {
