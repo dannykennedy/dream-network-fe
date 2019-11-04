@@ -35,3 +35,10 @@
 .dropdown button:hover {
     background-color: #ddd;
 }
+
+@media (max-width: 800px) {
+    /* Make sure dropdown doesn't overflow the screen */
+    .dropdown-content {
+        transform: translate(-88%);
+    }
+}
