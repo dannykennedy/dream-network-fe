@@ -11,17 +11,11 @@ body {
 
 #App-body {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-}
-
-@media (max-width: 800px) {
-    #App-body {
-        grid-template-columns: 100%;
-    }
+    grid-template-columns: 100%;
 }
 
 #notes-area {
-    padding: 20px;
+    padding: 8px;
 }
 
 textarea {
@@ -114,3 +108,13 @@ button:focus {
 }
 
 /* END TOOLTIP */
+
+@media (min-width: 800px) {
+    #App-body {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    #notes-area {
+        padding: 20px;
+    }
+}

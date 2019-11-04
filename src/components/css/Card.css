@@ -14,10 +14,16 @@
     display: grid;
     grid-template-rows: var(--card-header-size) 1fr auto;
     transition: 0.2s;
-    width: 95%;
+    width: 90%;
     height: 100%;
     align-self: center;
     justify-self: center;
+}
+
+@media (min-width: 800px) {
+    .inner-card {
+        width: 95%;
+    }
 }
 
 .item-card {
