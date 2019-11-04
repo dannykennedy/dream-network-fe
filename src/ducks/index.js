@@ -69,6 +69,10 @@ export default (state = initialState, action) => {
                 }),
             };
         case actionTypes.DELETE_TAG:
+            if (!state.userPosts) {
+                console.log("Can't delete tag without a user");
+                return state;
+            }
             return {
                 ...state,
                 userPosts: state.userPosts.map(post => {

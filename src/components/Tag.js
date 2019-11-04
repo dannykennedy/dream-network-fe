@@ -22,7 +22,7 @@ const types = {
     CONSUMER_GOOD: "other",
 };
 
-function Tag({ name, type, tagId, deleteTag, noteId }) {
+function Tag({ name, type, tagId, deleteTag, noteId, user }) {
     type = types[type];
 
     return (
@@ -36,21 +36,26 @@ function Tag({ name, type, tagId, deleteTag, noteId }) {
                 <div className="tag-name">
                     <span>{name}</span>
                 </div>
-                <div
-                    className="tag-remove-icon"
-                    onClick={function() {
-                        deleteTag(tagId, noteId);
-                    }}
-                >
-                    <FontAwesome name="times" />
-                </div>
+                {user && (
+                    <div
+                        className="tag-remove-icon"
+                        onClick={function() {
+                            deleteTag(tagId, noteId);
+                        }}
+                    >
+                        <FontAwesome name="times" />
+                    </div>
+                )}
             </div>
         </div>
     );
 }
 
+// these parts of state are passed in as props
 const mapStateToProps = state => {
-    return state;
+    return {
+        user: state.user,
+    };
 };
 
 const mapDispatchToProps = {
