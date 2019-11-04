@@ -2,6 +2,7 @@ import React from "react";
 import Tag from "./Tag";
 import { parseTimestamp } from "../modules/parseDate";
 import LoadingNotice from "./LoadingNotice";
+import { connect } from "react-redux";
 import Dropdown from "./Dropdown";
 import "./css/Card.css";
 var HtmlToReactParser = require("html-to-react").Parser;
@@ -78,4 +79,11 @@ function Card({
     );
 }
 
-export default Card;
+// these parts of state are passed in as props
+const mapStateToProps = state => {
+    return {
+        user: state.user,
+    };
+};
+
+export default connect(mapStateToProps)(Card);

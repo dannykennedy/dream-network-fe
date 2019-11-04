@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {
     fetchData as _fetchData,
     fetchAllData as _fetchAllData,
+    setUser as _setUser,
 } from "./ducks";
 // Components
 import ChartsArea from "./components/Chartsarea";
@@ -14,14 +15,10 @@ import FontAwesome from "react-fontawesome";
 import "./components/css/Navbar.css";
 import PostEditor from "./components/PostEditor";
 
-const App = withAuth(({ fetchData, fetchAllData, auth }) => {
+const App = withAuth(({ fetchData, fetchAllData, setUser, auth }) => {
     // const { fetchData } = props;
 
     const [authenticated, user] = useAuth(auth);
-
-    if (user) {
-        console.log("We have a user", user);
-    }
 
     useEffect(() => {
         if (user) {
@@ -32,6 +29,10 @@ const App = withAuth(({ fetchData, fetchAllData, auth }) => {
     useEffect(() => {
         fetchAllData();
     }, [fetchAllData]);
+
+    useEffect(() => {
+        setUser(user);
+    }, [user, setUser]);
 
     return (
         <div className="App">
@@ -123,6 +124,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     fetchData: _fetchData,
     fetchAllData: _fetchAllData,
+    setUser: _setUser,
 };
 
 export default connect(

@@ -2,9 +2,10 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 
 // INITIAL STATE
 const initialState = {
-    posts: null,
+    userPosts: null,
     publicPosts: null,
     loading: true,
+    user: null,
 };
 
 // TYPES OF ACTIONS THAT CAN BE DISPATCHED
@@ -18,6 +19,7 @@ const actionTypes = {
     ERROR: "ERROR",
     REPLACE_POST_WITH_TAGGED_POST: "REPLACE_POST_WITH_TAGGED_POST",
     DELETE_TAG: "DELETE_TAG",
+    SET_USER: "SET_USER",
 };
 
 // STATE MACHINE
@@ -31,7 +33,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                posts: action.payload,
+                userPosts: action.payload,
             };
         case actionTypes.LOGGEDOUT_DATA_SUCCESS:
             console.log("All data success");
@@ -47,20 +49,20 @@ export default (state = initialState, action) => {
             console.log("adding a post", action.payload);
             return {
                 ...state,
-                posts: [action.payload, ...state.posts],
+                userPosts: [action.payload, ...state.userPosts],
             };
         case actionTypes.DELETE_POST:
             console.log("Deleting post: ", action.payload);
             return {
                 ...state,
-                posts: state.posts.filter(
+                userPosts: state.userPosts.filter(
                     post => post.noteId !== action.payload
                 ),
             };
         case actionTypes.REPLACE_POST_WITH_TAGGED_POST:
             return {
                 ...state,
-                posts: state.posts.map(note => {
+                userPosts: state.userPosts.map(note => {
                     return note.noteId === action.payload.noteId
                         ? action.payload
                         : note;
@@ -69,7 +71,7 @@ export default (state = initialState, action) => {
         case actionTypes.DELETE_TAG:
             return {
                 ...state,
-                posts: state.posts.map(post => {
+                userPosts: state.userPosts.map(post => {
                     if (post.noteId === action.payload.noteId) {
                         return {
                             ...post,
@@ -85,12 +87,18 @@ export default (state = initialState, action) => {
         case actionTypes.ERROR:
             alert(action.payload);
             return state;
+        case actionTypes.SET_USER:
+            return {
+                ...state,
+                user: action.payload,
+            };
         default:
             return state;
     }
 };
 
 // INTERNAL FUNCTIONS
+
 const addPostToState = payload => {
     return {
         type: actionTypes.ADD_POST,
@@ -148,6 +156,13 @@ const deleteTagFromUI = (tagId, noteId) => {
 
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
+
+export const setUser = payload => {
+    return {
+        type: actionTypes.SET_USER,
+        payload,
+    };
+};
 
 // GET POSTS ON INITIAL LOAD
 export const fetchData = userEmail => {

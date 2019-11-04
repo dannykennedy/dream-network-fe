@@ -3,7 +3,7 @@ import Card from "./Card";
 import { connect } from "react-redux";
 import LoadingNotice from "./LoadingNotice";
 
-function PostsArea({ posts, publicPosts, user }) {
+function PostsArea({ userPosts, publicPosts, user }) {
     if (!user) {
         return !publicPosts ? (
             <LoadingNotice loadingText="Loading posts" />
@@ -12,7 +12,6 @@ function PostsArea({ posts, publicPosts, user }) {
                 {publicPosts.map(post => {
                     return (
                         <Card
-                            user={user}
                             entryText={post.entryText}
                             firstName={post.firstName || "Anonymous"}
                             lastName={post.lastName || "Echidna"}
@@ -26,14 +25,13 @@ function PostsArea({ posts, publicPosts, user }) {
             </div>
         );
     } else {
-        return !posts ? (
+        return !userPosts ? (
             <LoadingNotice loadingText="Loading posts" />
         ) : (
             <div>
-                {posts.map(post => {
+                {userPosts.map(post => {
                     return (
                         <Card
-                            user={user}
                             entryText={post.entryText}
                             firstName={post.firstName}
                             lastName={post.lastName}
@@ -52,8 +50,9 @@ function PostsArea({ posts, publicPosts, user }) {
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        posts: state.posts,
+        userPosts: state.userPosts,
         publicPosts: state.publicPosts,
+        user: state.user,
     };
 };
 
