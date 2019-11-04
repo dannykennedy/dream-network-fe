@@ -59,13 +59,13 @@ function Card({
                 </div>
                 <div className="card-footer">
                     {tags ? (
-                        tags.map((tag, key) => {
+                        tags.map(tag => {
                             return (
                                 <Tag
                                     name={tag.tagName}
                                     type={tag.tagType}
                                     tagId={tag.tagId}
-                                    key={key}
+                                    key={tag.tagId}
                                     noteId={noteId}
                                 />
                             );

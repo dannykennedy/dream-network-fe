@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import FontAwesome from "react-fontawesome";
+import AutosizeInput from "react-input-autosize";
 import { connect } from "react-redux";
 import { deleteTag as _deleteTag } from "../ducks";
 import "./css/Tag.css";
@@ -25,6 +26,8 @@ const types = {
 function Tag({ name, type, tagId, deleteTag, noteId, user }) {
     type = types[type];
 
+    const [editingTag, setEditingTag] = useState(false);
+
     return (
         <div className={"tag " + type} id={tagId}>
             <div className="tag-wrapper">
@@ -33,17 +36,37 @@ function Tag({ name, type, tagId, deleteTag, noteId, user }) {
                         <FontAwesome name={icons[type]} />
                     </div>
                 )}
-                <div className="tag-name">
-                    <span>{name}</span>
-                </div>
-                {user && (
-                    <div
-                        className="tag-remove-icon"
-                        onClick={function() {
-                            deleteTag(tagId, noteId);
+                {editingTag ? (
+                    <AutosizeInput
+                        name="form-field-name"
+                        value={name}
+                        onChange={function(event) {
+                            // event.target.value contains the new value
                         }}
-                    >
-                        <FontAwesome name="times" />
+                    />
+                ) : (
+                    <div className="tag-name">
+                        <span>{name}</span>
+                    </div>
+                )}
+                {user && (
+                    <div className="tag-options">
+                        <div
+                            className="tag-remove-icon tag-icon"
+                            onClick={function() {
+                                deleteTag(tagId, noteId);
+                            }}
+                        >
+                            <FontAwesome name="times" />
+                        </div>
+                        <div
+                            className="tag-edit-icon tag-icon"
+                            onClick={function() {
+                                setEditingTag(true);
+                            }}
+                        >
+                            <FontAwesome name="pencil-alt" />
+                        </div>
                     </div>
                 )}
             </div>
