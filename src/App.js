@@ -11,9 +11,8 @@ import ChartsArea from "./components/Chartsarea";
 import PostsArea from "./components/PostsArea";
 import { withAuth } from "@okta/okta-react";
 import { useAuth } from "./auth";
-import FontAwesome from "react-fontawesome";
-import "./components/css/Navbar.css";
 import PostEditor from "./components/PostEditor";
+import Navbar from "./components/Navbar";
 
 const App = withAuth(({ fetchData, fetchAllData, setUser, auth }) => {
     // const { fetchData } = props;
@@ -36,39 +35,7 @@ const App = withAuth(({ fetchData, fetchAllData, setUser, auth }) => {
 
     return (
         <div className="App">
-            <header id="navbar">
-                <div className="app-name">
-                    <FontAwesome name="cloud-moon" />
-                    <span id="navbar-site-title">Dream Network</span>
-                </div>
-                <div id="navbar-menu-items">
-                    <div>
-                        <span>{user ? `Welcome, ${user.given_name}` : ""}</span>
-                    </div>
-                    <div className="navbar-icon">
-                        {authenticated !== null && (
-                            <button
-                                onClick={() =>
-                                    authenticated ? auth.logout() : auth.login()
-                                }
-                                className="App-link"
-                            >
-                                {authenticated ? (
-                                    <div>
-                                        <span>Log out </span>
-                                        <FontAwesome name="sign-out-alt" />
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <span>Log in </span>
-                                        <FontAwesome name="sign-in-alt" />
-                                    </div>
-                                )}
-                            </button>
-                        )}
-                    </div>
-                </div>
-            </header>
+            <Navbar authenticated={authenticated} auth={auth} />
 
             <div id={"App-body"}>
                 {authenticated ? (
