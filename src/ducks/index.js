@@ -268,36 +268,44 @@ export const editPost = (postId, newPost) => {
         // Optimistically update UI
         dispatch(replacePostWithEditedPost(postId, newPost));
 
-        // fetch(`${baseUrl}/notes${postId}`, {
-        //     method: "PATCH",
-        //     headers: {
-        //         Accept: "application/json",
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(post),
-        // })
-        //     .then(data => data.json())
-        //     .then(json => {
-        //         console.log("got tags: ", json);
+        let body = {
+            postText: newPost,
+            noteId: postId,
+        };
 
-        //         post = {
-        //             ...post,
-        //             tags: json.map(responseRow => {
-        //                 return {
-        //                     tagName: responseRow.name,
-        //                     tagType: responseRow.type,
-        //                     tagId: responseRow.tagId,
-        //                 };
-        //             }),
-        //         };
+        console.log("JSON.stringify(body)", JSON.stringify(body));
 
-        //         console.log("new Post: ", post);
+        fetch(`${baseUrl}/notes/${postId}`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        })
+            // .then(data => data.json())
+            .then(json => {
+                console.log("gottim response: ", json);
 
-        //         dispatch(replacePostWithTaggedPost(post));
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+                //     post = {
+                //         ...post,
+                //         tags: json.map(responseRow => {
+                //             return {
+                //                 tagName: responseRow.name,
+                //                 tagType: responseRow.type,
+                //                 tagId: responseRow.tagId,
+                //             };
+                //         }),
+                //     };
+
+                //     console.log("new Post: ", post);
+
+                //     dispatch(replacePostWithTaggedPost(post));
+                // })
+            })
+            .catch(err => {
+                console.log(err);
+            });
     };
 };
 
