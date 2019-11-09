@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Tag from "./Tag";
 import { parseTimestamp } from "../modules/parseDate";
 import LoadingNotice from "./LoadingNotice";
 import { connect } from "react-redux";
-import Dropdown from "./Dropdown";
+import PostEditor from "./PostEditor";
+import FontAwesome from "react-fontawesome";
 import "./css/Card.css";
+import "./css/Dropdown.css";
+import { deleteNote as _deleteNote } from "../ducks";
+
 var HtmlToReactParser = require("html-to-react").Parser;
 
 function Card({
@@ -15,7 +19,27 @@ function Card({
     noteId,
     timePosted,
     tags,
+    deleteNote,
 }) {
+    const node = useRef();
+    const [editingPost, setEditingPost] = useState(false);
+    const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
+
+    const handleClick = e => {
+        if (node.current.contains(e.target)) {
+            return; // inside click
+        }
+        setDropdownIsOpen(false); // outside click
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClick);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClick);
+        };
+    }, []);
+
     var _htmlToReactParser = new HtmlToReactParser();
     return (
         <div id={noteId} className="item-card">
@@ -37,18 +61,40 @@ function Card({
                     </div>
                     <div className="card-options dropdown">
                         {user && (
-                            <Dropdown
-                                onChange={() => {
-                                    console.log("changed");
-                                }}
-                                noteId={noteId}
-                            />
+                            <div ref={node} className="dropdown">
+                                <button
+                                    className="dropbtn"
+                                    onClick={() =>
+                                        setDropdownIsOpen(!dropdownIsOpen)
+                                    }
+                                >
+                                    <FontAwesome name="ellipsis-v" />
+                                </button>
+                                {dropdownIsOpen && (
+                                    <div className="dropdown-content">
+                                        <button
+                                            onClick={() => deleteNote(noteId)}
+                                        >
+                                            Delete
+                                        </button>
+                                        <button
+                                            onClick={() => setEditingPost(true)}
+                                        >
+                                            Edit
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         )}
                     </div>
                 </div>
                 <div className="card-body">
                     <div className="card-body-text">
-                        {_htmlToReactParser.parse(entryText)}
+                        {editingPost ? (
+                            <PostEditor content={entryText} />
+                        ) : (
+                            _htmlToReactParser.parse(entryText)
+                        )}
                     </div>
                     <div className="card-edit-area">
                         <textarea className="card-edit-textarea"></textarea>
@@ -86,4 +132,11 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(Card);
+const mapDispatchToProps = {
+    deleteNote: _deleteNote,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Card);

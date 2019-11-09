@@ -43,13 +43,7 @@ const App = withAuth(({ fetchData, fetchAllData, setUser, auth }) => {
                         <div id={"notes-area"}>
                             {user && (
                                 <div>
-                                    <PostEditor
-                                        preferred_username={
-                                            user.preferred_username
-                                        }
-                                        given_name={user.given_name}
-                                        family_name={user.family_name}
-                                    />
+                                    <PostEditor content={""} />
                                     <PostsArea
                                         user={user}
                                         preferred_username={

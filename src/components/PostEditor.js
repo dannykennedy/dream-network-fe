@@ -15,7 +15,7 @@ import editorConfig from "../modules/editorConfig";
 class PostEditor extends Component {
     constructor(props) {
         super(props);
-        const html = "";
+        const html = props.content;
         const contentBlock = htmlToDraft(html);
         if (contentBlock) {
             const contentState = ContentState.createFromBlockArray(
@@ -36,15 +36,17 @@ class PostEditor extends Component {
     };
 
     handleSubmit(noteText, props) {
+        console.log("got text to submit: ", noteText);
+
         let post = {
             entryText: noteText,
             noteId: uuidV4(),
-            firstName: props.given_name,
-            lastName: props.family_name,
+            firstName: props.user.given_name,
+            lastName: props.user.family_name,
             timePosted: new Date().toISOString(),
             tags: null,
             userId: 3,
-            userName: props.preferred_username,
+            userName: props.user.preferred_username,
         };
         props.addPost(post);
     }
@@ -71,7 +73,7 @@ class PostEditor extends Component {
                     }}
                     className="button-standard"
                 >
-                    Save to your journal
+                    Save
                 </button>
             </div>
         );
@@ -82,6 +84,7 @@ class PostEditor extends Component {
 const mapStateToProps = state => {
     return {
         posts: state.posts,
+        user: state.user,
     };
 };
 

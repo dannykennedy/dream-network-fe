@@ -9,15 +9,13 @@ import { deleteNote as _deleteNote } from "../ducks";
 const Dropdown = ({ noteId, deleteNote }) => {
     const node = useRef();
 
-    const [open, setOpen] = useState(false);
+    const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
     const handleClick = e => {
         if (node.current.contains(e.target)) {
-            // inside click
-            return;
+            return; // inside click
         }
-        // outside click
-        setOpen(false);
+        setDropdownIsOpen(false); // outside click
     };
 
     useEffect(() => {
@@ -30,10 +28,13 @@ const Dropdown = ({ noteId, deleteNote }) => {
 
     return (
         <div ref={node} className="dropdown">
-            <button className="dropbtn" onClick={e => setOpen(!open)}>
+            <button
+                className="dropbtn"
+                onClick={e => setDropdownIsOpen(!dropdownIsOpen)}
+            >
                 <FontAwesome name="ellipsis-v" />
             </button>
-            {open && (
+            {dropdownIsOpen && (
                 <div className="dropdown-content">
                     <button onClick={() => deleteNote(noteId)}>Delete</button>
                     <button>Edit</button>
