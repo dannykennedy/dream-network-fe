@@ -38,9 +38,11 @@ class PostEditor extends Component {
     handleSubmit(noteText, props) {
         console.log("got text to submit: ", noteText);
 
+        let noteId = props.postId ? props.postId : uuidV4();
+
         let post = {
             entryText: noteText,
-            noteId: uuidV4(),
+            noteId: noteId,
             firstName: props.user.given_name,
             lastName: props.user.family_name,
             timePosted: new Date().toISOString(),
@@ -48,7 +50,7 @@ class PostEditor extends Component {
             userId: 3,
             userName: props.user.preferred_username,
         };
-        props.onSave(post);
+        props.onSave(post, noteId);
     }
 
     render() {

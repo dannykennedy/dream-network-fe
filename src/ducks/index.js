@@ -15,6 +15,7 @@ const actionTypes = {
     LOGGEDOUT_DATA_SUCCESS: "LOGGEDOUT_DATA_SUCCESS",
     DATA_FAILURE: "DATA_FAILURE",
     ADD_POST: "ADD_POST",
+    EDIT_POST: "EDIT_POST",
     DELETE_POST: "DELETE_POST",
     ERROR: "ERROR",
     REPLACE_POST_WITH_TAGGED_POST: "REPLACE_POST_WITH_TAGGED_POST",
@@ -58,6 +59,24 @@ export default (state = initialState, action) => {
                 userPosts: state.userPosts.filter(
                     post => post.noteId !== action.payload
                 ),
+            };
+        // Optimistically update edited post in state
+        case actionTypes.EDIT_POST:
+            console.log("Editing post", action.payload);
+            // Replace note with edited note in state
+            return {
+                ...state,
+                userPosts: state.userPosts.map(post => {
+                    if (action.payload.postId === post.noteId) {
+                        console.log("putting in: ", action.payload.postText);
+                        return {
+                            ...post,
+                            entryText: action.payload.postText,
+                        };
+                    } else {
+                        return post;
+                    }
+                }),
             };
         case actionTypes.REPLACE_POST_WITH_TAGGED_POST:
             return {
@@ -156,6 +175,13 @@ const deleteTagFromUI = (tagId, noteId) => {
     };
 };
 
+const replacePostWithEditedPost = (postId, newPostText) => {
+    return {
+        type: actionTypes.EDIT_POST,
+        payload: { postId: postId, postText: newPostText },
+    };
+};
+
 // EXPORTED FUNCTIONS
 
 // A lot of these functions rely on redux-thunk
@@ -234,6 +260,44 @@ export const addPost = post => {
             .catch(err => {
                 console.log(err);
             });
+    };
+};
+
+export const editPost = (postId, newPost) => {
+    return dispatch => {
+        // Optimistically update UI
+        dispatch(replacePostWithEditedPost(postId, newPost));
+
+        // fetch(`${baseUrl}/notes${postId}`, {
+        //     method: "PATCH",
+        //     headers: {
+        //         Accept: "application/json",
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(post),
+        // })
+        //     .then(data => data.json())
+        //     .then(json => {
+        //         console.log("got tags: ", json);
+
+        //         post = {
+        //             ...post,
+        //             tags: json.map(responseRow => {
+        //                 return {
+        //                     tagName: responseRow.name,
+        //                     tagType: responseRow.type,
+        //                     tagId: responseRow.tagId,
+        //                 };
+        //             }),
+        //         };
+
+        //         console.log("new Post: ", post);
+
+        //         dispatch(replacePostWithTaggedPost(post));
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
     };
 };
 

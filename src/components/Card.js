@@ -7,7 +7,7 @@ import PostEditor from "./PostEditor";
 import FontAwesome from "react-fontawesome";
 import "./css/Card.css";
 import "./css/Dropdown.css";
-import { deleteNote as _deleteNote } from "../ducks";
+import { deleteNote as _deleteNote, editPost as _editPost } from "../ducks";
 
 var HtmlToReactParser = require("html-to-react").Parser;
 
@@ -20,6 +20,7 @@ function Card({
     timePosted,
     tags,
     deleteNote,
+    editPost,
 }) {
     const node = useRef();
     const [editingPost, setEditingPost] = useState(false);
@@ -92,8 +93,17 @@ function Card({
                     <div className="card-body-text">
                         {editingPost ? (
                             <PostEditor
+                                postId={noteId}
                                 content={entryText}
-                                onSave={() => console.log("hej")}
+                                onSave={post => {
+                                    console.log(
+                                        "text in card is: ",
+                                        post.entryText
+                                    );
+
+                                    setEditingPost(false);
+                                    editPost(post.noteId, post.entryText);
+                                }}
                             />
                         ) : (
                             _htmlToReactParser.parse(entryText)
@@ -137,6 +147,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     deleteNote: _deleteNote,
+    editPost: _editPost,
 };
 
 export default connect(
