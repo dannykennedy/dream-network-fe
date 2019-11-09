@@ -91,7 +91,10 @@ function Card({
                 <div className="card-body">
                     <div className="card-body-text">
                         {editingPost ? (
-                            <PostEditor content={entryText} />
+                            <PostEditor
+                                content={entryText}
+                                onSave={() => console.log("hej")}
+                            />
                         ) : (
                             _htmlToReactParser.parse(entryText)
                         )}

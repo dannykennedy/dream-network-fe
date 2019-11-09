@@ -5,6 +5,7 @@ import {
     fetchData as _fetchData,
     fetchAllData as _fetchAllData,
     setUser as _setUser,
+    addPost as _addPost,
 } from "./ducks";
 // Components
 import ChartsArea from "./components/Chartsarea";
@@ -14,7 +15,7 @@ import { useAuth } from "./auth";
 import PostEditor from "./components/PostEditor";
 import Navbar from "./components/Navbar";
 
-const App = withAuth(({ fetchData, fetchAllData, setUser, auth }) => {
+const App = withAuth(({ fetchData, fetchAllData, setUser, auth, addPost }) => {
     // const { fetchData } = props;
 
     const [authenticated, user] = useAuth(auth);
@@ -43,7 +44,7 @@ const App = withAuth(({ fetchData, fetchAllData, setUser, auth }) => {
                         <div id={"notes-area"}>
                             {user && (
                                 <div>
-                                    <PostEditor content={""} />
+                                    <PostEditor content={""} onSave={addPost} />
                                     <PostsArea
                                         user={user}
                                         preferred_username={
@@ -86,6 +87,7 @@ const mapDispatchToProps = {
     fetchData: _fetchData,
     fetchAllData: _fetchAllData,
     setUser: _setUser,
+    addPost: _addPost,
 };
 
 export default connect(

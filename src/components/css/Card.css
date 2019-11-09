@@ -55,6 +55,7 @@
     grid-template-columns: var(--card-header-size) 1fr 20px;
 }
 .card-body {
+    margin-top: 15px;
 }
 .card-footer {
     /*    background-color: rgba(0,0,0,.03);*/

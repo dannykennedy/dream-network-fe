@@ -48,7 +48,7 @@ class PostEditor extends Component {
             userId: 3,
             userName: props.user.preferred_username,
         };
-        props.addPost(post);
+        props.onSave(post);
     }
 
     render() {
