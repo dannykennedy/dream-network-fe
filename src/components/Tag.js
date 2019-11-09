@@ -23,10 +23,8 @@ const types = {
     CONSUMER_GOOD: "other",
 };
 
-function Tag({ name, type, tagId, deleteTag, noteId, user }) {
+function Tag({ name, type, tagId, deleteTag, noteId, user, editing }) {
     type = types[type];
-
-    const [editingTag, setEditingTag] = useState(false);
 
     return (
         <div className={"tag " + type} id={tagId}>
@@ -36,7 +34,7 @@ function Tag({ name, type, tagId, deleteTag, noteId, user }) {
                         <FontAwesome name={icons[type]} />
                     </div>
                 )}
-                {editingTag ? (
+                {editing ? (
                     <AutosizeInput
                         name="form-field-name"
                         value={name}
@@ -49,7 +47,7 @@ function Tag({ name, type, tagId, deleteTag, noteId, user }) {
                         <span>{name}</span>
                     </div>
                 )}
-                {user && (
+                {user && editing && (
                     <div className="tag-options">
                         <div
                             className="tag-remove-icon tag-icon"
@@ -58,14 +56,6 @@ function Tag({ name, type, tagId, deleteTag, noteId, user }) {
                             }}
                         >
                             <FontAwesome name="times" />
-                        </div>
-                        <div
-                            className="tag-edit-icon tag-icon"
-                            onClick={function() {
-                                setEditingTag(true);
-                            }}
-                        >
-                            <FontAwesome name="pencil-alt" />
                         </div>
                     </div>
                 )}

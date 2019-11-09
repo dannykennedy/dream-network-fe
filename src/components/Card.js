@@ -41,6 +41,10 @@ function Card({
         };
     }, []);
 
+    useEffect(() => {
+        console.log(editingPost);
+    }, [editingPost]);
+
     var _htmlToReactParser = new HtmlToReactParser();
     return (
         <div id={noteId} className="item-card">
@@ -126,6 +130,7 @@ function Card({
                                     tagId={tag.tagId}
                                     key={tag.tagId}
                                     noteId={noteId}
+                                    editing={editingPost}
                                 />
                             );
                         })
