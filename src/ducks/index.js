@@ -4,6 +4,7 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 const initialState = {
     userPosts: null,
     publicPosts: null,
+    currentlyEditingPost: null,
     loading: true,
     user: null,
 };
@@ -21,6 +22,9 @@ const actionTypes = {
     REPLACE_POST_WITH_TAGGED_POST: "REPLACE_POST_WITH_TAGGED_POST",
     DELETE_TAG: "DELETE_TAG",
     SET_USER: "SET_USER",
+    SET_CURRENTLY_EDITING_POST: "SET_CURRENTLY_EDITING_POST",
+    EDIT_TAG_IN_CURRENTLY_EDITING_POST: "EDIT_TAG_IN_CURRENTLY_EDITING_POST",
+    SAVE_CURRENTLY_EDITING_POST: "SAVE_CURRENTLY_EDITING_POST",
 };
 
 // STATE MACHINE
@@ -42,6 +46,26 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 publicPosts: action.payload,
+            };
+        case actionTypes.SET_CURRENTLY_EDITING_POST:
+            console.log("Currently editing: ", action.payload);
+            return { ...state, currentlyEditingPost: action.payload };
+        case actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST:
+            console.log("edit tag: ", action.payload);
+            return {
+                ...state,
+                currentlyEditingPost: {
+                    ...state.currentlyEditingPost,
+                    tags: {
+                        ...state.currentlyEditingPost.tags,
+                        [action.payload.tagId]: {
+                            ...state.currentlyEditingPost.tags[
+                                action.payload.tagId
+                            ],
+                            tagName: action.payload.tagName,
+                        },
+                    },
+                },
             };
         case actionTypes.DATA_FAILURE:
             console.log("data failure");
@@ -187,6 +211,20 @@ const replacePostWithEditedPost = (postId, newPostText) => {
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
 
+export const setCurrentlyEditingPost = payload => {
+    return {
+        type: actionTypes.SET_CURRENTLY_EDITING_POST,
+        payload,
+    };
+};
+
+export const editTagInCurrentlyEditingPost = (tagId, tagName) => {
+    return {
+        type: actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST,
+        payload: { tagId: tagId, tagName: tagName },
+    };
+};
+
 export const setUser = payload => {
     return {
         type: actionTypes.SET_USER,
@@ -285,23 +323,9 @@ export const editPost = (postId, newPost) => {
         })
             // .then(data => data.json())
             .then(json => {
-                console.log("gottim response: ", json);
+                console.log("got a response: ", json);
 
-                //     post = {
-                //         ...post,
-                //         tags: json.map(responseRow => {
-                //             return {
-                //                 tagName: responseRow.name,
-                //                 tagType: responseRow.type,
-                //                 tagId: responseRow.tagId,
-                //             };
-                //         }),
-                //     };
-
-                //     console.log("new Post: ", post);
-
-                //     dispatch(replacePostWithTaggedPost(post));
-                // })
+                // TODO: retag the post? Using a diff?
             })
             .catch(err => {
                 console.log(err);

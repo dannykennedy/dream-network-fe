@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import FontAwesome from "react-fontawesome";
 import AutosizeInput from "react-input-autosize";
 import { connect } from "react-redux";
-import { deleteTag as _deleteTag } from "../ducks";
+import {
+    deleteTag as _deleteTag,
+    editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,
+} from "../ducks";
 import "./css/Tag.css";
 
 // No icon for 'other' type tags
@@ -23,7 +26,16 @@ const types = {
     CONSUMER_GOOD: "other",
 };
 
-function Tag({ name, type, tagId, deleteTag, noteId, user, editing }) {
+function Tag({
+    name,
+    type,
+    tagId,
+    deleteTag,
+    noteId,
+    user,
+    editing,
+    editTagInCurrentlyEditingPost,
+}) {
     type = types[type];
 
     const [tagName, setTagName] = useState(name);
@@ -41,7 +53,13 @@ function Tag({ name, type, tagId, deleteTag, noteId, user, editing }) {
                         name="form-field-name"
                         value={tagName}
                         onChange={function(event) {
+                            // Change local state
                             setTagName(event.target.value);
+                            // Change global state
+                            editTagInCurrentlyEditingPost(
+                                tagId,
+                                event.target.value
+                            );
                         }}
                     />
                 ) : (
@@ -75,6 +93,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     deleteTag: _deleteTag,
+    editTagInCurrentlyEditingPost: _editTagInCurrentlyEditingPost,
 };
 
 export default connect(

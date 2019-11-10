@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import Tag from "./Tag";
-import { parseTimestamp } from "../modules/parseDate";
 import CardUserInfo from "./CardUserInfo";
 import LoadingNotice from "./LoadingNotice";
 import { connect } from "react-redux";
@@ -8,7 +7,13 @@ import PostEditor from "./PostEditor";
 import FontAwesome from "react-fontawesome";
 import "./css/Card.css";
 import "./css/Dropdown.css";
-import { deleteNote as _deleteNote, editPost as _editPost } from "../ducks";
+import {
+    deleteNote as _deleteNote,
+    editPost as _editPost,
+    setCurrentlyEditingPost as _setCurrentlyEditingPost,
+    editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,
+} from "../ducks";
+import { keyBy, chain, value } from "lodash";
 
 var HtmlToReactParser = require("html-to-react").Parser;
 
@@ -22,6 +27,8 @@ function Card({
     tags,
     deleteNote,
     editPost,
+    setCurrentlyEditingPost,
+    editTagInCurrentlyEditingPost,
 }) {
     const node = useRef();
     const [editingPost, setEditingPost] = useState(false);
@@ -75,7 +82,21 @@ function Card({
                                             Delete
                                         </button>
                                         <button
-                                            onClick={() => setEditingPost(true)}
+                                            onClick={() => {
+                                                setDropdownIsOpen(false);
+                                                setEditingPost(true);
+                                                const currentlyEditingPost = {
+                                                    entryText: entryText.slice(
+                                                        0
+                                                    ),
+                                                    tags: chain(tags)
+                                                        .keyBy("tagId")
+                                                        .value(),
+                                                };
+                                                setCurrentlyEditingPost(
+                                                    currentlyEditingPost
+                                                );
+                                            }}
                                         >
                                             Edit
                                         </button>
@@ -145,6 +166,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     deleteNote: _deleteNote,
     editPost: _editPost,
+    setCurrentlyEditingPost: _setCurrentlyEditingPost,
+    editTagInCurrentlyEditingPost: _editTagInCurrentlyEditingPost,
 };
 
 export default connect(
