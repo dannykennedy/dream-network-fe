@@ -51,8 +51,13 @@
 
 .card-header {
     display: grid;
-    height: var(--card-header-size);
-    grid-template-columns: var(--card-header-size) 1fr 20px;
+    height: 40px;
+    grid-template-columns: 1fr 20px;
+}
+.card-user-info {
+    display: grid;
+    height: inherit;
+    grid-template-columns: 40px 1fr;
 }
 .card-body {
     margin-top: 15px;

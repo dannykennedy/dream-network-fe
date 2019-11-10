@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Tag from "./Tag";
 import { parseTimestamp } from "../modules/parseDate";
+import CardUserInfo from "./CardUserInfo";
 import LoadingNotice from "./LoadingNotice";
 import { connect } from "react-redux";
 import PostEditor from "./PostEditor";
@@ -50,20 +51,11 @@ function Card({
         <div id={noteId} className="item-card">
             <div className="inner-card">
                 <div className="card-header">
-                    <div className="card-avatar tooltip">
-                        <div className="avatar-photo">
-                            <span className="tooltiptext">{`${firstName} ${lastName}`}</span>
-                            <div className="avatar-text">
-                                {firstName.charAt(0) + lastName.charAt(0)}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card-header-text">
-                        <div className="card-author">{`${firstName} ${lastName}`}</div>
-                        <div className="card-date">
-                            {parseTimestamp(timePosted)}
-                        </div>
-                    </div>
+                    <CardUserInfo
+                        firstName={firstName}
+                        lastName={lastName}
+                        timePosted={timePosted}
+                    />
                     <div className="card-options dropdown">
                         {user && (
                             <div ref={node} className="dropdown">

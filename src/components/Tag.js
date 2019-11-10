@@ -26,6 +26,8 @@ const types = {
 function Tag({ name, type, tagId, deleteTag, noteId, user, editing }) {
     type = types[type];
 
+    const [tagName, setTagName] = useState(name);
+
     return (
         <div className={"tag " + type} id={tagId}>
             <div className="tag-wrapper">
@@ -37,9 +39,9 @@ function Tag({ name, type, tagId, deleteTag, noteId, user, editing }) {
                 {editing ? (
                     <AutosizeInput
                         name="form-field-name"
-                        value={name}
+                        value={tagName}
                         onChange={function(event) {
-                            // event.target.value contains the new value
+                            setTagName(event.target.value);
                         }}
                     />
                 ) : (
