@@ -75,7 +75,7 @@ class PostEditor extends Component {
                     }}
                     className="button-standard"
                 >
-                    Save
+                    {this.props.saveButtonText || "Save"}
                 </button>
             </div>
         );

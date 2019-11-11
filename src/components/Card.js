@@ -12,6 +12,7 @@ import {
     editPost as _editPost,
     setCurrentlyEditingPost as _setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost as _saveTagsFromCurrentlyEditingPost,
+    deleteTagsFromCurrentlyEditingPost as _deleteTagsFromCurrentlyEditingPost,
 } from "../ducks";
 import { keyBy, chain, value } from "lodash";
 
@@ -30,6 +31,7 @@ function Card({
     setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost,
     currentlyEditingPost,
+    deleteTagsFromCurrentlyEditingPost,
 }) {
     const node = useRef();
     const [editingPost, setEditingPost] = useState(false);
@@ -93,6 +95,7 @@ function Card({
                                                     tags: chain(tags)
                                                         .keyBy("tagId")
                                                         .value(),
+                                                    deletedTags: [],
                                                 };
                                                 setCurrentlyEditingPost(
                                                     currentlyEditingPost
@@ -113,12 +116,20 @@ function Card({
                             <PostEditor
                                 postId={noteId}
                                 content={entryText}
+                                saveButtonText={"Save Changes"}
                                 onSave={post => {
                                     setEditingPost(false);
                                     editPost(post.noteId, post.entryText);
                                     saveTagsFromCurrentlyEditingPost(
                                         currentlyEditingPost.tags
                                     );
+                                    if (
+                                        currentlyEditingPost.deletedTags.length
+                                    ) {
+                                        deleteTagsFromCurrentlyEditingPost(
+                                            currentlyEditingPost.deletedTags
+                                        );
+                                    }
                                 }}
                             />
                         ) : (
@@ -168,6 +179,7 @@ const mapDispatchToProps = {
     editPost: _editPost,
     setCurrentlyEditingPost: _setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost: _saveTagsFromCurrentlyEditingPost,
+    deleteTagsFromCurrentlyEditingPost: _deleteTagsFromCurrentlyEditingPost,
 };
 
 export default connect(

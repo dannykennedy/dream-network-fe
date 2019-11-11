@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import {
     deleteTag as _deleteTag,
     editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,
+    markTagAsDeletedInCurrentlyEditingPost as _markTagAsDeletedInCurrentlyEditingPost,
 } from "../ducks";
 import "./css/Tag.css";
 
@@ -35,6 +36,7 @@ function Tag({
     user,
     editing,
     editTagInCurrentlyEditingPost,
+    markTagAsDeletedInCurrentlyEditingPost,
 }) {
     type = types[type];
 
@@ -72,7 +74,11 @@ function Tag({
                         <div
                             className="tag-remove-icon tag-icon"
                             onClick={function() {
-                                deleteTag(tagId, noteId);
+                                // deleteTag(tagId, noteId);
+                                markTagAsDeletedInCurrentlyEditingPost(
+                                    tagId,
+                                    noteId
+                                );
                             }}
                         >
                             <FontAwesome name="times" />
@@ -93,6 +99,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     deleteTag: _deleteTag,
+    markTagAsDeletedInCurrentlyEditingPost: _markTagAsDeletedInCurrentlyEditingPost,
     editTagInCurrentlyEditingPost: _editTagInCurrentlyEditingPost,
 };
 

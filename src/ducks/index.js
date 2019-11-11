@@ -30,6 +30,10 @@ const actionTypes = {
     SAVE_CURRENTLY_EDITING_POST: "SAVE_CURRENTLY_EDITING_POST",
     SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
         "SAVE_TAGS_FROM_CURRENTLY_EDITING_POST",
+    MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST:
+        "MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST",
+    DELETE_TAGS_FROM_CURRENTLY_EDITING_POST:
+        "DELETE_TAGS_FROM_CURRENTLY_EDITING_POST",
 };
 
 // STATE MACHINE
@@ -73,9 +77,43 @@ export default (state = initialState, action) => {
                     },
                 },
             };
+        // Mark tag as deleted (don't worry about deleting yet)
+        case actionTypes.MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST:
+            return {
+                ...state,
+                // Delete from UI
+                userPosts: state.userPosts.map(post => {
+                    if (post.noteId === action.payload.noteId) {
+                        return {
+                            ...post,
+                            tags: post.tags.filter(
+                                tag => tag.tagId !== action.payload.tagId
+                            ),
+                        };
+                    } else {
+                        return post;
+                    }
+                }),
+                // Mark as 'to be deleted' from DB
+                currentlyEditingPost: {
+                    ...state.currentlyEditingPost,
+                    deletedTags: [
+                        ...state.currentlyEditingPost.deletedTags,
+                        action.payload,
+                    ],
+                },
+            };
+        case actionTypes.DELETE_TAGS_FROM_CURRENTLY_EDITING_POST:
+            return state;
+
         // Save all tags from state.currentlyEditingPost to DB
         case actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
-            return state;
+            return {
+                ...state,
+                userPosts: state.userPosts.map(post => {
+                    return post;
+                }),
+            };
         case actionTypes.DATA_FAILURE:
             console.log("data failure");
             return state;
@@ -214,9 +252,10 @@ const replacePostWithEditedPost = (postId, newPostText) => {
     };
 };
 
-const saveTagsFromCurrentlyEditingPostInUi = () => {
+const saveTagsFromCurrentlyEditingPostInUi = payload => {
     return {
         type: actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST,
+        payload,
     };
 };
 
@@ -236,6 +275,13 @@ export const editTagInCurrentlyEditingPost = (tagId, tagName) => {
     return {
         type: actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST,
         payload: { tagId: tagId, tagName: tagName },
+    };
+};
+
+export const markTagAsDeletedInCurrentlyEditingPost = (tagId, noteId) => {
+    return {
+        type: actionTypes.MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST,
+        payload: { tagId: tagId, noteId: noteId },
     };
 };
 
@@ -347,15 +393,13 @@ export const editPost = (postId, newPost) => {
 
 export const saveTagsFromCurrentlyEditingPost = tags => {
     let tagsArray = values(tags);
-    console.log("tagszzz", JSON.stringify(tagsArray));
-
     return dispatch => {
         // Optimistically update UI
-        dispatch(saveTagsFromCurrentlyEditingPostInUi());
+        dispatch(saveTagsFromCurrentlyEditingPostInUi(tagsArray));
 
         // Then add to database
-        fetch(`${baseUrl}/tags/edit/`, {
-            method: "POST",
+        fetch(`${baseUrl}/tags/`, {
+            method: "PATCH",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -363,6 +407,31 @@ export const saveTagsFromCurrentlyEditingPost = tags => {
             body: JSON.stringify(tagsArray),
         })
             .then(data => data.json())
+            .catch(err => {
+                console.log(err);
+            });
+    };
+};
+
+export const deleteTagsFromCurrentlyEditingPost = tags => {
+    return dispatch => {
+        dispatch(dataRequest());
+        fetch(`${baseUrl}/tags/`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tags),
+        })
+            .then(response => {
+                console.log(response);
+                if (response.status !== 200) {
+                    dispatch(
+                        alertError("Tag could not be deleted at this time")
+                    );
+                }
+            })
             .catch(err => {
                 console.log(err);
             });
@@ -400,8 +469,8 @@ export const deleteTag = (tagId, noteId) => {
         dispatch(deleteTagFromUI(tagId, noteId));
 
         // Then delete from database
-        fetch(`${baseUrl}/tags/delete/${tagId}`, {
-            method: "POST",
+        fetch(`${baseUrl}/tags/${tagId}`, {
+            method: "DELETE",
         })
             .then(response => {
                 console.log(response);

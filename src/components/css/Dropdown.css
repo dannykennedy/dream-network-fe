@@ -10,6 +10,7 @@
 .dropbtn:hover,
 .dropbtn:focus {
     color: black;
+    background-color: transparent;
 }
 
 .dropdown-content {
@@ -30,10 +31,6 @@
     width: 100%;
     border: none;
     background-color: #f1f1f1;
-}
-
-.dropdown button:hover {
-    background-color: #ddd;
 }
 
 @media (max-width: 800px) {
