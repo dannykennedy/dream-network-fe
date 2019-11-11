@@ -60,7 +60,8 @@ function Tag({
                             // Change global state
                             editTagInCurrentlyEditingPost(
                                 tagId,
-                                event.target.value
+                                event.target.value,
+                                noteId
                             );
                         }}
                     />

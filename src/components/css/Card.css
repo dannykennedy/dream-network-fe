@@ -20,6 +20,11 @@
     justify-self: center;
 }
 
+.card-body blockquote {
+    border-left: 5px solid #f1f1f1;
+    padding-left: 5px;
+}
+
 @media (min-width: 800px) {
     .inner-card {
         width: 95%;

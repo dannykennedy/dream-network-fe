@@ -30,7 +30,7 @@ function Card({
     editPost,
     setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost,
-    currentlyEditingPost,
+    currentlyEditingPosts,
     deleteTagsFromCurrentlyEditingPost,
 }) {
     const node = useRef();
@@ -89,6 +89,7 @@ function Card({
                                                 setDropdownIsOpen(false);
                                                 setEditingPost(true);
                                                 const currentlyEditingPost = {
+                                                    noteId: noteId,
                                                     entryText: entryText.slice(
                                                         0
                                                     ),
@@ -121,13 +122,15 @@ function Card({
                                     setEditingPost(false);
                                     editPost(post.noteId, post.entryText);
                                     saveTagsFromCurrentlyEditingPost(
-                                        currentlyEditingPost.tags
+                                        currentlyEditingPosts[post.noteId].tags
                                     );
                                     if (
-                                        currentlyEditingPost.deletedTags.length
+                                        currentlyEditingPosts[post.noteId]
+                                            .deletedTags.length
                                     ) {
                                         deleteTagsFromCurrentlyEditingPost(
-                                            currentlyEditingPost.deletedTags
+                                            currentlyEditingPosts[post.noteId]
+                                                .deletedTags
                                         );
                                     }
                                 }}
@@ -170,7 +173,7 @@ function Card({
 const mapStateToProps = state => {
     return {
         user: state.user,
-        currentlyEditingPost: state.currentlyEditingPost,
+        currentlyEditingPosts: state.currentlyEditingPosts,
     };
 };
 

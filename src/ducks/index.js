@@ -7,7 +7,7 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 const initialState = {
     userPosts: null,
     publicPosts: null,
-    currentlyEditingPost: null,
+    currentlyEditingPosts: {},
     loading: true,
     user: null,
 };
@@ -58,21 +58,42 @@ export default (state = initialState, action) => {
             };
         case actionTypes.SET_CURRENTLY_EDITING_POST:
             console.log("Currently editing: ", action.payload);
-            return { ...state, currentlyEditingPost: action.payload };
+            return {
+                ...state,
+                currentlyEditingPosts: {
+                    ...state.currentlyEditingPosts,
+                    [action.payload.noteId]: action.payload,
+                },
+            };
         // Update tag in state.currentlyEditingPost
         case actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST:
             console.log("edit tag: ", action.payload);
+            console.log("I have id: ", action.payload.noteId);
+            console.log("currently editing: ", state.currentlyEditingPosts);
+
+            console.log(
+                "I want to edit: ",
+                state.currentlyEditingPosts[action.payload.noteId]
+            );
+
+            // return state;
+
             return {
                 ...state,
-                currentlyEditingPost: {
-                    ...state.currentlyEditingPost,
-                    tags: {
-                        ...state.currentlyEditingPost.tags,
-                        [action.payload.tagId]: {
-                            ...state.currentlyEditingPost.tags[
-                                action.payload.tagId
-                            ],
-                            tagName: action.payload.tagName,
+                currentlyEditingPosts: {
+                    ...state.currentlyEditingPosts,
+                    [action.payload.noteId]: {
+                        ...state.currentlyEditingPosts[action.payload.noteId],
+                        tags: {
+                            ...state.currentlyEditingPosts[
+                                action.payload.noteId
+                            ].tags,
+                            [action.payload.tagId]: {
+                                ...state.currentlyEditingPosts[
+                                    action.payload.noteId
+                                ].tags[action.payload.tagId],
+                                tagName: action.payload.tagName,
+                            },
                         },
                     },
                 },
@@ -96,9 +117,9 @@ export default (state = initialState, action) => {
                 }),
                 // Mark as 'to be deleted' from DB
                 currentlyEditingPost: {
-                    ...state.currentlyEditingPost,
+                    ...state.currentlyEditingPosts,
                     deletedTags: [
-                        ...state.currentlyEditingPost.deletedTags,
+                        ...state.currentlyEditingPosts.deletedTags,
                         action.payload,
                     ],
                 },
@@ -106,7 +127,7 @@ export default (state = initialState, action) => {
         case actionTypes.DELETE_TAGS_FROM_CURRENTLY_EDITING_POST:
             return state;
 
-        // Save all tags from state.currentlyEditingPost to DB
+        // Save all tags from state.currentlyEditingPost to current UI
         case actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
             return {
                 ...state,
@@ -252,10 +273,10 @@ const replacePostWithEditedPost = (postId, newPostText) => {
     };
 };
 
-const saveTagsFromCurrentlyEditingPostInUi = payload => {
+const saveTagsFromCurrentlyEditingPostInUi = currentlyEditingPost => {
     return {
         type: actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST,
-        payload,
+        payload: currentlyEditingPost,
     };
 };
 
@@ -271,10 +292,10 @@ export const setCurrentlyEditingPost = payload => {
     };
 };
 
-export const editTagInCurrentlyEditingPost = (tagId, tagName) => {
+export const editTagInCurrentlyEditingPost = (tagId, tagName, noteId) => {
     return {
         type: actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST,
-        payload: { tagId: tagId, tagName: tagName },
+        payload: { tagId: tagId, tagName: tagName, noteId: noteId },
     };
 };
 
@@ -393,6 +414,8 @@ export const editPost = (postId, newPost) => {
 
 export const saveTagsFromCurrentlyEditingPost = tags => {
     let tagsArray = values(tags);
+    console.log("tags in FE: ", tagsArray);
+
     return dispatch => {
         // Optimistically update UI
         dispatch(saveTagsFromCurrentlyEditingPostInUi(tagsArray));
