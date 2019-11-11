@@ -1,3 +1,6 @@
+import { dispatch } from "rxjs/internal/observable/pairs";
+import { values } from "lodash";
+
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 // INITIAL STATE
@@ -25,6 +28,8 @@ const actionTypes = {
     SET_CURRENTLY_EDITING_POST: "SET_CURRENTLY_EDITING_POST",
     EDIT_TAG_IN_CURRENTLY_EDITING_POST: "EDIT_TAG_IN_CURRENTLY_EDITING_POST",
     SAVE_CURRENTLY_EDITING_POST: "SAVE_CURRENTLY_EDITING_POST",
+    SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
+        "SAVE_TAGS_FROM_CURRENTLY_EDITING_POST",
 };
 
 // STATE MACHINE
@@ -50,6 +55,7 @@ export default (state = initialState, action) => {
         case actionTypes.SET_CURRENTLY_EDITING_POST:
             console.log("Currently editing: ", action.payload);
             return { ...state, currentlyEditingPost: action.payload };
+        // Update tag in state.currentlyEditingPost
         case actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST:
             console.log("edit tag: ", action.payload);
             return {
@@ -67,6 +73,9 @@ export default (state = initialState, action) => {
                     },
                 },
             };
+        // Save all tags from state.currentlyEditingPost to DB
+        case actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
+            return state;
         case actionTypes.DATA_FAILURE:
             console.log("data failure");
             return state;
@@ -92,7 +101,6 @@ export default (state = initialState, action) => {
                 ...state,
                 userPosts: state.userPosts.map(post => {
                     if (action.payload.postId === post.noteId) {
-                        console.log("putting in: ", action.payload.postText);
                         return {
                             ...post,
                             entryText: action.payload.postText,
@@ -206,6 +214,12 @@ const replacePostWithEditedPost = (postId, newPostText) => {
     };
 };
 
+const saveTagsFromCurrentlyEditingPostInUi = () => {
+    return {
+        type: actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST,
+    };
+};
+
 // EXPORTED FUNCTIONS
 
 // A lot of these functions rely on redux-thunk
@@ -311,8 +325,6 @@ export const editPost = (postId, newPost) => {
             noteId: postId,
         };
 
-        console.log("JSON.stringify(body)", JSON.stringify(body));
-
         fetch(`${baseUrl}/notes/${postId}`, {
             method: "POST",
             headers: {
@@ -327,6 +339,30 @@ export const editPost = (postId, newPost) => {
 
                 // TODO: retag the post? Using a diff?
             })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+};
+
+export const saveTagsFromCurrentlyEditingPost = tags => {
+    let tagsArray = values(tags);
+    console.log("tagszzz", JSON.stringify(tagsArray));
+
+    return dispatch => {
+        // Optimistically update UI
+        dispatch(saveTagsFromCurrentlyEditingPostInUi());
+
+        // Then add to database
+        fetch(`${baseUrl}/tags/edit/`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tagsArray),
+        })
+            .then(data => data.json())
             .catch(err => {
                 console.log(err);
             });

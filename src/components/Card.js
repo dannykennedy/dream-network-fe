@@ -11,7 +11,7 @@ import {
     deleteNote as _deleteNote,
     editPost as _editPost,
     setCurrentlyEditingPost as _setCurrentlyEditingPost,
-    editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,
+    saveTagsFromCurrentlyEditingPost as _saveTagsFromCurrentlyEditingPost,
 } from "../ducks";
 import { keyBy, chain, value } from "lodash";
 
@@ -28,14 +28,15 @@ function Card({
     deleteNote,
     editPost,
     setCurrentlyEditingPost,
-    editTagInCurrentlyEditingPost,
+    saveTagsFromCurrentlyEditingPost,
+    currentlyEditingPost,
 }) {
     const node = useRef();
     const [editingPost, setEditingPost] = useState(false);
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
     const handleClick = e => {
-        if (node.current.contains(e.target)) {
+        if (node.current && node.current.contains(e.target)) {
             return; // inside click
         }
         setDropdownIsOpen(false); // outside click
@@ -113,13 +114,11 @@ function Card({
                                 postId={noteId}
                                 content={entryText}
                                 onSave={post => {
-                                    console.log(
-                                        "text in card is: ",
-                                        post.entryText
-                                    );
-
                                     setEditingPost(false);
                                     editPost(post.noteId, post.entryText);
+                                    saveTagsFromCurrentlyEditingPost(
+                                        currentlyEditingPost.tags
+                                    );
                                 }}
                             />
                         ) : (
@@ -160,6 +159,7 @@ function Card({
 const mapStateToProps = state => {
     return {
         user: state.user,
+        currentlyEditingPost: state.currentlyEditingPost,
     };
 };
 
@@ -167,7 +167,7 @@ const mapDispatchToProps = {
     deleteNote: _deleteNote,
     editPost: _editPost,
     setCurrentlyEditingPost: _setCurrentlyEditingPost,
-    editTagInCurrentlyEditingPost: _editTagInCurrentlyEditingPost,
+    saveTagsFromCurrentlyEditingPost: _saveTagsFromCurrentlyEditingPost,
 };
 
 export default connect(
