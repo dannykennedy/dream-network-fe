@@ -8,93 +8,88 @@ import "./css/PostEditor.css";
 import uuidV4 from "../modules/uuid";
 // Dispatch
 import { connect } from "react-redux";
-import { addPost as _addPost } from "../ducks";
+import { addPost as _addPost } from "../ducks/posts";
 // Config
 import editorConfig from "../modules/editorConfig";
 
 class PostEditor extends Component {
-    constructor(props) {
-        super(props);
-        const html = props.content;
-        const contentBlock = htmlToDraft(html);
-        if (contentBlock) {
-            const contentState = ContentState.createFromBlockArray(
-                contentBlock.contentBlocks
-            );
-            const editorState = EditorState.createWithContent(contentState);
-            this.state = {
-                editorState,
-            };
-        }
-        this.handleSubmit = this.handleSubmit.bind(this);
+  constructor(props) {
+    super(props);
+    const html = props.content;
+    const contentBlock = htmlToDraft(html);
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      this.state = {
+        editorState
+      };
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-    onEditorStateChange = editorState => {
-        this.setState({
-            editorState,
-        });
+  onEditorStateChange = editorState => {
+    this.setState({
+      editorState
+    });
+  };
+
+  handleSubmit(noteText, props) {
+    console.log("got text to submit: ", noteText);
+
+    let noteId = props.postId ? props.postId : uuidV4();
+
+    let post = {
+      entryText: noteText,
+      noteId: noteId,
+      firstName: props.user.given_name,
+      lastName: props.user.family_name,
+      timePosted: new Date().toISOString(),
+      tags: null,
+      userId: 3,
+      userName: props.user.preferred_username
     };
+    props.onSave(post, noteId);
+  }
 
-    handleSubmit(noteText, props) {
-        console.log("got text to submit: ", noteText);
-
-        let noteId = props.postId ? props.postId : uuidV4();
-
-        let post = {
-            entryText: noteText,
-            noteId: noteId,
-            firstName: props.user.given_name,
-            lastName: props.user.family_name,
-            timePosted: new Date().toISOString(),
-            tags: null,
-            userId: 3,
-            userName: props.user.preferred_username,
-        };
-        props.onSave(post, noteId);
-    }
-
-    render() {
-        const { editorState } = this.state;
-        return (
-            <div>
-                <Editor
-                    editorState={editorState}
-                    wrapperClassName="demo-wrapper"
-                    editorClassName="demo-editor"
-                    onEditorStateChange={this.onEditorStateChange}
-                    toolbar={editorConfig}
-                />
-                <button
-                    onClick={() => {
-                        this.handleSubmit(
-                            draftToHtml(
-                                convertToRaw(editorState.getCurrentContent())
-                            ),
-                            this.props
-                        );
-                    }}
-                    className="button-standard"
-                >
-                    {this.props.saveButtonText || "Save"}
-                </button>
-            </div>
-        );
-    }
+  render() {
+    const { editorState } = this.state;
+    return (
+      <div>
+        <Editor
+          editorState={editorState}
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={this.onEditorStateChange}
+          toolbar={editorConfig}
+        />
+        <button
+          onClick={() => {
+            this.handleSubmit(
+              draftToHtml(convertToRaw(editorState.getCurrentContent())),
+              this.props
+            );
+          }}
+          className="button-standard"
+        >
+          {this.props.saveButtonText || "Save"}
+        </button>
+      </div>
+    );
+  }
 }
 
 // these parts of state are passed in as props
 const mapStateToProps = state => {
-    return {
-        posts: state.posts,
-        user: state.user,
-    };
+  return {
+    posts: state.posts,
+    user: state.user
+  };
 };
 
 const mapDispatchToProps = {
-    addPost: _addPost,
+  addPost: _addPost
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PostEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(PostEditor);

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import Tag from "./Tag";
 import CardUserInfo from "./CardUserInfo";
-import LoadingNotice from "./LoadingNotice";
+import TagsArea from "./TagsArea";
 import { connect } from "react-redux";
 import PostEditor from "./PostEditor";
 import FontAwesome from "react-fontawesome";
@@ -13,7 +12,7 @@ import {
   setCurrentlyEditingPost as _setCurrentlyEditingPost,
   saveTagsFromCurrentlyEditingPost as _saveTagsFromCurrentlyEditingPost,
   deleteTagsFromCurrentlyEditingPost as _deleteTagsFromCurrentlyEditingPost
-} from "../ducks";
+} from "../ducks/posts";
 import { keyBy, chain, value } from "lodash";
 
 var HtmlToReactParser = require("html-to-react").Parser;
@@ -88,7 +87,8 @@ function Card({
                           tags: chain(tags)
                             .keyBy("tagId")
                             .value(),
-                          deletedTags: []
+                          deletedTags: [],
+                          addedTags: []
                         };
                         setCurrentlyEditingPost(currentlyEditingPost);
                       }}
@@ -132,24 +132,7 @@ function Card({
             </button>
           </div>
         </div>
-        <div className="card-footer">
-          {tags ? (
-            tags.map(tag => {
-              return (
-                <Tag
-                  name={tag.tagName}
-                  type={tag.tagType}
-                  tagId={tag.tagId}
-                  key={tag.tagId}
-                  noteId={noteId}
-                  editing={editingPost}
-                />
-              );
-            })
-          ) : (
-            <LoadingNotice loadingText="Tagging in progress!" />
-          )}
-        </div>
+        <TagsArea tags={tags} noteId={noteId} editingPost={editingPost} />
       </div>
     </div>
   );

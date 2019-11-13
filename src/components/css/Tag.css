@@ -1,102 +1,100 @@
 /* TAG */
 .tag {
-    border-radius: 5px;
-    width: auto;
-    color: white;
-    display: inline-block;
-    padding: 4px 7px;
-    margin-right: 10px;
-    margin-bottom: 5px;
-    cursor: pointer;
-    font-family: "Open Sans", sans-serif;
-    font-weight: 500;
-    -webkit-font-smoothing: antialiased;
+  border-radius: 5px;
+  width: auto;
+  color: white;
+  display: inline-block;
+  padding: 4px 7px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
 }
 
 .tag-wrapper {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .tag-options {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .tag-icon {
-    padding: 3px 5px;
+  padding: 3px 5px;
 }
 
 .date {
-    background-color: rgba(214, 52, 52, 0.6);
+  background-color: rgba(214, 52, 52, 0.6);
 }
 .date:hover {
-    background-color: rgba(214, 52, 52, 0.8);
-    text-decoration: none;
-    color: white;
+  background-color: rgba(214, 52, 52, 0.8);
+  text-decoration: none;
+  color: white;
 }
 .person {
-    background-color: rgba(244, 152, 58, 0.8);
+  background-color: rgba(244, 152, 58, 0.8);
 }
 .person:hover {
-    background-color: rgba(244, 152, 58, 1);
-    text-decoration: none;
-    color: white;
+  background-color: rgba(244, 152, 58, 1);
+  text-decoration: none;
+  color: white;
 }
 .location {
-    background-color: rgba(110, 176, 82, 0.7);
+  background-color: rgba(110, 176, 82, 0.7);
 }
 .location:hover {
-    background-color: rgba(110, 176, 82, 0.9);
-    text-decoration: none;
-    color: white;
+  background-color: rgba(110, 176, 82, 0.9);
+  text-decoration: none;
+  color: white;
 }
 .other {
-    background-color: rgba(63, 139, 241, 0.7);
+  background-color: rgba(63, 139, 241, 0.7);
 }
 .other:hover {
-    background-color: rgba(63, 139, 241, 0.9);
-    text-decoration: none;
-    color: white;
+  background-color: rgba(63, 139, 241, 0.9);
+  text-decoration: none;
+  color: white;
 }
 .no-type {
-    background-color: rgba(108, 107, 125, 0.7);
+  background-color: rgba(108, 107, 125, 0.7);
 }
 .no-type:hover {
-    background-color: rgba(108, 107, 125, 0.9);
-    text-decoration: none;
-    color: white;
+  background-color: rgba(108, 107, 125, 0.9);
+  text-decoration: none;
+  color: white;
 }
 
 .tag-name {
-    margin-left: 6px;
-    margin-right: 6px;
-    padding: 3px;
+  margin-left: 6px;
+  margin-right: 6px;
+  padding: 3px;
 }
 
 /* INPUT */
 .tag-wrapper input {
-    font-family: "Open Sans", sans-serif;
-    font-weight: 500;
-    -webkit-font-smoothing: antialiased;
-    font-size: 1em;
-    box-sizing: border-box;
-    margin: 0 4px 0 1px;
-    color: white;
-    padding: 0 0 0 6px;
-    display: inline-block;
-    background-color: rgba(0, 0, 0, 0.2);
-    border: none;
-    border-radius: 0.25rem;
-    padding: 3px 5px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1em;
+  box-sizing: border-box;
+  margin: 0 4px 0 1px;
+  color: white;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 0.25rem;
 }
 .tag-wrapper input:focus {
-    outline: none;
+  outline: none;
 }
 
 .tag-wrapper *::placeholder {
-    color: white;
-    opacity: 0.7;
+  color: white;
+  opacity: 0.7;
 }
 
 /* END TAG */
