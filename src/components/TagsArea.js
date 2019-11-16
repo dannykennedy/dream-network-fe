@@ -36,6 +36,7 @@ function TagsArea({
             tagName: tagName,
             tagType: "OTHER",
             noteId: noteId,
+            isNewTag: true,
         };
         setCardTags([...cardTags, newTag]);
         addTagToCurrentlyEditingPost(newTag);

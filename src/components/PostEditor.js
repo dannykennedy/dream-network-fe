@@ -48,8 +48,6 @@ class PostEditor extends Component {
     };
 
     handleSubmit(noteText, props) {
-        console.log("got text to submit: ", noteText);
-
         let noteId = props.postId ? props.postId : uuidV4();
 
         let post = {
