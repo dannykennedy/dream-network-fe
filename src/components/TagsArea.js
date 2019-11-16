@@ -4,7 +4,10 @@ import "./css/TagsArea.css";
 import LoadingNotice from "./LoadingNotice";
 import uuidV4 from "../modules/uuid";
 import { connect } from "react-redux";
-import { addTagToCurrentlyEditingPost as _addTagToCurrentlyEditingPost } from "../ducks/posts";
+import {
+    addTagToCurrentlyEditingPost as _addTagToCurrentlyEditingPost,
+    getTagType as _getTagType,
+} from "../ducks/posts";
 
 const KeyCodes = {
     comma: 188,
@@ -21,6 +24,7 @@ function TagsArea({
     editingPost,
     addTagToCurrentlyEditingPost,
     currentlyEditingPosts,
+    getTagType,
 }) {
     const [inputText, setInputText] = useState("");
     const [cardTags, setCardTags] = useState(tags);
@@ -38,6 +42,7 @@ function TagsArea({
             noteId: noteId,
             isNewTag: true,
         };
+        getTagType(tagName);
         setCardTags([...cardTags, newTag]);
         addTagToCurrentlyEditingPost(newTag);
     };
@@ -117,6 +122,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     addTagToCurrentlyEditingPost: _addTagToCurrentlyEditingPost,
+    getTagType: _getTagType,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsArea);

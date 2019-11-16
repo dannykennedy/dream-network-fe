@@ -33,6 +33,7 @@ const actionTypes = {
     DELETE_TAGS_FROM_CURRENTLY_EDITING_POST:
         "DELETE_TAGS_FROM_CURRENTLY_EDITING_POST",
     ADD_TAG_TO_CURRENTLY_EDITING_POST: "ADD_TAG_TO_CURRENTLY_EDITING_POST",
+    GET_TAG_TYPE: "GET_TAG_TYPE",
 };
 
 function notesToObject(notesArray) {
@@ -58,6 +59,8 @@ function tagsToObject(tagsArray) {
 // STATE MACHINE
 export default (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.GET_TAG_TYPE:
+            return state;
         case actionTypes.DATA_REQUEST:
             console.log("request");
             return state;
@@ -569,6 +572,26 @@ export const deleteTag = (tagId, noteId) => {
             })
             .catch(err => {
                 console.log(err);
+            });
+    };
+};
+
+export const getTagType = tagName => {
+    return dispatch => {
+        // Optimistically update UI
+        // dispatch(deleteTagFromUI(tagId, noteId));
+
+        // Then delete from database
+        fetch(`${baseUrl}/tags/${tagName}/type`, {
+            method: "GET",
+        })
+            .then(data => data.json())
+            .then(json => {
+                console.log("got type: ", json.type);
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(alertError("wat no type"));
             });
     };
 };

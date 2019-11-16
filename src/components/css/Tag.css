@@ -90,11 +90,6 @@
     border-radius: 5px;
     height: 25px;
 }
-/* input.add-tag-input {
-  padding: 3px 5px;
-  border-radius: 5px;
-  box-sizing: border-box !important;
-} */
 
 .tag-wrapper input:focus {
     outline: none;
