@@ -49,12 +49,10 @@ function PostsArea({ userPosts, publicPosts, user }) {
 
 // these parts of state are passed in as props
 const mapStateToProps = state => {
-    console.log("STATE user!!!", state.posts.user);
-
     return {
         userPosts: state.posts.userPosts,
         publicPosts: state.posts.publicPosts,
-        user: state.posts.user,
+        user: state.user.user,
     };
 };
 
