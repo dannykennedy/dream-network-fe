@@ -43,7 +43,18 @@ function TagsArea({
     };
 
     const onDeleteTag = tagId => {
-        setCardTags(cardTags.filter(tag => tag.tagId !== tagId));
+        setCardTags(
+            cardTags.filter(tag => {
+                console.log("Name: ", tag.tagName);
+
+                if (tag.tagId === tagId) {
+                    console.log("tag.tagid", tag.tagId);
+                    console.log("to be deleted", tagId);
+                }
+
+                return tag.tagId !== tagId;
+            })
+        );
     };
 
     return (
@@ -59,7 +70,9 @@ function TagsArea({
                                 key={tag.tagId}
                                 noteId={noteId}
                                 editing={editingPost}
-                                onDelete={onDeleteTag}
+                                onDelete={() => {
+                                    onDeleteTag(tag.tagId);
+                                }}
                             />
                         );
                     })}
@@ -67,6 +80,7 @@ function TagsArea({
                         <input
                             placeholder={"Add a tag"}
                             className={"add-tag-input"}
+                            style={{ boxSizing: "border-box" }}
                             value={inputText}
                             onKeyDown={e => {
                                 if (isEnterKey(e.keyCode)) {

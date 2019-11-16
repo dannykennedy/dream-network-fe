@@ -64,10 +64,6 @@ export default (state = initialState, action) => {
         case actionTypes.DATA_SUCCESS:
             console.log("success");
 
-            let copy = action.payload.map(post => post);
-
-            console.log("hi", notesToObject(action.payload));
-
             return {
                 ...state,
                 loading: false,
