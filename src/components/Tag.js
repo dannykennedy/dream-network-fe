@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FontAwesome from "react-fontawesome";
 import AutosizeInput from "react-input-autosize";
+import Spinner from "./Spinner";
 import { connect } from "react-redux";
 import {
     editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,
@@ -13,6 +14,7 @@ const icons = {
     location: "map-marker-alt",
     person: "user",
     other: "tag",
+    none: null,
 };
 
 const types = {
@@ -24,6 +26,7 @@ const types = {
     EVENT: "other",
     WORK_OF_ART: "other",
     CONSUMER_GOOD: "other",
+    NONE: "none",
 };
 
 function Tag({
@@ -50,9 +53,14 @@ function Tag({
                         <FontAwesome name={icons[type]} />
                     </div>
                 )}
-                {icons[type] !== "tag" && (
+                {icons[type] && icons[type] !== "tag" && (
                     <div className="tag-icon">
                         <FontAwesome name={icons[type]} />
+                    </div>
+                )}
+                {!icons[type] && (
+                    <div className="tag-icon">
+                        <Spinner height={"20px"} />
                     </div>
                 )}
                 {editing ? (

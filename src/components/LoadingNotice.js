@@ -1,18 +1,13 @@
 import React from "react";
 import "./css/LoadingNotice.css";
+import Spinner from "./Spinner";
 
 function LoadingNotice(props) {
     const { loadingText } = props;
 
     return (
         <div className="loading-notice">
-            <div>
-                <img
-                    src="./images/loading.gif"
-                    className="loading-notice-spinner"
-                    alt="loading"
-                />
-            </div>
+            <Spinner />
             <div>
                 <span>{loadingText}</span>
             </div>

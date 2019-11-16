@@ -59,11 +59,11 @@
     text-decoration: none;
     color: white;
 }
-.no-type {
-    background-color: rgba(108, 107, 125, 0.7);
+.none {
+    background-color: rgba(148, 147, 185, 0.7);
 }
-.no-type:hover {
-    background-color: rgba(108, 107, 125, 0.9);
+.none:hover {
+    background-color: rgba(148, 147, 185, 0.9);
     text-decoration: none;
     color: white;
 }

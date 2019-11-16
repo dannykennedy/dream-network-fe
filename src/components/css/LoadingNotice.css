@@ -4,9 +4,3 @@
     column-gap: 10px;
     align-items: center;
 }
-
-.loading-notice-spinner {
-    height: 30px;
-    display: inline-block;
-    align-self: center;
-}

@@ -38,11 +38,11 @@ function TagsArea({
         const newTag = {
             tagId: id,
             tagName: tagName,
-            tagType: "OTHER",
+            tagType: "NONE",
             noteId: noteId,
             isNewTag: true,
         };
-        getTagType(tagName);
+        getTagType(tagName, id, noteId);
         setCardTags([...cardTags, newTag]);
         addTagToCurrentlyEditingPost(newTag);
     };
