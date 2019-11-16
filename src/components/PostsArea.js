@@ -6,7 +6,7 @@ import LoadingNotice from "./LoadingNotice";
 function PostsArea({ userPosts, publicPosts, user }) {
     if (!user) {
         return !publicPosts ? (
-            <LoadingNotice loadingText="Loading posts" />
+            <LoadingNotice loadingText="Loading public posts" />
         ) : (
             <div>
                 {publicPosts.map(post => {
@@ -26,7 +26,7 @@ function PostsArea({ userPosts, publicPosts, user }) {
         );
     } else {
         return !userPosts ? (
-            <LoadingNotice loadingText="Loading posts" />
+            <LoadingNotice loadingText="Loading user posts" />
         ) : (
             <div>
                 {userPosts.map(post => {
@@ -49,10 +49,12 @@ function PostsArea({ userPosts, publicPosts, user }) {
 
 // these parts of state are passed in as props
 const mapStateToProps = state => {
+    console.log("STATE user!!!", state.posts.user);
+
     return {
-        userPosts: state.userPosts,
-        publicPosts: state.publicPosts,
-        user: state.user,
+        userPosts: state.posts.userPosts,
+        publicPosts: state.posts.publicPosts,
+        user: state.posts.user,
     };
 };
 

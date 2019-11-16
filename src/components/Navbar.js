@@ -4,6 +4,8 @@ import FontAwesome from "react-fontawesome";
 import "./css/Navbar.css";
 
 function Navbar({ user, authenticated, auth }) {
+    console.log("gotta user!", user);
+
     return (
         <header id="navbar">
             <div className="app-name">
@@ -44,7 +46,7 @@ function Navbar({ user, authenticated, auth }) {
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        user: state.user,
+        user: state.user.user,
     };
 };
 
