@@ -467,15 +467,30 @@ export const editPost = (postId, newPost) => {
 
 export const saveTagsFromCurrentlyEditingPost = currentlyEditingPost => {
     let tagsArray = values(currentlyEditingPost.tags);
+    let addedTagsArray = "";
     console.log("tags in FE: ", tagsArray);
 
     return dispatch => {
         // Optimistically update UI
         dispatch(saveTagsFromCurrentlyEditingPostInUi(currentlyEditingPost));
 
-        // Then add to database
+        // Update changed tags in DB
         fetch(`${baseUrl}/tags/`, {
             method: "PATCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tagsArray),
+        })
+            .then(data => data.json())
+            .catch(err => {
+                console.log(err);
+            });
+
+        // Add new tags to DB
+        fetch(`${baseUrl}/tags/`, {
+            method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",

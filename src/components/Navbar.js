@@ -4,8 +4,6 @@ import FontAwesome from "react-fontawesome";
 import "./css/Navbar.css";
 
 function Navbar({ user, authenticated, auth }) {
-    console.log("gotta user!", user);
-
     return (
         <header id="navbar">
             <div className="app-name">

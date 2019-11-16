@@ -96,7 +96,6 @@ function Card({
                                                         .keyBy("tagId")
                                                         .value(),
                                                     deletedTags: [],
-                                                    addedTags: [],
                                                 };
                                                 setCurrentlyEditingPost(
                                                     currentlyEditingPost

@@ -35,6 +35,18 @@ class PostEditor extends Component {
         });
     };
 
+    clearEditor = () => {
+        const html = "";
+        const contentBlock = htmlToDraft(html);
+        const contentState = ContentState.createFromBlockArray(
+            contentBlock.contentBlocks
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        this.setState({
+            editorState,
+        });
+    };
+
     handleSubmit(noteText, props) {
         console.log("got text to submit: ", noteText);
 
@@ -50,6 +62,7 @@ class PostEditor extends Component {
             userId: 3,
             userName: props.user.preferred_username,
         };
+        this.clearEditor();
         props.onSave(post, noteId);
     }
 
