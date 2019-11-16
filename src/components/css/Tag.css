@@ -75,7 +75,7 @@
 }
 
 /* INPUT */
-.tag-wrapper input.add-tag-input {
+.tag-wrapper input {
     font-family: "Open Sans", sans-serif;
     font-weight: 500;
     -webkit-font-smoothing: antialiased;
@@ -86,8 +86,9 @@
     background-color: rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 0.25rem;
-    padding: 0px;
+    padding: 2px 5px;
     border-radius: 5px;
+    height: 25px;
 }
 /* input.add-tag-input {
   padding: 3px 5px;
