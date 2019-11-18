@@ -28,10 +28,10 @@ function TagsArea({
     getTagType,
 }) {
     const [inputText, setInputText] = useState("");
-    const [cardTags, setCardTags] = useState(tags);
 
     useEffect(() => {
-        setCardTags(tags);
+        console.log("setting tags");
+        // setCardTags(tags);
     }, [tags]);
 
     const onAddTag = tagName => {
@@ -44,30 +44,15 @@ function TagsArea({
             isNewTag: true,
         };
         getTagType(tagName, id, noteId);
-        setCardTags([...cardTags, newTag]);
+        // setCardTags([...cardTags, newTag]);
         addTagToCurrentlyEditingPost(newTag);
-    };
-
-    const onDeleteTag = tagId => {
-        setCardTags(
-            cardTags.filter(tag => {
-                console.log("Name: ", tag.tagName);
-
-                if (tag.tagId === tagId) {
-                    console.log("tag.tagid", tag.tagId);
-                    console.log("to be deleted", tagId);
-                }
-
-                return tag.tagId !== tagId;
-            })
-        );
     };
 
     return (
         <div className="card-footer">
-            {cardTags ? (
+            {tags ? (
                 <div className={"tags-area"}>
-                    {Object.values(cardTags).map(tag => {
+                    {Object.values(tags).map(tag => {
                         return (
                             <Tag
                                 name={tag.tagName}
@@ -76,9 +61,6 @@ function TagsArea({
                                 key={tag.tagId}
                                 noteId={noteId}
                                 editing={editingPost}
-                                onDelete={() => {
-                                    onDeleteTag(tag.tagId);
-                                }}
                             />
                         );
                     })}

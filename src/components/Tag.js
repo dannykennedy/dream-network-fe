@@ -92,8 +92,6 @@ function Tag({
                                     tagId,
                                     noteId
                                 );
-                                // Delete from parent local state
-                                onDelete(tagId);
                             }}
                         >
                             <FontAwesome name="times" />

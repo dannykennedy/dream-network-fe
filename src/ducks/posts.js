@@ -140,6 +140,16 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
+                userPosts: {
+                    ...state.userPosts,
+                    [action.payload.noteId]: {
+                        ...state.userPosts[action.payload.noteId],
+                        tags: {
+                            ...state.userPosts[action.payload.noteId].tags,
+                            [action.payload.tagId]: action.payload,
+                        },
+                    },
+                },
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
                     [action.payload.noteId]: {
@@ -163,23 +173,19 @@ export default (state = initialState, action) => {
                 "delete list",
                 state.currentlyEditingPosts[action.payload.noteId].deletedTags
             );
-
+            // Delete from UI
             return {
                 ...state,
-                // Delete from UI
-                // userPosts: state.userPosts.map(post => {
-                //     if (post.noteId === action.payload.noteId) {
-                //         return {
-                //             ...post,
-                //             tags: post.tags.filter(
-                //                 tag => tag.tagId !== action.payload.tagId
-                //             ),
-                //         };
-                //     } else {
-                //         return post;
-                //     }
-                // }),
-
+                userPosts: {
+                    ...state.userPosts,
+                    [action.payload.noteId]: {
+                        ...state.userPosts[action.payload.noteId],
+                        tags: omit(
+                            state.userPosts[action.payload.noteId].tags,
+                            action.payload.tagId
+                        ),
+                    },
+                },
                 // Mark as 'to be deleted' from DB
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
