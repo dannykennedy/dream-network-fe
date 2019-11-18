@@ -1,4 +1,3 @@
-import { dispatch } from "rxjs/internal/observable/pairs";
 import { values, omit, keyBy, chain, value } from "lodash";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -90,17 +89,19 @@ export default (state = initialState, action) => {
         case actionTypes.DATA_SUCCESS:
             console.log("success");
 
+            console.log("object posts", notesToObject(action.payload));
+
             return {
                 ...state,
                 loading: false,
-                userPosts: action.payload,
+                userPosts: notesToObject(action.payload),
             };
         case actionTypes.LOGGEDOUT_DATA_SUCCESS:
             console.log("All data success");
             return {
                 ...state,
                 loading: false,
-                publicPosts: action.payload,
+                publicPosts: notesToObject(action.payload),
             };
         // Add a post to the list of currently editing posts
         case actionTypes.SET_CURRENTLY_EDITING_POST:
@@ -166,18 +167,18 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 // Delete from UI
-                userPosts: state.userPosts.map(post => {
-                    if (post.noteId === action.payload.noteId) {
-                        return {
-                            ...post,
-                            tags: post.tags.filter(
-                                tag => tag.tagId !== action.payload.tagId
-                            ),
-                        };
-                    } else {
-                        return post;
-                    }
-                }),
+                // userPosts: state.userPosts.map(post => {
+                //     if (post.noteId === action.payload.noteId) {
+                //         return {
+                //             ...post,
+                //             tags: post.tags.filter(
+                //                 tag => tag.tagId !== action.payload.tagId
+                //             ),
+                //         };
+                //     } else {
+                //         return post;
+                //     }
+                // }),
 
                 // Mark as 'to be deleted' from DB
                 currentlyEditingPosts: {
@@ -203,18 +204,21 @@ export default (state = initialState, action) => {
 
         // Save all tags from state.currentlyEditingPost to current UI
         case actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
+            console.log("action.payload.tags", action.payload.tags);
+            console.log(
+                "tagsToObject(action.payload.tags)",
+                tagsToObject(action.payload.tags)
+            );
+
             return {
                 ...state,
-                userPosts: state.userPosts.map(post => {
-                    if (post.noteId === action.payload.noteId) {
-                        return {
-                            ...post,
-                            tags: values(action.payload.tags),
-                        };
-                    } else {
-                        return post;
-                    }
-                }),
+                userPosts: {
+                    ...state.userPosts,
+                    [action.payload.noteId]: {
+                        ...state.userPosts[action.payload.noteId],
+                        tags: action.payload.tags,
+                    },
+                },
             };
         case actionTypes.DATA_FAILURE:
             console.log("data failure");
@@ -223,15 +227,20 @@ export default (state = initialState, action) => {
             console.log("adding a post", action.payload);
             return {
                 ...state,
-                userPosts: [action.payload, ...state.userPosts],
+                userPosts: {
+                    [action.payload.noteId]: action.payload,
+                    ...state.userPosts,
+                },
             };
         case actionTypes.DELETE_POST:
             console.log("Deleting post: ", action.payload);
+            const {
+                [action.payload]: val,
+                ...withoutDeletedPost
+            } = state.userPosts;
             return {
                 ...state,
-                userPosts: state.userPosts.filter(
-                    post => post.noteId !== action.payload
-                ),
+                userPosts: withoutDeletedPost,
             };
         // Optimistically update edited post in state
         case actionTypes.EDIT_POST:
@@ -239,46 +248,56 @@ export default (state = initialState, action) => {
             // Replace note with edited note in state
             return {
                 ...state,
-                userPosts: state.userPosts.map(post => {
-                    if (action.payload.postId === post.noteId) {
-                        return {
-                            ...post,
-                            entryText: action.payload.postText,
-                        };
-                    } else {
-                        return post;
-                    }
-                }),
+                userPosts: {
+                    ...state.userPosts,
+                    [action.payload.postId]: {
+                        ...state.userPosts[action.payload.postId],
+                        entryText: action.payload.postText,
+                    },
+                },
             };
         case actionTypes.REPLACE_POST_WITH_TAGGED_POST:
             return {
                 ...state,
-                userPosts: state.userPosts.map(note => {
-                    return note.noteId === action.payload.noteId
-                        ? action.payload
-                        : note;
-                }),
+                userPosts: {
+                    ...state.userPosts,
+                    [action.payload.noteId]: action.payload,
+                },
             };
         case actionTypes.DELETE_TAG:
             if (!state.userPosts) {
                 console.log("Can't delete tag without a user");
                 return state;
             }
-            return {
-                ...state,
-                userPosts: state.userPosts.map(post => {
-                    if (post.noteId === action.payload.noteId) {
-                        return {
-                            ...post,
-                            tags: post.tags.filter(
-                                tag => tag.tagId !== action.payload.tagId
-                            ),
-                        };
-                    } else {
-                        return post;
-                    }
-                }),
-            };
+
+            const tagsToEdit = state.userPosts[action.payload.noteId].tags;
+            const {
+                [action.payload.tagId]: value,
+                ...remainingTags
+            } = tagsToEdit;
+
+            console.log("remainingTags", remainingTags);
+
+            return state;
+
+        // return {
+        //     ...state,
+        //     userPosts: {
+        //         ...state.userPosts,
+        //     },
+        //     // userPosts: state.userPosts.map(post => {
+        //     //     if (post.noteId === action.payload.noteId) {
+        //     //         return {
+        //     //             ...post,
+        //     //             tags: post.tags.filter(
+        //     //                 tag => tag.tagId !== action.payload.tagId
+        //     //             ),
+        //     //         };
+        //     //     } else {
+        //     //         return post;
+        //     //     }
+        //     // }),
+        // };
         case actionTypes.ERROR:
             alert(action.payload);
             return state;
@@ -356,7 +375,7 @@ const saveTagsFromCurrentlyEditingPostInUi = currentlyEditingPost => {
     };
 };
 
-const setTagType = (tagType, tagId, noteId) => {
+export const setTagType = (tagType, tagId, noteId) => {
     return {
         type: actionTypes.SET_TAG_TYPE,
         payload: { tagType: tagType, tagId: tagId, noteId: noteId },

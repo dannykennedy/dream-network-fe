@@ -9,7 +9,7 @@ function PostsArea({ userPosts, publicPosts, user }) {
             <LoadingNotice loadingText="Loading public posts" />
         ) : (
             <div>
-                {publicPosts.map(post => {
+                {Object.values(publicPosts).map(post => {
                     return (
                         <Card
                             entryText={post.entryText}
@@ -29,7 +29,7 @@ function PostsArea({ userPosts, publicPosts, user }) {
             <LoadingNotice loadingText="Loading user posts" />
         ) : (
             <div>
-                {userPosts.map(post => {
+                {Object.values(userPosts).map(post => {
                     return (
                         <Card
                             entryText={post.entryText}
@@ -37,7 +37,7 @@ function PostsArea({ userPosts, publicPosts, user }) {
                             lastName={post.lastName}
                             noteId={post.noteId}
                             timePosted={post.timePosted}
-                            tags={post.tags}
+                            tags={post.tags ? Object.values(post.tags) : null}
                             key={post.noteId}
                         />
                     );

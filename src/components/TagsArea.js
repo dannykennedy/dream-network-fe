@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import {
     addTagToCurrentlyEditingPost as _addTagToCurrentlyEditingPost,
     getTagType as _getTagType,
+    setTagType as _setTagType,
 } from "../ducks/posts";
 
 const KeyCodes = {
@@ -66,7 +67,7 @@ function TagsArea({
         <div className="card-footer">
             {cardTags ? (
                 <div className={"tags-area"}>
-                    {cardTags.map(tag => {
+                    {Object.values(cardTags).map(tag => {
                         return (
                             <Tag
                                 name={tag.tagName}
@@ -122,6 +123,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     addTagToCurrentlyEditingPost: _addTagToCurrentlyEditingPost,
     getTagType: _getTagType,
+    setTagType: _setTagType,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsArea);
