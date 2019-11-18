@@ -85,7 +85,6 @@ function TagsArea({
                         <input
                             placeholder={"Add a tag"}
                             className={"add-tag-input"}
-                            style={{ boxSizing: "border-box" }}
                             value={inputText}
                             onKeyDown={e => {
                                 if (isEnterKey(e.keyCode)) {

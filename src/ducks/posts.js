@@ -34,7 +34,7 @@ const actionTypes = {
         "DELETE_TAGS_FROM_CURRENTLY_EDITING_POST",
     ADD_TAG_TO_CURRENTLY_EDITING_POST: "ADD_TAG_TO_CURRENTLY_EDITING_POST",
     GET_TAG_TYPE: "GET_TAG_TYPE",
-    SET_TAG_TYPE: "SET_TAG_TYPE"
+    SET_TAG_TYPE: "SET_TAG_TYPE",
 };
 
 function notesToObject(notesArray) {
@@ -61,8 +61,27 @@ function tagsToObject(tagsArray) {
 export default (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_TAG_TYPE:
-            console.log("settting da tag type");
-            return state;
+            //payload: {tagType: tagType, tagId: tagId, noteId: noteId},
+            const { tagType, tagId, noteId } = action.payload;
+
+            return {
+                ...state,
+                currentlyEditingPosts: {
+                    ...state.currentlyEditingPosts,
+                    [noteId]: {
+                        ...state.currentlyEditingPosts[noteId],
+                        tags: {
+                            ...state.currentlyEditingPosts[noteId].tags,
+                            [tagId]: {
+                                ...state.currentlyEditingPosts[noteId].tags[
+                                    tagId
+                                ],
+                                tagType: tagType,
+                            },
+                        },
+                    },
+                },
+            };
         case actionTypes.GET_TAG_TYPE:
             return state;
         case actionTypes.DATA_REQUEST:
@@ -340,9 +359,9 @@ const saveTagsFromCurrentlyEditingPostInUi = currentlyEditingPost => {
 const setTagType = (tagType, tagId, noteId) => {
     return {
         type: actionTypes.SET_TAG_TYPE,
-        payload: {tagType: tagType, tagId: tagId, noteId: noteId},
+        payload: { tagType: tagType, tagId: tagId, noteId: noteId },
     };
-}
+};
 
 // EXPORTED FUNCTIONS
 
@@ -599,7 +618,7 @@ export const getTagType = (tagName, tagId, noteId) => {
             .then(data => data.json())
             .then(json => {
                 console.log("got type: ", json.type);
-                dispatch(setTagType(json.type, tagId, noteId))
+                dispatch(setTagType(json.type, tagId, noteId));
             })
             .catch(err => {
                 console.log(err);
@@ -607,5 +626,3 @@ export const getTagType = (tagName, tagId, noteId) => {
             });
     };
 };
-
-
