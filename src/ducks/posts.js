@@ -65,6 +65,19 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
+                userPosts: {
+                    ...state.userPosts,
+                    [noteId]: {
+                        ...state.userPosts[noteId],
+                        tags: {
+                            ...state.userPosts[noteId].tags,
+                            [tagId]: {
+                                ...state.userPosts[noteId].tags[tagId],
+                                tagType: tagType,
+                            },
+                        },
+                    },
+                },
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
                     [noteId]: {
@@ -643,7 +656,8 @@ export const getTagType = (tagName, tagId, noteId) => {
             .then(data => data.json())
             .then(json => {
                 console.log("got type: ", json.type);
-                dispatch(setTagType(json.type, tagId, noteId));
+                // Type may be undefined, in which case set "other"
+                dispatch(setTagType(json.type || "OTHER", tagId, noteId));
             })
             .catch(err => {
                 console.log(err);

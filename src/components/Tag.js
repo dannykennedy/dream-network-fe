@@ -60,12 +60,13 @@ function Tag({
                 )}
                 {!icons[type] && (
                     <div className="tag-icon">
-                        <Spinner height={"20px"} />
+                        <Spinner height={"16px"} />
                     </div>
                 )}
                 {editing ? (
                     <AutosizeInput
                         name="form-field-name"
+                        className="tag-edit-input"
                         value={tagName}
                         onChange={function(event) {
                             // Change local state
