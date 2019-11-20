@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import FontAwesome from "react-fontawesome";
 import AutosizeInput from "react-input-autosize";
-import Spinner from "./Spinner";
+import Spinner from "../Spinner";
 import { connect } from "react-redux";
 import {
     editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,
     markTagAsDeletedInCurrentlyEditingPost as _markTagAsDeletedInCurrentlyEditingPost,
-} from "../ducks/posts";
-import "./css/Tag.css";
+} from "../../ducks/posts";
+import "./Tag.css";
 
 const icons = {
     location: "map-marker-alt",

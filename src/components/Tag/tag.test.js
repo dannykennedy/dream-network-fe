@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import React from "react";
-import { Tag } from "../Tag";
+import { Tag } from "./Tag";
 
 const numItems = 11;
 
