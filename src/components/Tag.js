@@ -9,7 +9,6 @@ import {
 } from "../ducks/posts";
 import "./css/Tag.css";
 
-// No icon for 'other' type tags
 const icons = {
     location: "map-marker-alt",
     person: "user",
@@ -29,7 +28,7 @@ const types = {
     NONE: "none",
 };
 
-function Tag({
+export function Tag({
     name,
     type,
     tagId,
@@ -38,7 +37,6 @@ function Tag({
     editing,
     editTagInCurrentlyEditingPost,
     markTagAsDeletedInCurrentlyEditingPost,
-    onDelete,
 }) {
     type = types[type];
 

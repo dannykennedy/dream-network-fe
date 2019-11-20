@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tag snapshot test 1`] = `
+<div
+  className="tag other"
+  id="5"
+>
+  <div
+    className="tag-wrapper"
+  >
+    <div
+      className="tag-icon"
+    >
+      <span
+        aria-hidden={true}
+        className="fa fa-tag"
+      />
+    </div>
+    <div
+      className="tag-edit-input"
+      style={
+        Object {
+          "display": "inline-block",
+        }
+      }
+    >
+      <input
+        name="form-field-name"
+        onChange={[Function]}
+        style={
+          Object {
+            "boxSizing": "content-box",
+            "width": "1px",
+          }
+        }
+        value="dog"
+      />
+      <div
+        style={
+          Object {
+            "height": 0,
+            "left": 0,
+            "overflow": "scroll",
+            "position": "absolute",
+            "top": 0,
+            "visibility": "hidden",
+            "whiteSpace": "pre",
+          }
+        }
+      >
+        dog
+      </div>
+    </div>
+    <div
+      className="tag-options"
+    >
+      <div
+        className="tag-remove-icon tag-icon"
+        onClick={[Function]}
+      >
+        <span
+          aria-hidden={true}
+          className="fa fa-times"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

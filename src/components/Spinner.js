@@ -2,8 +2,6 @@ import React from "react";
 import "./css/Spinner.css";
 
 function Spinner({ height }) {
-    console.log("height....", height);
-
     return (
         <div>
             <img
