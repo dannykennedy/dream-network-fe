@@ -1,5 +1,4 @@
 import React from "react";
-import "./css/Spinner.css";
 
 function Spinner({ height }) {
     return (
@@ -10,6 +9,7 @@ function Spinner({ height }) {
                 alt="loading"
                 height={height || "30px"}
                 width="auto"
+                style={{ display: "inline-block", alignSelf: "center" }}
             />
         </div>
     );

@@ -1,0 +1,43 @@
+.tag-dropbtn {
+    /*    background-color: #EEE;*/
+    height: 100%;
+    width: 100%;
+    color: white;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+.tag-dropbtn:hover,
+.tag-dropbtn:focus {
+    color: white;
+    background-color: transparent;
+}
+
+.tag-dropdown-content {
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 10px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.tag-dropdown-content button {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    font-size: inherit;
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: #f1f1f1;
+}
+
+@media (max-width: 800px) {
+    /* Make sure dropdown doesn't overflow the screen */
+    .tag-dropdown-content {
+        transform: translate(-88%);
+    }
+}

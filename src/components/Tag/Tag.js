@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import FontAwesome from "react-fontawesome";
 import AutosizeInput from "react-input-autosize";
 import Spinner from "../Spinner";
+import TagDropdown from "../TagDropdown";
 import { connect } from "react-redux";
 import {
     editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,
     markTagAsDeletedInCurrentlyEditingPost as _markTagAsDeletedInCurrentlyEditingPost,
 } from "../../ducks/posts";
 import "./Tag.css";
-
-const icons = {
-    location: "map-marker-alt",
-    person: "user",
-    other: "tag",
-    none: null,
-};
+import { icons } from "../../theme/icons";
 
 const types = {
     PERSON: "person",
@@ -45,13 +40,7 @@ export function Tag({
     return (
         <div className={"tag " + type} id={tagId}>
             <div className="tag-wrapper">
-                {/* Only show tag icon while editing */}
-                {icons[type] === "tag" && editing && (
-                    <div className="tag-icon">
-                        <FontAwesome name={icons[type]} />
-                    </div>
-                )}
-                {icons[type] && icons[type] !== "tag" && (
+                {!editing && icons[type] && icons[type] !== "tag" && (
                     <div className="tag-icon">
                         <FontAwesome name={icons[type]} />
                     </div>
@@ -61,6 +50,7 @@ export function Tag({
                         <Spinner height={"16px"} />
                     </div>
                 )}
+                {editing && <TagDropdown tagType={type} />}
                 {editing ? (
                     <AutosizeInput
                         name="form-field-name"
