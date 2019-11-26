@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FontAwesome from "react-fontawesome";
 import AutosizeInput from "react-input-autosize";
 import Spinner from "../Spinner";
-import TagDropdown from "../TagDropdown";
+import TagDropdown from "./TagDropdown";
 import { connect } from "react-redux";
 import {
     editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,

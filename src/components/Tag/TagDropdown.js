@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import FontAwesome from "react-fontawesome";
-import "./css/TagDropdown.css";
+import "./TagDropdown.css";
 import { connect } from "react-redux";
-import { icons } from "../theme/icons";
-// import { deleteNote as _deleteNote } from "../ducks";
+import { icons } from "../../theme/icons";
+import { tagColors } from "../../theme/Theme";
+import { tagTypes } from "./tagTypes";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
 const TagDropdown = ({ noteId, tagId, tagType }) => {
@@ -27,7 +28,11 @@ const TagDropdown = ({ noteId, tagId, tagType }) => {
     }, []);
 
     return (
-        <div ref={node} className="tag-dropdown">
+        <div
+            ref={node}
+            className="tag-dropdown"
+            style={{ backgroundColor: tagColors[tagType] }}
+        >
             <button
                 className="tag-dropbtn"
                 onClick={e => setDropdownIsOpen(!dropdownIsOpen)}
@@ -36,15 +41,16 @@ const TagDropdown = ({ noteId, tagId, tagType }) => {
             </button>
             {dropdownIsOpen && (
                 <div className="tag-dropdown-content">
-                    <button onClick={() => console.log("hi")}>
-                        <FontAwesome name={icons["person"]} />
-                    </button>
-                    <button>
-                        <FontAwesome name={icons["location"]} />
-                    </button>
-                    <button>
-                        <FontAwesome name={icons["other"]} />
-                    </button>
+                    {Object.values(tagTypes).map((type, i) => {
+                        return (
+                            <button
+                                key={i}
+                                style={{ backgroundColor: tagColors[type] }}
+                            >
+                                <FontAwesome name={icons[type]} />
+                            </button>
+                        );
+                    })}
                 </div>
             )}
         </div>
@@ -55,8 +61,6 @@ const mapStateToProps = state => {
     return state;
 };
 
-const mapDispatchToProps = {
-    // deleteNote: _deleteNote,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagDropdown);
