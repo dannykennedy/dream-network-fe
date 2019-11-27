@@ -14,6 +14,7 @@ import {
     deleteTagsFromCurrentlyEditingPost as _deleteTagsFromCurrentlyEditingPost,
 } from "../ducks/posts";
 import { keyBy, chain, value } from "lodash";
+import { Link } from "react-router-dom";
 
 var HtmlToReactParser = require("html-to-react").Parser;
 
@@ -79,11 +80,6 @@ function Card({
                                 {dropdownIsOpen && (
                                     <div className="dropdown-content">
                                         <button
-                                            onClick={() => deleteNote(noteId)}
-                                        >
-                                            Delete
-                                        </button>
-                                        <button
                                             onClick={() => {
                                                 setDropdownIsOpen(false);
                                                 setEditingPost(true);
@@ -103,6 +99,20 @@ function Card({
                                             }}
                                         >
                                             Edit
+                                        </button>
+
+                                        <button>
+                                            <Link
+                                                to={`/dream-network/${noteId}`}
+                                            >
+                                                See full article
+                                            </Link>
+                                        </button>
+
+                                        <button
+                                            onClick={() => deleteNote(noteId)}
+                                        >
+                                            Delete
                                         </button>
                                     </div>
                                 )}
