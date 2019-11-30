@@ -1,5 +1,5 @@
 import React from "react";
-import { parseTimestamp } from "../modules/parseDate";
+import { parseTimestamp } from "../../modules/parseDate";
 
 function CardUserInfo({ firstName, lastName, timePosted }) {
     return (

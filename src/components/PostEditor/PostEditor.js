@@ -4,13 +4,13 @@ import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "./css/PostEditor.css";
-import uuidV4 from "../modules/uuid";
+import "./PostEditor.css";
+import uuidV4 from "../../modules/uuid";
 // Dispatch
 import { connect } from "react-redux";
-import { addPost as _addPost } from "../ducks/posts";
+import { addPost as _addPost } from "../../ducks/posts";
 // Config
-import editorConfig from "../modules/editorConfig";
+import editorConfig from "../../modules/editorConfig";
 
 class PostEditor extends Component {
     constructor(props) {

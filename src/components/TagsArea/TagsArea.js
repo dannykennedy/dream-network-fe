@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Tag from "./Tag";
-import "./css/TagsArea.css";
-import LoadingNotice from "./LoadingNotice";
-import uuidV4 from "../modules/uuid";
+import Tag from "../Tag";
+import "./TagsArea.css";
+import LoadingNotice from "../LoadingNotice";
+import uuidV4 from "../../modules/uuid";
 import { connect } from "react-redux";
 import {
     addTagToCurrentlyEditingPost as _addTagToCurrentlyEditingPost,
     getTagType as _getTagType,
     setTagType as _setTagType,
-} from "../ducks/posts";
+} from "../../ducks/posts";
+
+// Inspired by https://www.npmjs.com/package/react-tag-input
+// Look at this component in the future for autosuggestions
 
 const KeyCodes = {
     comma: 188,

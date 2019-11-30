@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import FontAwesome from "react-fontawesome";
-import "./css/Navbar.css";
+import "./Navbar.css";
 
 function Navbar({ user, authenticated, auth }) {
     return (

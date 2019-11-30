@@ -1,18 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import CardUserInfo from "./CardUserInfo";
-import TagsArea from "./TagsArea";
+import TagsArea from "../TagsArea/TagsArea";
 import { connect } from "react-redux";
-import PostEditor from "./PostEditor";
+import PostEditor from "../PostEditor/PostEditor";
 import FontAwesome from "react-fontawesome";
-import "./css/Card.css";
-import "./css/Dropdown.css";
+import "./Card.css";
+import "./Dropdown.css";
 import {
     deleteNote as _deleteNote,
     editPost as _editPost,
     setCurrentlyEditingPost as _setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost as _saveTagsFromCurrentlyEditingPost,
     deleteTagsFromCurrentlyEditingPost as _deleteTagsFromCurrentlyEditingPost,
-} from "../ducks/posts";
+} from "../../ducks/posts";
 import { keyBy, chain, value } from "lodash";
 import { Link } from "react-router-dom";
 
@@ -130,6 +130,7 @@ function Card({
                                 onSave={post => {
                                     setEditingPost(false);
                                     editPost(post.noteId, post.entryText);
+
                                     saveTagsFromCurrentlyEditingPost(
                                         currentlyEditingPosts[post.noteId]
                                     );
