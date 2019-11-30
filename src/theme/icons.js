@@ -1,6 +1,6 @@
 export const icons = {
-    location: "map-marker-alt",
-    person: "user",
-    other: "tag",
-    none: null,
+    LOCATION: "map-marker-alt",
+    PERSON: "user",
+    OTHER: "tag",
+    NONE: null,
 };

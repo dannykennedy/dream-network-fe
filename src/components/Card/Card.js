@@ -32,6 +32,7 @@ function Card({
     saveTagsFromCurrentlyEditingPost,
     currentlyEditingPosts,
     deleteTagsFromCurrentlyEditingPost,
+    userPosts,
 }) {
     const node = useRef();
     const [editingPost, setEditingPost] = useState(false);
@@ -170,6 +171,7 @@ function Card({
 const mapStateToProps = state => {
     return {
         user: state.user.user,
+        userPosts: state.userPosts,
         currentlyEditingPosts: state.posts.currentlyEditingPosts,
     };
 };

@@ -1,7 +1,7 @@
 export const tagTypes = {
-    PERSON: "person",
-    LOCATION: "location",
-    OTHER: "other",
+    PERSON: "PERSON",
+    LOCATION: "LOCATION",
+    OTHER: "OTHER",
 };
 
 export const mapEntitiesToTypes = {

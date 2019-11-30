@@ -64,7 +64,11 @@ const TagDropdown = ({ noteId, tagId, tagType, setTagType }) => {
                                         backgroundColor: tagColors[typeOption],
                                     }}
                                     onClick={() => {
-                                        setTagType(typeOption, tagId, noteId);
+                                        setTagType(
+                                            typeOption.toUpperCase(),
+                                            tagId,
+                                            noteId
+                                        );
                                         setDropdownIsOpen(false);
                                     }}
                                 >

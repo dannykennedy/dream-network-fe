@@ -60,15 +60,8 @@ function tagsToObject(tagsArray) {
 export default (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_TAG_TYPE:
-            //payload: {tagType: tagType, tagId: tagId, noteId: noteId},
             const { tagType, tagId, noteId } = action.payload;
-
             const tagTypeUpperCase = tagType.toUpperCase();
-
-            console.log("got tagtype in ducksz", tagTypeUpperCase);
-            console.log("got tagId in ducksz", tagId);
-            console.log("got noteId in ducksz", noteId);
-
             return {
                 ...state,
                 userPosts: {
@@ -84,21 +77,21 @@ export default (state = initialState, action) => {
                         },
                     },
                 },
-                // currentlyEditingPosts: {
-                //     ...state.currentlyEditingPosts,
-                //     [noteId]: {
-                //         ...state.currentlyEditingPosts[noteId],
-                //         tags: {
-                //             ...state.currentlyEditingPosts[noteId].tags,
-                //             [tagId]: {
-                //                 ...state.currentlyEditingPosts[noteId].tags[
-                //                     tagId
-                //                 ],
-                //                 tagType: tagType,
-                //             },
-                //         },
-                //     },
-                // },
+                currentlyEditingPosts: {
+                    ...state.currentlyEditingPosts,
+                    [noteId]: {
+                        ...state.currentlyEditingPosts[noteId],
+                        tags: {
+                            ...state.currentlyEditingPosts[noteId].tags,
+                            [tagId]: {
+                                ...state.currentlyEditingPosts[noteId].tags[
+                                    tagId
+                                ],
+                                tagType: tagType,
+                            },
+                        },
+                    },
+                },
             };
         case actionTypes.GET_TAG_TYPE:
             return state;
@@ -519,9 +512,46 @@ export const editPost = (postId, newPost) => {
     };
 };
 
+export const saveTagsFromCurrentPost = currentPost => {
+    let tagsArray = values(currentPost.tags);
+    console.log("tags in FE: ", tagsArray);
+
+    return dispatch => {
+        // Optimistically update UI
+        dispatch(saveTagsFromCurrentlyEditingPostInUi(currentPost));
+
+        // Update changed tags in DB
+        fetch(`${baseUrl}/tags/`, {
+            method: "PATCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tagsArray),
+        })
+            .then(data => data.json())
+            .catch(err => {
+                console.log(err);
+            });
+
+        // Add new tags to DB
+        fetch(`${baseUrl}/tags/`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tagsArray),
+        })
+            .then(data => data.json())
+            .catch(err => {
+                console.log(err);
+            });
+    };
+};
+
 export const saveTagsFromCurrentlyEditingPost = currentlyEditingPost => {
     let tagsArray = values(currentlyEditingPost.tags);
-    let addedTagsArray = "";
     console.log("tags in FE: ", tagsArray);
 
     return dispatch => {

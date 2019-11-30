@@ -10,18 +10,7 @@ import {
 } from "../../ducks/posts";
 import "./Tag.css";
 import { icons } from "../../theme/icons";
-
-const types = {
-    PERSON: "person",
-    LOCATION: "location",
-    OTHER: "other",
-    ORGANIZATION: "location",
-    NUMBER: "other",
-    EVENT: "other",
-    WORK_OF_ART: "other",
-    CONSUMER_GOOD: "other",
-    NONE: "none",
-};
+import { mapEntitiesToTypes } from "./tagTypes";
 
 export function Tag({
     name,
@@ -33,7 +22,8 @@ export function Tag({
     editTagInCurrentlyEditingPost,
     markTagAsDeletedInCurrentlyEditingPost,
 }) {
-    type = types[type];
+    type = mapEntitiesToTypes[type];
+    console.log("mapEntitiesToTypes[type]", type);
 
     const [tagName, setTagName] = useState(name);
 

@@ -34,42 +34,42 @@
     margin-left: 5px;
 }
 
-.date {
+.DATE {
     background-color: rgb(230, 133, 133);
 }
-.date:hover {
+.DATE:hover {
     background-color: rgb(222, 93, 93);
     text-decoration: none;
     color: white;
 }
-.person {
+.PERSON {
     background-color: rgb(246, 173, 97);
 }
-.person:hover {
+.PERSON:hover {
     background-color: rgba(244, 152, 58);
     text-decoration: none;
     color: white;
 }
-.location {
+.LOCATION {
     background-color: rgb(154, 200, 134);
 }
-.location:hover {
+.LOCATION:hover {
     background-color: rgb(125, 184, 99);
     text-decoration: none;
     color: white;
 }
-.other {
+.OTHER {
     background-color: rgb(121, 174, 245);
 }
-.other:hover {
+.OTHER:hover {
     background-color: rgb(82, 151, 242);
     text-decoration: none;
     color: white;
 }
-.none {
+.NONE {
     background-color: rgba(148, 147, 185, 0.7);
 }
-.none:hover {
+.NONE:hover {
     background-color: rgba(148, 147, 185, 0.9);
     text-decoration: none;
     color: white;
