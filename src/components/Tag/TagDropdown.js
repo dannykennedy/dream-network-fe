@@ -5,9 +5,10 @@ import { connect } from "react-redux";
 import { icons } from "../../theme/icons";
 import { tagColors, hoveredTagColors } from "../../theme/Theme";
 import { tagTypes } from "./tagTypes";
+import { setTagType as _setTagType } from "../../ducks/posts";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
-const TagDropdown = ({ noteId, tagId, tagType }) => {
+const TagDropdown = ({ noteId, tagId, tagType, setTagType }) => {
     const node = useRef();
 
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
@@ -52,14 +53,22 @@ const TagDropdown = ({ noteId, tagId, tagType }) => {
                 >
                     {Object.values(tagTypes)
                         .filter(type => type !== tagType) // Don't put current tag type in dropdown
-                        .map((type, i) => {
+                        .map((typeOption, i) => {
+                            console.log("typeOption here ", typeOption);
+
                             return (
                                 <button
                                     className="tag-dropdown-button"
                                     key={i}
-                                    style={{ backgroundColor: tagColors[type] }}
+                                    style={{
+                                        backgroundColor: tagColors[typeOption],
+                                    }}
+                                    onClick={() => {
+                                        setTagType(typeOption, tagId, noteId);
+                                        setDropdownIsOpen(false);
+                                    }}
                                 >
-                                    <FontAwesome name={icons[type]} />
+                                    <FontAwesome name={icons[typeOption]} />
                                 </button>
                             );
                         })}
@@ -73,6 +82,6 @@ const mapStateToProps = state => {
     return state;
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { setTagType: _setTagType };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagDropdown);

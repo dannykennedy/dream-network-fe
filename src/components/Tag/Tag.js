@@ -50,7 +50,9 @@ export function Tag({
                         <Spinner height={"16px"} />
                     </div>
                 )}
-                {editing && icons[type] && <TagDropdown tagType={type} />}
+                {editing && icons[type] && (
+                    <TagDropdown tagType={type} tagId={tagId} noteId={noteId} />
+                )}
                 {editing ? (
                     <AutosizeInput
                         name="form-field-name"

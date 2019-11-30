@@ -63,6 +63,12 @@ export default (state = initialState, action) => {
             //payload: {tagType: tagType, tagId: tagId, noteId: noteId},
             const { tagType, tagId, noteId } = action.payload;
 
+            const tagTypeUpperCase = tagType.toUpperCase();
+
+            console.log("got tagtype in ducksz", tagTypeUpperCase);
+            console.log("got tagId in ducksz", tagId);
+            console.log("got noteId in ducksz", noteId);
+
             return {
                 ...state,
                 userPosts: {
@@ -73,26 +79,26 @@ export default (state = initialState, action) => {
                             ...state.userPosts[noteId].tags,
                             [tagId]: {
                                 ...state.userPosts[noteId].tags[tagId],
-                                tagType: tagType,
+                                tagType: tagTypeUpperCase,
                             },
                         },
                     },
                 },
-                currentlyEditingPosts: {
-                    ...state.currentlyEditingPosts,
-                    [noteId]: {
-                        ...state.currentlyEditingPosts[noteId],
-                        tags: {
-                            ...state.currentlyEditingPosts[noteId].tags,
-                            [tagId]: {
-                                ...state.currentlyEditingPosts[noteId].tags[
-                                    tagId
-                                ],
-                                tagType: tagType,
-                            },
-                        },
-                    },
-                },
+                // currentlyEditingPosts: {
+                //     ...state.currentlyEditingPosts,
+                //     [noteId]: {
+                //         ...state.currentlyEditingPosts[noteId],
+                //         tags: {
+                //             ...state.currentlyEditingPosts[noteId].tags,
+                //             [tagId]: {
+                //                 ...state.currentlyEditingPosts[noteId].tags[
+                //                     tagId
+                //                 ],
+                //                 tagType: tagType,
+                //             },
+                //         },
+                //     },
+                // },
             };
         case actionTypes.GET_TAG_TYPE:
             return state;
@@ -298,25 +304,6 @@ export default (state = initialState, action) => {
             console.log("remainingTags", remainingTags);
 
             return state;
-
-        // return {
-        //     ...state,
-        //     userPosts: {
-        //         ...state.userPosts,
-        //     },
-        //     // userPosts: state.userPosts.map(post => {
-        //     //     if (post.noteId === action.payload.noteId) {
-        //     //         return {
-        //     //             ...post,
-        //     //             tags: post.tags.filter(
-        //     //                 tag => tag.tagId !== action.payload.tagId
-        //     //             ),
-        //     //         };
-        //     //     } else {
-        //     //         return post;
-        //     //     }
-        //     // }),
-        // };
         case actionTypes.ERROR:
             alert(action.payload);
             return state;
@@ -394,17 +381,17 @@ const saveTagsFromCurrentlyEditingPostInUi = currentlyEditingPost => {
     };
 };
 
+// EXPORTED FUNCTIONS
+
+// A lot of these functions rely on redux-thunk
+// Instead of returning an object, we're returning a function (dispatch) that returns an object
+
 export const setTagType = (tagType, tagId, noteId) => {
     return {
         type: actionTypes.SET_TAG_TYPE,
         payload: { tagType: tagType, tagId: tagId, noteId: noteId },
     };
 };
-
-// EXPORTED FUNCTIONS
-
-// A lot of these functions rely on redux-thunk
-// Instead of returning an object, we're returning a function (dispatch) that returns an object
 
 export const setCurrentlyEditingPost = payload => {
     return {
