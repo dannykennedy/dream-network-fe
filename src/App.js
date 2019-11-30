@@ -25,7 +25,7 @@ import {
 
 const App = withAuth(
     ({ fetchData, fetchAllData, setUser, auth, addPost, userPosts }) => {
-        // const { fetchData } = props;
+        console.log("userposts", userPosts);
 
         const [authenticated, user] = useAuth(auth);
 
@@ -43,6 +43,8 @@ const App = withAuth(
             setUser(user);
         }, [user, setUser]);
 
+        // useEffect(() => {}, [userPosts]);
+
         return (
             <div className="App">
                 <Navbar authenticated={authenticated} auth={auth} />
@@ -50,11 +52,22 @@ const App = withAuth(
                     <Switch>
                         <Route
                             path="/dream-network/:postId"
-                            component={Article}
+                            render={({ match }) => {
+                                return (
+                                    <div>
+                                        This is post {match.params.postId}
+                                        <span>
+                                            {userPosts[
+                                                match.params.postId
+                                            ].toString()}
+                                        </span>
+                                    </div>
+                                );
+                            }}
                         >
                             <div>Hej there</div>
                         </Route>
-                        <Route path="/">
+                        <Route exact={true} path="/">
                             <div id={"App-body"}>
                                 {authenticated ? (
                                     <div>
@@ -104,19 +117,19 @@ const App = withAuth(
     }
 );
 
-const Article = ({ match, userPosts }) => {
-    return (
-        <div>
-            This is post {match.params.postId}{" "}
-            <span>{userPosts[match.params.postId]}</span>
-        </div>
-    );
-};
+// const Article = ({ match, userPosts }) => {
+//     return (
+//         <div>
+//             This is post {match.params.postId}
+//             <span>{userPosts[match.params.postId]}</span>
+//         </div>
+//     );
+// };
 
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        userPosts: state.userPosts,
+        userPosts: state.posts.userPosts,
     };
 };
 
@@ -128,4 +141,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-connect(mapStateToProps)(Article);

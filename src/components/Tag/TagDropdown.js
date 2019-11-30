@@ -3,7 +3,7 @@ import FontAwesome from "react-fontawesome";
 import "./TagDropdown.css";
 import { connect } from "react-redux";
 import { icons } from "../../theme/icons";
-import { tagColors } from "../../theme/Theme";
+import { tagColors, hoveredTagColors } from "../../theme/Theme";
 import { tagTypes } from "./tagTypes";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
@@ -31,26 +31,38 @@ const TagDropdown = ({ noteId, tagId, tagType }) => {
         <div
             ref={node}
             className="tag-dropdown"
-            style={{ backgroundColor: tagColors[tagType] }}
+            style={{
+                backgroundColor: "white",
+            }}
         >
             <button
+                style={{
+                    backgroundColor: tagColors[tagType],
+                    border: `1px solid ${hoveredTagColors[tagType]}`,
+                }}
                 className="tag-dropbtn"
                 onClick={e => setDropdownIsOpen(!dropdownIsOpen)}
             >
                 <FontAwesome name={icons[tagType]} />
             </button>
             {dropdownIsOpen && (
-                <div className="tag-dropdown-content">
-                    {Object.values(tagTypes).map((type, i) => {
-                        return (
-                            <button
-                                key={i}
-                                style={{ backgroundColor: tagColors[type] }}
-                            >
-                                <FontAwesome name={icons[type]} />
-                            </button>
-                        );
-                    })}
+                <div
+                    className="tag-dropdown-content"
+                    style={{ backgroundColor: tagColors[tagType] }}
+                >
+                    {Object.values(tagTypes)
+                        .filter(type => type !== tagType) // Don't put current tag type in dropdown
+                        .map((type, i) => {
+                            return (
+                                <button
+                                    className="tag-dropdown-button"
+                                    key={i}
+                                    style={{ backgroundColor: tagColors[type] }}
+                                >
+                                    <FontAwesome name={icons[type]} />
+                                </button>
+                            );
+                        })}
                 </div>
             )}
         </div>
