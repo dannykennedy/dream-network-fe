@@ -23,7 +23,6 @@ export function Tag({
     markTagAsDeletedInCurrentlyEditingPost,
 }) {
     type = mapEntitiesToTypes[type];
-    console.log("mapEntitiesToTypes[type]", type);
 
     const [tagName, setTagName] = useState(name);
 

@@ -19,21 +19,16 @@ import { Link } from "react-router-dom";
 var HtmlToReactParser = require("html-to-react").Parser;
 
 function Card({
+    post,
     user,
-    entryText,
-    firstName,
-    lastName,
-    noteId,
-    timePosted,
-    tags,
     deleteNote,
     editPost,
     setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost,
     currentlyEditingPosts,
     deleteTagsFromCurrentlyEditingPost,
-    userPosts,
 }) {
+    const { entryText, firstName, lastName, noteId, timePosted, tags } = post;
     const node = useRef();
     const [editingPost, setEditingPost] = useState(false);
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
@@ -171,7 +166,6 @@ function Card({
 const mapStateToProps = state => {
     return {
         user: state.user.user,
-        userPosts: state.userPosts,
         currentlyEditingPosts: state.posts.currentlyEditingPosts,
     };
 };

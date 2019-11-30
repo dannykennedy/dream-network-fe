@@ -9,7 +9,7 @@ import {
 import { setUser as _setUser } from "./ducks/user";
 // Components
 import ChartsArea from "./components/Chartsarea";
-import PostsArea from "./components/PostsArea";
+import PostsArea from "./components/PostsArea/PostsArea";
 import { withAuth } from "@okta/okta-react";
 import { useAuth } from "./auth";
 import PostEditor from "./components/PostEditor";
@@ -22,6 +22,7 @@ import {
     Root,
     Route,
 } from "react-router-dom";
+import Card from "./components/Card";
 
 const App = withAuth(
     ({ fetchData, fetchAllData, setUser, auth, addPost, userPosts }) => {
@@ -53,14 +54,16 @@ const App = withAuth(
                         <Route
                             path="/dream-network/:postId"
                             render={({ match }) => {
+                                console.log(
+                                    "goddim",
+                                    userPosts[match.params.postId]
+                                );
+
+                                const post = userPosts[match.params.postId];
+
                                 return (
                                     <div>
-                                        This is post {match.params.postId}
-                                        <span>
-                                            {userPosts[
-                                                match.params.postId
-                                            ].toString()}
-                                        </span>
+                                        <Card post={post} key={post.noteId} />
                                     </div>
                                 );
                             }}
