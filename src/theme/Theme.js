@@ -6,18 +6,18 @@ const popupBorderBlue = "rgb(186,197,214)";
 const dottedBlue = "rgb(176,192,216)";
 
 export const tagColors = {
-    date: "rgba(214, 52, 52, 0.6)",
-    person: "rgba(244, 152, 58, 0.8)",
-    location: "rgba(110, 176, 82, 0.7)",
-    other: "rgba(63, 139, 241, 0.7)",
+    date: "rgb(230,133,133)",
+    person: "rgb(246,173,97)",
+    location: "rgb(154,200,134)",
+    other: "rgb(121,174,245)",
     none: "rgba(148, 147, 185, 0.7)",
 };
 
 export const hoveredTagColors = {
-    date: "rgba(214, 52, 52, 0.8)",
-    person: "rgba(244, 152, 58, 1)",
-    location: "rgba(110, 176, 82, 0.9)",
-    other: "rgba(63, 139, 241, 0.9)",
+    date: "rgb(222,93,93)",
+    person: "rgb(244, 152, 58)",
+    location: "rgb(125,184,99)",
+    other: "rgb(82,151,242)",
     none: "rgba(148, 147, 185, 0.9)",
 };
 

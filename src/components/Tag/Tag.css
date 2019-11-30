@@ -35,34 +35,34 @@
 }
 
 .date {
-    background-color: rgba(214, 52, 52, 0.6);
+    background-color: rgb(230, 133, 133);
 }
 .date:hover {
-    background-color: rgba(214, 52, 52, 0.8);
+    background-color: rgb(222, 93, 93);
     text-decoration: none;
     color: white;
 }
 .person {
-    background-color: rgba(244, 152, 58, 0.8);
+    background-color: rgb(246, 173, 97);
 }
 .person:hover {
-    background-color: rgba(244, 152, 58, 1);
+    background-color: rgba(244, 152, 58);
     text-decoration: none;
     color: white;
 }
 .location {
-    background-color: rgba(110, 176, 82, 0.7);
+    background-color: rgb(154, 200, 134);
 }
 .location:hover {
-    background-color: rgba(110, 176, 82, 0.9);
+    background-color: rgb(125, 184, 99);
     text-decoration: none;
     color: white;
 }
 .other {
-    background-color: rgba(63, 139, 241, 0.7);
+    background-color: rgb(121, 174, 245);
 }
 .other:hover {
-    background-color: rgba(63, 139, 241, 0.9);
+    background-color: rgb(82, 151, 242);
     text-decoration: none;
     color: white;
 }
