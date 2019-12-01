@@ -7,7 +7,7 @@ import FontAwesome from "react-fontawesome";
 import "./Card.css";
 import "./Dropdown.css";
 import {
-    deleteNote as _deleteNote,
+    deletePost as _deletePost,
     editPost as _editPost,
     setCurrentlyEditingPost as _setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost as _saveTagsFromCurrentlyEditingPost,
@@ -21,7 +21,7 @@ var HtmlToReactParser = require("html-to-react").Parser;
 function Card({
     post,
     user,
-    deleteNote,
+    deletePost,
     editPost,
     setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost,
@@ -106,7 +106,7 @@ function Card({
                                         </button>
 
                                         <button
-                                            onClick={() => deleteNote(postId)}
+                                            onClick={() => deletePost(postId)}
                                         >
                                             Delete
                                         </button>
@@ -171,7 +171,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    deleteNote: _deleteNote,
+    deletePost: _deletePost,
     editPost: _editPost,
     setCurrentlyEditingPost: _setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost: _saveTagsFromCurrentlyEditingPost,

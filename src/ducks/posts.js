@@ -1,4 +1,4 @@
-import { values, omit, keyBy, chain, value } from "lodash";
+import { values, omit } from "lodash";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -614,7 +614,7 @@ export const deleteTagsFromCurrentlyEditingPost = tags => {
 };
 
 // DELETE A POST
-export const deleteNote = postId => {
+export const deletePost = postId => {
     return dispatch => {
         // Optimistically update UI
         dispatch(deletePostFromUI(postId));
@@ -627,7 +627,7 @@ export const deleteNote = postId => {
                 console.log(response);
                 if (response.status !== 200) {
                     dispatch(
-                        alertError("Note could not be deleted at this time")
+                        alertError("Post could not be deleted at this time")
                     );
                 }
             })

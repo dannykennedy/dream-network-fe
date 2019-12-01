@@ -14,15 +14,8 @@ import { withAuth } from "@okta/okta-react";
 import { useAuth } from "./auth";
 import PostEditor from "./components/PostEditor";
 import Navbar from "./components/Navbar";
-import Tag from "./components/Tag";
 import LoadingNotice from "./components/LoadingNotice";
-import {
-    Redirect,
-    BrowserRouter as Router,
-    Switch,
-    Root,
-    Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Card from "./components/Card";
 
 const App = withAuth(
@@ -113,15 +106,6 @@ const App = withAuth(
         );
     }
 );
-
-// const Article = ({ match, userPosts }) => {
-//     return (
-//         <div>
-//             This is post {match.params.postId}
-//             <span>{userPosts[match.params.postId]}</span>
-//         </div>
-//     );
-// };
 
 // these parts of state are passed in as props
 const mapStateToProps = state => {
