@@ -25,8 +25,6 @@ const actionTypes = {
     SET_CURRENTLY_EDITING_POST: "SET_CURRENTLY_EDITING_POST",
     EDIT_TAG_IN_CURRENTLY_EDITING_POST: "EDIT_TAG_IN_CURRENTLY_EDITING_POST",
     SAVE_CURRENTLY_EDITING_POST: "SAVE_CURRENTLY_EDITING_POST",
-    SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
-        "SAVE_TAGS_FROM_CURRENTLY_EDITING_POST",
     MARK_TAG_AS_DELETED_IN_POST: "MARK_TAG_AS_DELETED_IN_POST",
     ADD_TAG_TO_CURRENTLY_EDITING_POST: "ADD_TAG_TO_CURRENTLY_EDITING_POST",
     SET_TAG_TYPE: "SET_TAG_TYPE",
@@ -214,25 +212,6 @@ export default (state = initialState, action) => {
                     },
                 },
             };
-
-        // Save all tags from state.currentlyEditingPost to current UI
-        case actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
-            console.log("action.payload.tags", action.payload.tags);
-            console.log(
-                "tagsToObject(action.payload.tags)",
-                tagsToObject(action.payload.tags)
-            );
-
-            return {
-                ...state,
-                userPosts: {
-                    ...state.userPosts,
-                    [action.payload.postId]: {
-                        ...state.userPosts[action.payload.postId],
-                        tags: action.payload.tags,
-                    },
-                },
-            };
         case actionTypes.DATA_FAILURE:
             console.log("data failure");
             return state;
@@ -368,13 +347,6 @@ const replacePostWithEditedPost = (postId, newPostText) => {
     return {
         type: actionTypes.EDIT_POST,
         payload: { postId: postId, postText: newPostText },
-    };
-};
-
-const saveTagsFromCurrentlyEditingPostInUi = currentlyEditingPost => {
-    return {
-        type: actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST,
-        payload: currentlyEditingPost,
     };
 };
 
@@ -519,48 +491,11 @@ export const editPost = (postId, newPost) => {
 export const saveTagsFromCurrentPost = currentPost => {
     let tagsArray = values(currentPost.tags);
     console.log("tags in FE: ", tagsArray);
+    console.log("yeeehaw");
 
     return dispatch => {
         // Optimistically update UI
-        dispatch(saveTagsFromCurrentlyEditingPostInUi(currentPost));
-
-        // Update changed tags in DB
-        fetch(`${baseUrl}/tags/`, {
-            method: "PATCH",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(tagsArray),
-        })
-            .then(data => data.json())
-            .catch(err => {
-                console.log(err);
-            });
-
-        // Add new tags to DB
-        fetch(`${baseUrl}/tags/`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(tagsArray),
-        })
-            .then(data => data.json())
-            .catch(err => {
-                console.log(err);
-            });
-    };
-};
-
-export const saveTagsFromCurrentlyEditingPost = currentlyEditingPost => {
-    let tagsArray = values(currentlyEditingPost.tags);
-    console.log("tags in FE: ", tagsArray);
-
-    return dispatch => {
-        // Optimistically update UI
-        dispatch(saveTagsFromCurrentlyEditingPostInUi(currentlyEditingPost));
+        dispatch(noOp());
 
         // Update changed tags in DB
         fetch(`${baseUrl}/tags/`, {

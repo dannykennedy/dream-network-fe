@@ -10,7 +10,7 @@ import {
     deletePost as _deletePost,
     editPost as _editPost,
     setCurrentlyEditingPost as _setCurrentlyEditingPost,
-    saveTagsFromCurrentlyEditingPost as _saveTagsFromCurrentlyEditingPost,
+    saveTagsFromCurrentPost as _saveTagsFromCurrentPost,
     deleteTagsFromCurrentPost as _deleteTagsFromCurrentPost,
 } from "../../ducks/posts";
 import { chain, values } from "lodash";
@@ -25,6 +25,7 @@ function Card({
     editPost,
     setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost,
+    saveTagsFromCurrentPost,
     currentlyEditingPosts,
     deleteTagsFromCurrentPost,
     userPosts,
@@ -128,8 +129,8 @@ function Card({
                                     setEditingPost(false);
                                     editPost(post.postId, post.entryText);
 
-                                    saveTagsFromCurrentlyEditingPost(
-                                        currentlyEditingPosts[post.postId]
+                                    saveTagsFromCurrentPost(
+                                        userPosts[post.postId]
                                     );
                                     deleteTagsFromCurrentPost(
                                         values(
@@ -172,7 +173,7 @@ const mapDispatchToProps = {
     deletePost: _deletePost,
     editPost: _editPost,
     setCurrentlyEditingPost: _setCurrentlyEditingPost,
-    saveTagsFromCurrentlyEditingPost: _saveTagsFromCurrentlyEditingPost,
+    saveTagsFromCurrentPost: _saveTagsFromCurrentPost,
     deleteTagsFromCurrentPost: _deleteTagsFromCurrentPost,
 };
 
