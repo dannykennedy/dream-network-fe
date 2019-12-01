@@ -1,4 +1,4 @@
-import { values, omit } from "lodash";
+import { values, omit, keyBy } from "lodash";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -26,9 +26,9 @@ const actionTypes = {
     EDIT_TAG_IN_CURRENTLY_EDITING_POST: "EDIT_TAG_IN_CURRENTLY_EDITING_POST",
     SAVE_CURRENTLY_EDITING_POST: "SAVE_CURRENTLY_EDITING_POST",
     MARK_TAG_AS_DELETED_IN_POST: "MARK_TAG_AS_DELETED_IN_POST",
-    // ADD_TAG_TO_CURRENTLY_EDITING_POST: "ADD_TAG_TO_CURRENTLY_EDITING_POST",
     ADD_TAG_TO_POST: "ADD_TAG_TO_POST",
     SET_TAG_TYPE: "SET_TAG_TYPE",
+    SAVE_TAGS_IN_UI: "SAVE_TAGS_IN_UI",
     NO_OP: "NO_OP",
 };
 
@@ -237,6 +237,27 @@ export default (state = initialState, action) => {
                     [action.payload.postId]: action.payload,
                 },
             };
+
+        case actionTypes.SAVE_TAGS_IN_UI:
+            console.log("finna save some tags ", action.payload);
+            return {
+                ...state,
+                userPosts: {
+                    ...state.userPosts,
+                    [action.payload.postId]: {
+                        ...state.userPosts[action.payload.postId],
+                        tags: keyBy(
+                            values(
+                                state.userPosts[action.payload.postId].tags
+                            ).map(tag => {
+                                return { ...tag, isNewTag: false };
+                            }),
+                            "tagId"
+                        ),
+                    },
+                },
+            };
+
         case actionTypes.DELETE_TAG:
             if (!state.userPosts) {
                 console.log("Can't delete tag without a user");
@@ -324,6 +345,13 @@ const deleteTagFromUI = (tagId, postId) => {
     };
 };
 
+const saveTagsInUI = post => {
+    return {
+        type: actionTypes.SAVE_TAGS_IN_UI,
+        payload: { postId: post.postId },
+    };
+};
+
 const replacePostWithEditedPost = (postId, newPostText) => {
     return {
         type: actionTypes.EDIT_POST,
@@ -363,13 +391,6 @@ export const markTagAsDeletedInCurrentlyEditingPost = (tagId, postId) => {
         payload: { tagId: tagId, postId: postId },
     };
 };
-
-// export const addTagToCurrentlyEditingPost = tag => {
-//     return {
-//         type: actionTypes.ADD_TAG_TO_CURRENTLY_EDITING_POST,
-//         payload: tag,
-//     };
-// };
 
 export const addTagToPost = tag => {
     return {
@@ -482,8 +503,8 @@ export const saveTagsFromCurrentPost = currentPost => {
     console.log("yeeehaw");
 
     return dispatch => {
-        // Optimistically update UI
-        dispatch(noOp());
+        // Remove 'isNewTag' from tags
+        dispatch(saveTagsInUI(currentPost));
 
         // Update changed tags in DB
         fetch(`${baseUrl}/tags/`, {
@@ -598,9 +619,6 @@ export const deleteTag = (tagId, postId) => {
 
 export const getTagType = (tagName, tagId, postId) => {
     return dispatch => {
-        // Optimistically update UI
-        // dispatch(deleteTagFromUI(tagId, postId));
-
         // Then delete from database
         fetch(`${baseUrl}/tags/${tagName}/type`, {
             method: "GET",
