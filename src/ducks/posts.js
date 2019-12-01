@@ -26,7 +26,8 @@ const actionTypes = {
     EDIT_TAG_IN_CURRENTLY_EDITING_POST: "EDIT_TAG_IN_CURRENTLY_EDITING_POST",
     SAVE_CURRENTLY_EDITING_POST: "SAVE_CURRENTLY_EDITING_POST",
     MARK_TAG_AS_DELETED_IN_POST: "MARK_TAG_AS_DELETED_IN_POST",
-    ADD_TAG_TO_CURRENTLY_EDITING_POST: "ADD_TAG_TO_CURRENTLY_EDITING_POST",
+    // ADD_TAG_TO_CURRENTLY_EDITING_POST: "ADD_TAG_TO_CURRENTLY_EDITING_POST",
+    ADD_TAG_TO_POST: "ADD_TAG_TO_POST",
     SET_TAG_TYPE: "SET_TAG_TYPE",
     NO_OP: "NO_OP",
 };
@@ -154,9 +155,8 @@ export default (state = initialState, action) => {
                     },
                 },
             };
-        case actionTypes.ADD_TAG_TO_CURRENTLY_EDITING_POST:
-            console.log("adding this tag", action.payload);
 
+        case actionTypes.ADD_TAG_TO_POST:
             return {
                 ...state,
                 userPosts: {
@@ -169,29 +169,10 @@ export default (state = initialState, action) => {
                         },
                     },
                 },
-                currentlyEditingPosts: {
-                    ...state.currentlyEditingPosts,
-                    [action.payload.postId]: {
-                        ...state.currentlyEditingPosts[action.payload.postId],
-                        tags: {
-                            ...state.currentlyEditingPosts[
-                                action.payload.postId
-                            ].tags,
-                            [action.payload.tagId]: action.payload,
-                        },
-                    },
-                },
             };
+
         // Mark tag as deleted (don't worry about deleting yet)
         case actionTypes.MARK_TAG_AS_DELETED_IN_POST:
-            console.log(
-                "tags all",
-                state.currentlyEditingPosts[action.payload.postId].tags
-            );
-            console.log(
-                "delete list",
-                state.currentlyEditingPosts[action.payload.postId].deletedTags
-            );
             // Delete from UI
             // Mark as 'deleted' in post
             return {
@@ -383,9 +364,16 @@ export const markTagAsDeletedInCurrentlyEditingPost = (tagId, postId) => {
     };
 };
 
-export const addTagToCurrentlyEditingPost = tag => {
+// export const addTagToCurrentlyEditingPost = tag => {
+//     return {
+//         type: actionTypes.ADD_TAG_TO_CURRENTLY_EDITING_POST,
+//         payload: tag,
+//     };
+// };
+
+export const addTagToPost = tag => {
     return {
-        type: actionTypes.ADD_TAG_TO_CURRENTLY_EDITING_POST,
+        type: actionTypes.ADD_TAG_TO_POST,
         payload: tag,
     };
 };

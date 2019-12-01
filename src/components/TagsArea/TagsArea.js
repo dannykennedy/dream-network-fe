@@ -5,14 +5,12 @@ import LoadingNotice from "../LoadingNotice";
 import uuidV4 from "../../modules/uuid";
 import { connect } from "react-redux";
 import {
-    addTagToCurrentlyEditingPost as _addTagToCurrentlyEditingPost,
+    addTagToPost as _addTagToPost,
     getTagType as _getTagType,
-    setTagType as _setTagType,
 } from "../../ducks/posts";
 
 // Inspired by https://www.npmjs.com/package/react-tag-input
 // Look at this component in the future for autosuggestions
-
 const KeyCodes = {
     comma: 188,
     enter: 13,
@@ -22,13 +20,7 @@ const isEnterKey = keyCode => {
     return keyCode === KeyCodes.enter || keyCode === KeyCodes.comma;
 };
 
-function TagsArea({
-    tags,
-    postId,
-    editingPost,
-    addTagToCurrentlyEditingPost,
-    getTagType,
-}) {
+function TagsArea({ tags, postId, editingPost, getTagType, addTagToPost }) {
     const [inputText, setInputText] = useState("");
 
     const onAddTag = tagName => {
@@ -41,8 +33,7 @@ function TagsArea({
             isNewTag: true,
         };
         getTagType(tagName, id, postId);
-        // setCardTags([...cardTags, newTag]);
-        addTagToCurrentlyEditingPost(newTag);
+        addTagToPost(newTag);
     };
 
     return (
@@ -102,9 +93,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    addTagToCurrentlyEditingPost: _addTagToCurrentlyEditingPost,
+    addTagToPost: _addTagToPost,
     getTagType: _getTagType,
-    setTagType: _setTagType,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsArea);
