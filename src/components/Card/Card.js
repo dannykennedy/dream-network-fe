@@ -13,7 +13,7 @@ import {
     saveTagsFromCurrentlyEditingPost as _saveTagsFromCurrentlyEditingPost,
     deleteTagsFromCurrentlyEditingPost as _deleteTagsFromCurrentlyEditingPost,
 } from "../../ducks/posts";
-import { keyBy, chain, value } from "lodash";
+import { chain } from "lodash";
 import { Link } from "react-router-dom";
 
 var HtmlToReactParser = require("html-to-react").Parser;

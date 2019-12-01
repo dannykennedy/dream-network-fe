@@ -19,7 +19,7 @@ export const useAuth = auth => {
         } else {
             setUser(null);
         }
-    }, [authenticated]);
+    }, [authenticated, auth]);
 
     return [authenticated, user];
 };

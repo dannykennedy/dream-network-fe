@@ -20,8 +20,6 @@ import Card from "./components/Card";
 
 const App = withAuth(
     ({ fetchData, fetchAllData, setUser, auth, addPost, userPosts }) => {
-        console.log("userposts", userPosts);
-
         const [authenticated, user] = useAuth(auth);
 
         useEffect(() => {

@@ -100,9 +100,6 @@ export default (state = initialState, action) => {
             return state;
         case actionTypes.DATA_SUCCESS:
             console.log("success");
-
-            console.log("object posts", postsToObject(action.payload));
-
             return {
                 ...state,
                 loading: false,

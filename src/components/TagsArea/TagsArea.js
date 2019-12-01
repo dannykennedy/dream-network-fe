@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Tag from "../Tag";
 import "./TagsArea.css";
 import LoadingNotice from "../LoadingNotice";
@@ -27,15 +27,9 @@ function TagsArea({
     postId,
     editingPost,
     addTagToCurrentlyEditingPost,
-    currentlyEditingPosts,
     getTagType,
 }) {
     const [inputText, setInputText] = useState("");
-
-    useEffect(() => {
-        console.log("setting tags");
-        // setCardTags(tags);
-    }, [tags]);
 
     const onAddTag = tagName => {
         const id = uuidV4();
