@@ -183,16 +183,22 @@ export default (state = initialState, action) => {
                 state.currentlyEditingPosts[action.payload.postId].deletedTags
             );
             // Delete from UI
+            // Mark as 'deleted' in post
             return {
                 ...state,
                 userPosts: {
                     ...state.userPosts,
                     [action.payload.postId]: {
                         ...state.userPosts[action.payload.postId],
-                        tags: omit(
-                            state.userPosts[action.payload.postId].tags,
-                            action.payload.tagId
-                        ),
+                        tags: {
+                            ...state.userPosts[action.payload.postId].tags,
+                            [action.payload.tagId]: {
+                                ...state.userPosts[action.payload.postId].tags[
+                                    action.payload.tagId
+                                ],
+                                isDeleted: true,
+                            },
+                        },
                     },
                 },
                 // Mark as 'to be deleted' from DB
@@ -585,7 +591,8 @@ export const saveTagsFromCurrentlyEditingPost = currentlyEditingPost => {
     };
 };
 
-export const deleteTagsFromCurrentlyEditingPost = tags => {
+// Delete all tags marked as 'deleted' from current post
+export const deleteTagsFromCurrentPost = tags => {
     return dispatch => {
         dispatch(dataRequest());
         fetch(`${baseUrl}/tags/`, {

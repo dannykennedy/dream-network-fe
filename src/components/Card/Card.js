@@ -11,9 +11,9 @@ import {
     editPost as _editPost,
     setCurrentlyEditingPost as _setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost as _saveTagsFromCurrentlyEditingPost,
-    deleteTagsFromCurrentlyEditingPost as _deleteTagsFromCurrentlyEditingPost,
+    deleteTagsFromCurrentPost as _deleteTagsFromCurrentPost,
 } from "../../ducks/posts";
-import { chain } from "lodash";
+import { chain, values } from "lodash";
 import { Link } from "react-router-dom";
 
 var HtmlToReactParser = require("html-to-react").Parser;
@@ -26,7 +26,8 @@ function Card({
     setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost,
     currentlyEditingPosts,
-    deleteTagsFromCurrentlyEditingPost,
+    deleteTagsFromCurrentPost,
+    userPosts,
 }) {
     const { entryText, firstName, lastName, postId, timePosted, tags } = post;
     const node = useRef();
@@ -130,15 +131,11 @@ function Card({
                                     saveTagsFromCurrentlyEditingPost(
                                         currentlyEditingPosts[post.postId]
                                     );
-                                    if (
-                                        currentlyEditingPosts[post.postId]
-                                            .deletedTags.length
-                                    ) {
-                                        deleteTagsFromCurrentlyEditingPost(
-                                            currentlyEditingPosts[post.postId]
-                                                .deletedTags
-                                        );
-                                    }
+                                    deleteTagsFromCurrentPost(
+                                        values(
+                                            userPosts[post.postId].tags
+                                        ).filter(tag => tag.isDeleted)
+                                    );
                                 }}
                             />
                         ) : (
@@ -166,6 +163,7 @@ function Card({
 const mapStateToProps = state => {
     return {
         user: state.user.user,
+        userPosts: state.posts.userPosts,
         currentlyEditingPosts: state.posts.currentlyEditingPosts,
     };
 };
@@ -175,7 +173,7 @@ const mapDispatchToProps = {
     editPost: _editPost,
     setCurrentlyEditingPost: _setCurrentlyEditingPost,
     saveTagsFromCurrentlyEditingPost: _saveTagsFromCurrentlyEditingPost,
-    deleteTagsFromCurrentlyEditingPost: _deleteTagsFromCurrentlyEditingPost,
+    deleteTagsFromCurrentPost: _deleteTagsFromCurrentPost,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Card);

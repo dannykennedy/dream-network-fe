@@ -49,18 +49,20 @@ function TagsArea({
         <div className="card-footer">
             {tags ? (
                 <div className={"tags-area"}>
-                    {Object.values(tags).map(tag => {
-                        return (
-                            <Tag
-                                name={tag.tagName}
-                                type={tag.tagType}
-                                tagId={tag.tagId}
-                                key={tag.tagId}
-                                postId={postId}
-                                editing={editingPost}
-                            />
-                        );
-                    })}
+                    {Object.values(tags)
+                        .filter(tag => !tag.isDeleted)
+                        .map(tag => {
+                            return (
+                                <Tag
+                                    name={tag.tagName}
+                                    type={tag.tagType}
+                                    tagId={tag.tagId}
+                                    key={tag.tagId}
+                                    postId={postId}
+                                    editing={editingPost}
+                                />
+                            );
+                        })}
                     {editingPost && (
                         <input
                             placeholder={"Add a tag"}
