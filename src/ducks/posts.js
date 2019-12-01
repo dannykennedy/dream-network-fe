@@ -27,13 +27,10 @@ const actionTypes = {
     SAVE_CURRENTLY_EDITING_POST: "SAVE_CURRENTLY_EDITING_POST",
     SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
         "SAVE_TAGS_FROM_CURRENTLY_EDITING_POST",
-    MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST:
-        "MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST",
-    DELETE_TAGS_FROM_CURRENTLY_EDITING_POST:
-        "DELETE_TAGS_FROM_CURRENTLY_EDITING_POST",
+    MARK_TAG_AS_DELETED_IN_POST: "MARK_TAG_AS_DELETED_IN_POST",
     ADD_TAG_TO_CURRENTLY_EDITING_POST: "ADD_TAG_TO_CURRENTLY_EDITING_POST",
-    GET_TAG_TYPE: "GET_TAG_TYPE",
     SET_TAG_TYPE: "SET_TAG_TYPE",
+    NO_OP: "NO_OP",
 };
 
 function postsToObject(postsArray) {
@@ -93,8 +90,6 @@ export default (state = initialState, action) => {
                     },
                 },
             };
-        case actionTypes.GET_TAG_TYPE:
-            return state;
         case actionTypes.DATA_REQUEST:
             console.log("request");
             return state;
@@ -126,6 +121,23 @@ export default (state = initialState, action) => {
         case actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST:
             return {
                 ...state,
+                userPosts: {
+                    ...state.userPosts,
+                    [action.payload.postId]: {
+                        ...state.userPosts[action.payload.postId],
+                        tags: {
+                            ...state.userPosts[action.payload.postId].tags,
+                            [action.payload.tagId]: {
+                                ...state.userPosts[action.payload.postId].tags[
+                                    action.payload.tagId
+                                ],
+                                tagName: action.payload.tagName,
+                                edited: true,
+                            },
+                        },
+                    },
+                },
+
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
                     [action.payload.postId]: {
@@ -173,7 +185,7 @@ export default (state = initialState, action) => {
                 },
             };
         // Mark tag as deleted (don't worry about deleting yet)
-        case actionTypes.MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST:
+        case actionTypes.MARK_TAG_AS_DELETED_IN_POST:
             console.log(
                 "tags all",
                 state.currentlyEditingPosts[action.payload.postId].tags
@@ -202,8 +214,6 @@ export default (state = initialState, action) => {
                     },
                 },
             };
-        case actionTypes.DELETE_TAGS_FROM_CURRENTLY_EDITING_POST:
-            return state;
 
         // Save all tags from state.currentlyEditingPost to current UI
         case actionTypes.SAVE_TAGS_FROM_CURRENTLY_EDITING_POST:
@@ -285,6 +295,9 @@ export default (state = initialState, action) => {
         case actionTypes.ERROR:
             alert(action.payload);
             return state;
+        case actionTypes.NO_OP:
+            console.log("No-op");
+            return state;
         default:
             return state;
     }
@@ -338,6 +351,12 @@ const alertError = payload => {
     };
 };
 
+const noOp = () => {
+    return {
+        type: actionTypes.NO_OP,
+    };
+};
+
 const deleteTagFromUI = (tagId, postId) => {
     return {
         type: actionTypes.DELETE_TAG,
@@ -387,7 +406,7 @@ export const editTagInCurrentlyEditingPost = (tagId, tagName, postId) => {
 
 export const markTagAsDeletedInCurrentlyEditingPost = (tagId, postId) => {
     return {
-        type: actionTypes.MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST,
+        type: actionTypes.MARK_TAG_AS_DELETED_IN_POST,
         payload: { tagId: tagId, postId: postId },
     };
 };
@@ -575,8 +594,15 @@ export const saveTagsFromCurrentlyEditingPost = currentlyEditingPost => {
 
 // Delete all tags marked as 'deleted' from current post
 export const deleteTagsFromCurrentPost = tags => {
+    console.log("deleting tags in fe...", tags);
+    if (!tags.length) {
+        return dispatch => {
+            dispatch(noOp());
+        };
+    }
+
     return dispatch => {
-        dispatch(dataRequest());
+        // dispatch(dataRequest());
         fetch(`${baseUrl}/tags/`, {
             method: "DELETE",
             headers: {
