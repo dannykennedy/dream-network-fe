@@ -28,7 +28,7 @@ function Card({
     currentlyEditingPosts,
     deleteTagsFromCurrentlyEditingPost,
 }) {
-    const { entryText, firstName, lastName, noteId, timePosted, tags } = post;
+    const { entryText, firstName, lastName, postId, timePosted, tags } = post;
     const node = useRef();
     const [editingPost, setEditingPost] = useState(false);
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
@@ -54,7 +54,7 @@ function Card({
 
     var _htmlToReactParser = new HtmlToReactParser();
     return (
-        <div id={noteId} className="item-card">
+        <div id={postId} className="item-card">
             <div className="inner-card">
                 <div className="card-header">
                     <CardUserInfo
@@ -80,7 +80,7 @@ function Card({
                                                 setDropdownIsOpen(false);
                                                 setEditingPost(true);
                                                 const currentlyEditingPost = {
-                                                    noteId: noteId,
+                                                    postId: postId,
                                                     entryText: entryText.slice(
                                                         0
                                                     ),
@@ -99,14 +99,14 @@ function Card({
 
                                         <button>
                                             <Link
-                                                to={`/dream-network/${noteId}`}
+                                                to={`/dream-network/${postId}`}
                                             >
                                                 See full article
                                             </Link>
                                         </button>
 
                                         <button
-                                            onClick={() => deleteNote(noteId)}
+                                            onClick={() => deleteNote(postId)}
                                         >
                                             Delete
                                         </button>
@@ -120,22 +120,22 @@ function Card({
                     <div className="card-body-text">
                         {editingPost ? (
                             <PostEditor
-                                postId={noteId}
+                                postId={postId}
                                 content={entryText}
                                 saveButtonText={"Save Changes"}
                                 onSave={post => {
                                     setEditingPost(false);
-                                    editPost(post.noteId, post.entryText);
+                                    editPost(post.postId, post.entryText);
 
                                     saveTagsFromCurrentlyEditingPost(
-                                        currentlyEditingPosts[post.noteId]
+                                        currentlyEditingPosts[post.postId]
                                     );
                                     if (
-                                        currentlyEditingPosts[post.noteId]
+                                        currentlyEditingPosts[post.postId]
                                             .deletedTags.length
                                     ) {
                                         deleteTagsFromCurrentlyEditingPost(
-                                            currentlyEditingPosts[post.noteId]
+                                            currentlyEditingPosts[post.postId]
                                                 .deletedTags
                                         );
                                     }
@@ -154,7 +154,7 @@ function Card({
                 </div>
                 <TagsArea
                     tags={tags}
-                    noteId={noteId}
+                    postId={postId}
                     editingPost={editingPost}
                 />
             </div>

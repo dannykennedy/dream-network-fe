@@ -36,13 +36,13 @@ const actionTypes = {
     SET_TAG_TYPE: "SET_TAG_TYPE",
 };
 
-function notesToObject(notesArray) {
+function postsToObject(postsArray) {
     var ret = {};
 
-    for (var i = 0; i < notesArray.length; ++i) {
-        ret[notesArray[i].noteId] = {
-            ...notesArray[i],
-            tags: tagsToObject(notesArray[i].tags),
+    for (var i = 0; i < postsArray.length; ++i) {
+        ret[postsArray[i].postId] = {
+            ...postsArray[i],
+            tags: tagsToObject(postsArray[i].tags),
         };
     }
     return ret;
@@ -60,18 +60,18 @@ function tagsToObject(tagsArray) {
 export default (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_TAG_TYPE:
-            const { tagType, tagId, noteId } = action.payload;
+            const { tagType, tagId, postId } = action.payload;
             const tagTypeUpperCase = tagType.toUpperCase();
             return {
                 ...state,
                 userPosts: {
                     ...state.userPosts,
-                    [noteId]: {
-                        ...state.userPosts[noteId],
+                    [postId]: {
+                        ...state.userPosts[postId],
                         tags: {
-                            ...state.userPosts[noteId].tags,
+                            ...state.userPosts[postId].tags,
                             [tagId]: {
-                                ...state.userPosts[noteId].tags[tagId],
+                                ...state.userPosts[postId].tags[tagId],
                                 tagType: tagTypeUpperCase,
                             },
                         },
@@ -79,12 +79,12 @@ export default (state = initialState, action) => {
                 },
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
-                    [noteId]: {
-                        ...state.currentlyEditingPosts[noteId],
+                    [postId]: {
+                        ...state.currentlyEditingPosts[postId],
                         tags: {
-                            ...state.currentlyEditingPosts[noteId].tags,
+                            ...state.currentlyEditingPosts[postId].tags,
                             [tagId]: {
-                                ...state.currentlyEditingPosts[noteId].tags[
+                                ...state.currentlyEditingPosts[postId].tags[
                                     tagId
                                 ],
                                 tagType: tagType,
@@ -101,19 +101,19 @@ export default (state = initialState, action) => {
         case actionTypes.DATA_SUCCESS:
             console.log("success");
 
-            console.log("object posts", notesToObject(action.payload));
+            console.log("object posts", postsToObject(action.payload));
 
             return {
                 ...state,
                 loading: false,
-                userPosts: notesToObject(action.payload),
+                userPosts: postsToObject(action.payload),
             };
         case actionTypes.LOGGEDOUT_DATA_SUCCESS:
             console.log("All data success");
             return {
                 ...state,
                 loading: false,
-                publicPosts: notesToObject(action.payload),
+                publicPosts: postsToObject(action.payload),
             };
         // Add a post to the list of currently editing posts
         case actionTypes.SET_CURRENTLY_EDITING_POST:
@@ -122,7 +122,7 @@ export default (state = initialState, action) => {
                 ...state,
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
-                    [action.payload.noteId]: action.payload,
+                    [action.payload.postId]: action.payload,
                 },
             };
         // Update tag in state.currentlyEditingPost
@@ -131,15 +131,15 @@ export default (state = initialState, action) => {
                 ...state,
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
-                    [action.payload.noteId]: {
-                        ...state.currentlyEditingPosts[action.payload.noteId],
+                    [action.payload.postId]: {
+                        ...state.currentlyEditingPosts[action.payload.postId],
                         tags: {
                             ...state.currentlyEditingPosts[
-                                action.payload.noteId
+                                action.payload.postId
                             ].tags,
                             [action.payload.tagId]: {
                                 ...state.currentlyEditingPosts[
-                                    action.payload.noteId
+                                    action.payload.postId
                                 ].tags[action.payload.tagId],
                                 tagName: action.payload.tagName,
                             },
@@ -154,21 +154,21 @@ export default (state = initialState, action) => {
                 ...state,
                 userPosts: {
                     ...state.userPosts,
-                    [action.payload.noteId]: {
-                        ...state.userPosts[action.payload.noteId],
+                    [action.payload.postId]: {
+                        ...state.userPosts[action.payload.postId],
                         tags: {
-                            ...state.userPosts[action.payload.noteId].tags,
+                            ...state.userPosts[action.payload.postId].tags,
                             [action.payload.tagId]: action.payload,
                         },
                     },
                 },
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
-                    [action.payload.noteId]: {
-                        ...state.currentlyEditingPosts[action.payload.noteId],
+                    [action.payload.postId]: {
+                        ...state.currentlyEditingPosts[action.payload.postId],
                         tags: {
                             ...state.currentlyEditingPosts[
-                                action.payload.noteId
+                                action.payload.postId
                             ].tags,
                             [action.payload.tagId]: action.payload,
                         },
@@ -179,21 +179,21 @@ export default (state = initialState, action) => {
         case actionTypes.MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST:
             console.log(
                 "tags all",
-                state.currentlyEditingPosts[action.payload.noteId].tags
+                state.currentlyEditingPosts[action.payload.postId].tags
             );
             console.log(
                 "delete list",
-                state.currentlyEditingPosts[action.payload.noteId].deletedTags
+                state.currentlyEditingPosts[action.payload.postId].deletedTags
             );
             // Delete from UI
             return {
                 ...state,
                 userPosts: {
                     ...state.userPosts,
-                    [action.payload.noteId]: {
-                        ...state.userPosts[action.payload.noteId],
+                    [action.payload.postId]: {
+                        ...state.userPosts[action.payload.postId],
                         tags: omit(
-                            state.userPosts[action.payload.noteId].tags,
+                            state.userPosts[action.payload.postId].tags,
                             action.payload.tagId
                         ),
                     },
@@ -201,16 +201,16 @@ export default (state = initialState, action) => {
                 // Mark as 'to be deleted' from DB
                 currentlyEditingPosts: {
                     ...state.currentlyEditingPosts,
-                    [action.payload.noteId]: {
-                        ...state.currentlyEditingPosts[action.payload.noteId],
+                    [action.payload.postId]: {
+                        ...state.currentlyEditingPosts[action.payload.postId],
                         tags: omit(
-                            state.currentlyEditingPosts[action.payload.noteId]
+                            state.currentlyEditingPosts[action.payload.postId]
                                 .tags,
                             action.payload.tagId
                         ),
                         deletedTags: [
                             ...state.currentlyEditingPosts[
-                                action.payload.noteId
+                                action.payload.postId
                             ].deletedTags,
                             action.payload,
                         ],
@@ -232,8 +232,8 @@ export default (state = initialState, action) => {
                 ...state,
                 userPosts: {
                     ...state.userPosts,
-                    [action.payload.noteId]: {
-                        ...state.userPosts[action.payload.noteId],
+                    [action.payload.postId]: {
+                        ...state.userPosts[action.payload.postId],
                         tags: action.payload.tags,
                     },
                 },
@@ -246,7 +246,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 userPosts: {
-                    [action.payload.noteId]: action.payload,
+                    [action.payload.postId]: action.payload,
                     ...state.userPosts,
                 },
             };
@@ -263,7 +263,7 @@ export default (state = initialState, action) => {
         // Optimistically update edited post in state
         case actionTypes.EDIT_POST:
             console.log("Editing post", action.payload);
-            // Replace note with edited note in state
+            // Replace post with edited post in state
             return {
                 ...state,
                 userPosts: {
@@ -279,7 +279,7 @@ export default (state = initialState, action) => {
                 ...state,
                 userPosts: {
                     ...state.userPosts,
-                    [action.payload.noteId]: action.payload,
+                    [action.payload.postId]: action.payload,
                 },
             };
         case actionTypes.DELETE_TAG:
@@ -288,7 +288,7 @@ export default (state = initialState, action) => {
                 return state;
             }
 
-            const tagsToEdit = state.userPosts[action.payload.noteId].tags;
+            const tagsToEdit = state.userPosts[action.payload.postId].tags;
             const {
                 [action.payload.tagId]: value,
                 ...remainingTags
@@ -353,10 +353,10 @@ const alertError = payload => {
     };
 };
 
-const deleteTagFromUI = (tagId, noteId) => {
+const deleteTagFromUI = (tagId, postId) => {
     return {
         type: actionTypes.DELETE_TAG,
-        payload: { tagId: tagId, noteId: noteId },
+        payload: { tagId: tagId, postId: postId },
     };
 };
 
@@ -379,10 +379,10 @@ const saveTagsFromCurrentlyEditingPostInUi = currentlyEditingPost => {
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
 
-export const setTagType = (tagType, tagId, noteId) => {
+export const setTagType = (tagType, tagId, postId) => {
     return {
         type: actionTypes.SET_TAG_TYPE,
-        payload: { tagType: tagType, tagId: tagId, noteId: noteId },
+        payload: { tagType: tagType, tagId: tagId, postId: postId },
     };
 };
 
@@ -393,17 +393,17 @@ export const setCurrentlyEditingPost = payload => {
     };
 };
 
-export const editTagInCurrentlyEditingPost = (tagId, tagName, noteId) => {
+export const editTagInCurrentlyEditingPost = (tagId, tagName, postId) => {
     return {
         type: actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST,
-        payload: { tagId: tagId, tagName: tagName, noteId: noteId },
+        payload: { tagId: tagId, tagName: tagName, postId: postId },
     };
 };
 
-export const markTagAsDeletedInCurrentlyEditingPost = (tagId, noteId) => {
+export const markTagAsDeletedInCurrentlyEditingPost = (tagId, postId) => {
     return {
         type: actionTypes.MARK_TAG_AS_DELETED_IN_CURRENTLY_EDITING_POST,
-        payload: { tagId: tagId, noteId: noteId },
+        payload: { tagId: tagId, postId: postId },
     };
 };
 
@@ -418,7 +418,7 @@ export const addTagToCurrentlyEditingPost = tag => {
 export const fetchData = userEmail => {
     return dispatch => {
         dispatch(dataRequest());
-        fetch(`${baseUrl}/notes/${userEmail}`)
+        fetch(`${baseUrl}/posts/${userEmail}`)
             .then(d => d.json())
             .then(json => {
                 dispatch(dataSuccess(json));
@@ -432,7 +432,7 @@ export const fetchData = userEmail => {
 export const fetchAllData = () => {
     return dispatch => {
         dispatch(dataRequest());
-        fetch(`${baseUrl}/notes/`)
+        fetch(`${baseUrl}/posts/`)
             .then(d => d.json())
             .then(json => {
                 dispatch(loggedOutDataSuccess(json));
@@ -450,7 +450,7 @@ export const addPost = post => {
         dispatch(addPostToState(post));
 
         // Then add to database
-        fetch(`${baseUrl}/notes`, {
+        fetch(`${baseUrl}/posts`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -490,10 +490,10 @@ export const editPost = (postId, newPost) => {
 
         let body = {
             postText: newPost,
-            noteId: postId,
+            postId: postId,
         };
 
-        fetch(`${baseUrl}/notes/${postId}`, {
+        fetch(`${baseUrl}/posts/${postId}`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -614,13 +614,13 @@ export const deleteTagsFromCurrentlyEditingPost = tags => {
 };
 
 // DELETE A POST
-export const deleteNote = noteId => {
+export const deleteNote = postId => {
     return dispatch => {
         // Optimistically update UI
-        dispatch(deletePostFromUI(noteId));
+        dispatch(deletePostFromUI(postId));
 
         // Then delete from database
-        fetch(`${baseUrl}/notes/${noteId}`, {
+        fetch(`${baseUrl}/posts/${postId}`, {
             method: "DELETE",
         })
             .then(response => {
@@ -638,10 +638,10 @@ export const deleteNote = noteId => {
 };
 
 // DELETE A TAG
-export const deleteTag = (tagId, noteId) => {
+export const deleteTag = (tagId, postId) => {
     return dispatch => {
         // Optimistically update UI
-        dispatch(deleteTagFromUI(tagId, noteId));
+        dispatch(deleteTagFromUI(tagId, postId));
 
         // Then delete from database
         fetch(`${baseUrl}/tags/${tagId}`, {
@@ -661,10 +661,10 @@ export const deleteTag = (tagId, noteId) => {
     };
 };
 
-export const getTagType = (tagName, tagId, noteId) => {
+export const getTagType = (tagName, tagId, postId) => {
     return dispatch => {
         // Optimistically update UI
-        // dispatch(deleteTagFromUI(tagId, noteId));
+        // dispatch(deleteTagFromUI(tagId, postId));
 
         // Then delete from database
         fetch(`${baseUrl}/tags/${tagName}/type`, {
@@ -674,7 +674,7 @@ export const getTagType = (tagName, tagId, noteId) => {
             .then(json => {
                 console.log("got type: ", json.type);
                 // Type may be undefined, in which case set "other"
-                dispatch(setTagType(json.type || "OTHER", tagId, noteId));
+                dispatch(setTagType(json.type || "OTHER", tagId, postId));
             })
             .catch(err => {
                 console.log(err);

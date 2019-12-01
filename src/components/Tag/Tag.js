@@ -16,7 +16,7 @@ export function Tag({
     name,
     type,
     tagId,
-    noteId,
+    postId,
     user,
     editing,
     editTagInCurrentlyEditingPost,
@@ -40,7 +40,7 @@ export function Tag({
                     </div>
                 )}
                 {editing && icons[type] && (
-                    <TagDropdown tagType={type} tagId={tagId} noteId={noteId} />
+                    <TagDropdown tagType={type} tagId={tagId} postId={postId} />
                 )}
                 {editing ? (
                     <AutosizeInput
@@ -54,7 +54,7 @@ export function Tag({
                             editTagInCurrentlyEditingPost(
                                 tagId,
                                 event.target.value,
-                                noteId
+                                postId
                             );
                         }}
                     />
@@ -70,7 +70,7 @@ export function Tag({
                             onClick={function() {
                                 markTagAsDeletedInCurrentlyEditingPost(
                                     tagId,
-                                    noteId
+                                    postId
                                 );
                             }}
                         >

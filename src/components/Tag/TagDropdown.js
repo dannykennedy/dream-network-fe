@@ -8,7 +8,7 @@ import { tagTypes } from "./tagTypes";
 import { setTagType as _setTagType } from "../../ducks/posts";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
-const TagDropdown = ({ noteId, tagId, tagType, setTagType }) => {
+const TagDropdown = ({ postId, tagId, tagType, setTagType }) => {
     const node = useRef();
 
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
@@ -67,7 +67,7 @@ const TagDropdown = ({ noteId, tagId, tagType, setTagType }) => {
                                         setTagType(
                                             typeOption.toUpperCase(),
                                             tagId,
-                                            noteId
+                                            postId
                                         );
                                         setDropdownIsOpen(false);
                                     }}

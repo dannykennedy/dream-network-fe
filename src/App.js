@@ -64,7 +64,7 @@ const App = withAuth(
                                         {userPosts ? (
                                             <Card
                                                 post={post}
-                                                key={post.noteId}
+                                                key={post.postId}
                                             />
                                         ) : (
                                             <LoadingNotice
@@ -79,7 +79,7 @@ const App = withAuth(
                             <div id={"App-body"}>
                                 {authenticated ? (
                                     <div>
-                                        <div id={"notes-area"}>
+                                        <div id={"posts-area"}>
                                             {user && (
                                                 <div>
                                                     <PostEditor
@@ -94,7 +94,7 @@ const App = withAuth(
                                     </div>
                                 ) : (
                                     <div>
-                                        <div id={"notes-area"}>
+                                        <div id={"posts-area"}>
                                             <PostsArea
                                                 user={null}
                                                 preferred_username={null}

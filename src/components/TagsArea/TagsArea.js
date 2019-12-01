@@ -24,7 +24,7 @@ const isEnterKey = keyCode => {
 
 function TagsArea({
     tags,
-    noteId,
+    postId,
     editingPost,
     addTagToCurrentlyEditingPost,
     currentlyEditingPosts,
@@ -43,10 +43,10 @@ function TagsArea({
             tagId: id,
             tagName: tagName,
             tagType: "NONE",
-            noteId: noteId,
+            postId: postId,
             isNewTag: true,
         };
-        getTagType(tagName, id, noteId);
+        getTagType(tagName, id, postId);
         // setCardTags([...cardTags, newTag]);
         addTagToCurrentlyEditingPost(newTag);
     };
@@ -62,7 +62,7 @@ function TagsArea({
                                 type={tag.tagType}
                                 tagId={tag.tagId}
                                 key={tag.tagId}
-                                noteId={noteId}
+                                postId={postId}
                                 editing={editingPost}
                             />
                         );

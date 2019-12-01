@@ -47,12 +47,12 @@ class PostEditor extends Component {
         });
     };
 
-    handleSubmit(noteText, props) {
-        let noteId = props.postId ? props.postId : uuidV4();
+    handleSubmit(postText, props) {
+        let postId = props.postId ? props.postId : uuidV4();
 
         let post = {
-            entryText: noteText,
-            noteId: noteId,
+            entryText: postText,
+            postId: postId,
             firstName: props.user.given_name,
             lastName: props.user.family_name,
             timePosted: new Date().toISOString(),
@@ -61,7 +61,7 @@ class PostEditor extends Component {
             userName: props.user.preferred_username,
         };
         this.clearEditor();
-        props.onSave(post, noteId);
+        props.onSave(post, postId);
     }
 
     render() {

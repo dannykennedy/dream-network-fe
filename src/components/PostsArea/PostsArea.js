@@ -10,7 +10,7 @@ function PostsArea({ userPosts, publicPosts, user }) {
         ) : (
             <div>
                 {Object.values(publicPosts).map(post => {
-                    return <Card post={post} key={post.noteId} />;
+                    return <Card post={post} key={post.postId} />;
                 })}
             </div>
         );
@@ -20,7 +20,7 @@ function PostsArea({ userPosts, publicPosts, user }) {
         ) : (
             <div>
                 {Object.values(userPosts).map(post => {
-                    return <Card post={post} key={post.noteId} />;
+                    return <Card post={post} key={post.postId} />;
                 })}
             </div>
         );
