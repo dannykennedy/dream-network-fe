@@ -201,24 +201,6 @@ export default (state = initialState, action) => {
                         },
                     },
                 },
-                // Mark as 'to be deleted' from DB
-                currentlyEditingPosts: {
-                    ...state.currentlyEditingPosts,
-                    [action.payload.postId]: {
-                        ...state.currentlyEditingPosts[action.payload.postId],
-                        tags: omit(
-                            state.currentlyEditingPosts[action.payload.postId]
-                                .tags,
-                            action.payload.tagId
-                        ),
-                        deletedTags: [
-                            ...state.currentlyEditingPosts[
-                                action.payload.postId
-                            ].deletedTags,
-                            action.payload,
-                        ],
-                    },
-                },
             };
         case actionTypes.DELETE_TAGS_FROM_CURRENTLY_EDITING_POST:
             return state;
