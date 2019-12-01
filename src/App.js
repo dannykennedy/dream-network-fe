@@ -15,6 +15,7 @@ import { useAuth } from "./auth";
 import PostEditor from "./components/PostEditor";
 import Navbar from "./components/Navbar";
 import Tag from "./components/Tag";
+import LoadingNotice from "./components/LoadingNotice";
 import {
     Redirect,
     BrowserRouter as Router,
@@ -54,23 +55,27 @@ const App = withAuth(
                         <Route
                             path="/dream-network/:postId"
                             render={({ match }) => {
-                                console.log(
-                                    "goddim",
-                                    userPosts[match.params.postId]
-                                );
-
-                                const post = userPosts[match.params.postId];
-
+                                let post;
+                                if (userPosts) {
+                                    post = userPosts[match.params.postId];
+                                }
                                 return (
                                     <div>
-                                        <Card post={post} key={post.noteId} />
+                                        {userPosts ? (
+                                            <Card
+                                                post={post}
+                                                key={post.noteId}
+                                            />
+                                        ) : (
+                                            <LoadingNotice
+                                                loadingText={"Loading post"}
+                                            />
+                                        )}
                                     </div>
                                 );
                             }}
-                        >
-                            <div>Hej there</div>
-                        </Route>
-                        <Route exact={true} path="/">
+                        ></Route>
+                        <Route exact={true} path="/dream-network">
                             <div id={"App-body"}>
                                 {authenticated ? (
                                     <div>
@@ -81,18 +86,7 @@ const App = withAuth(
                                                         content={""}
                                                         onSave={addPost}
                                                     />
-                                                    <PostsArea
-                                                        user={user}
-                                                        preferred_username={
-                                                            user.preferred_username
-                                                        }
-                                                        given_name={
-                                                            user.given_name
-                                                        }
-                                                        family_name={
-                                                            user.family_name
-                                                        }
-                                                    />
+                                                    <PostsArea user={user} />
                                                 </div>
                                             )}
                                         </div>

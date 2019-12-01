@@ -5,7 +5,12 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider as StoreProvider } from "react-redux";
 import store from "./store";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Redirect,
+    Switch,
+} from "react-router-dom";
 import { Security, ImplicitCallback } from "@okta/okta-react";
 
 // If you want your app to work offline and load faster, you can change
@@ -15,8 +20,6 @@ serviceWorker.unregister();
 
 // Need to wrap app in a store provider component, otherwise "cannot get store in the context of App"
 const render = () => {
-    console.log("Origin!", window.location.origin);
-
     ReactDOM.render(
         <Router>
             <Security
@@ -25,12 +28,16 @@ const render = () => {
                 redirect_uri={`${window.location.origin}/implicit/callback`}
             >
                 <StoreProvider store={store}>
-                    <Route exact path="/" component={App} />
-                    <Route
-                        exact
-                        path="/implicit/callback/"
-                        component={ImplicitCallback}
-                    />
+                    <Switch>
+                        <Route
+                            exact
+                            path="/implicit/callback/"
+                            component={ImplicitCallback}
+                        />
+                        <Route path="/dream-network" component={App} />
+
+                        <Redirect exact from="/" to="/dream-network" />
+                    </Switch>
                 </StoreProvider>
             </Security>
         </Router>,
