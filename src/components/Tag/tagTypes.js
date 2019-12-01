@@ -13,5 +13,5 @@ export const mapEntitiesToTypes = {
     EVENT: tagTypes.OTHER,
     WORK_OF_ART: tagTypes.OTHER,
     CONSUMER_GOOD: tagTypes.OTHER,
-    NONE: tagTypes.OTHER,
+    NONE: "NONE",
 };
