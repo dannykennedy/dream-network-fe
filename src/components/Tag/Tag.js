@@ -10,7 +10,9 @@ import {
 } from "../../ducks/posts";
 import "./Tag.css";
 import { icons } from "../../theme/icons";
-import { mapEntitiesToTypes } from "./tagTypes";
+import { tagTypes, mapEntitiesToTypes } from "./tagTypes";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export function Tag({
     name,
@@ -25,6 +27,8 @@ export function Tag({
     type = mapEntitiesToTypes[type];
 
     const [tagName, setTagName] = useState(name);
+
+    let d = new Date();
 
     return (
         <div className={"tag " + type} id={tagId}>
@@ -43,21 +47,38 @@ export function Tag({
                     <TagDropdown tagType={type} tagId={tagId} postId={postId} />
                 )}
                 {editing ? (
-                    <AutosizeInput
-                        name="form-field-name"
-                        className="tag-edit-input"
-                        value={tagName}
-                        onChange={function(event) {
-                            // Change local state
-                            setTagName(event.target.value);
-                            // Change global state
-                            editTagInCurrentlyEditingPost(
-                                tagId,
-                                event.target.value,
-                                postId
-                            );
-                        }}
-                    />
+                    type === tagTypes.DATE ? (
+                        <DatePicker
+                            selected={Date.parse(tagName) || d}
+                            // onSelect={this.handleSelect} //when day is clicked
+                            onChange={e => {
+                                setTagName(e);
+                                console.log(e);
+                                editTagInCurrentlyEditingPost(
+                                    tagId,
+                                    e.toDateString(),
+                                    postId
+                                );
+                                // setDate(e);
+                            }}
+                        />
+                    ) : (
+                        <AutosizeInput
+                            name="form-field-name"
+                            className="tag-edit-input"
+                            value={tagName}
+                            onChange={function(event) {
+                                // Change local state
+                                setTagName(event.target.value);
+                                // Change global state
+                                editTagInCurrentlyEditingPost(
+                                    tagId,
+                                    event.target.value,
+                                    postId
+                                );
+                            }}
+                        />
+                    )
                 ) : (
                     <div className="tag-name">
                         <span>{name}</span>

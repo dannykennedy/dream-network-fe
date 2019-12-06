@@ -2,11 +2,13 @@ export const tagTypes = {
     PERSON: "PERSON",
     LOCATION: "LOCATION",
     OTHER: "OTHER",
+    DATE: "DATE",
 };
 
 export const mapEntitiesToTypes = {
     PERSON: tagTypes.PERSON,
     LOCATION: tagTypes.LOCATION,
+    DATE: tagTypes.DATE,
     OTHER: tagTypes.OTHER,
     ORGANIZATION: tagTypes.LOCATION,
     NUMBER: tagTypes.OTHER,

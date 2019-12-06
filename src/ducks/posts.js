@@ -58,6 +58,8 @@ export default (state = initialState, action) => {
         case actionTypes.SET_TAG_TYPE:
             const { tagType, tagId, postId } = action.payload;
             const tagTypeUpperCase = tagType.toUpperCase();
+            console.log("gotta payload love you xx", action.payload);
+
             return {
                 ...state,
                 userPosts: {
