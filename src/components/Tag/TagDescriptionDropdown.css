@@ -1,0 +1,55 @@
+.tag-dropdown {
+    border-radius: 3px;
+}
+
+.tag-description {
+    margin-right: 5px;
+}
+
+.tag-description-dropbtn {
+    height: 100%;
+    min-width: 30px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.tag-dropbtn:hover,
+.tag-dropbtn:focus {
+    color: white;
+    background-color: transparent;
+}
+
+.tag-description-dropdown-content {
+    box-sizing: border-box;
+    position: absolute;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    width: auto;
+    background-color: white;
+    padding: 0px 2px 2px 2px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.tag-dropdown-content button {
+    color: white;
+    text-decoration: none;
+    font-size: inherit;
+    display: block;
+    width: 100%;
+    border: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 3px;
+    margin-top: 2px;
+}
+
+@media (max-width: 800px) {
+    /* Make sure dropdown doesn't overflow the screen */
+    .tag-dropdown-content {
+        transform: translate(-88%);
+    }
+}

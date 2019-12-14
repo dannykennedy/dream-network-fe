@@ -3262,6 +3262,13 @@ define-property@^2.0.2:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
 
+dehumanize-date@^2.5.0:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/dehumanize-date/-/dehumanize-date-2.6.2.tgz#605291465f0f2bafbfc9ba9ff5845927b35075f4"
+  integrity sha512-Fxxt8zwKPTTMq7fLwXPK+QHWaiuTClNAPjCEJnlUolL00JPPus11QAs47l9iL6E3tNIeS9GiVcddqrBjM/z7kw==
+  dependencies:
+    is-leap-year "^0.1.0"
+
 del@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/del/-/del-3.0.0.tgz#53ecf699ffcbcb39637691ab13baf160819766e5"
@@ -5293,6 +5300,11 @@ is-glob@^4.0.0, is-glob@^4.0.1:
   dependencies:
     is-extglob "^2.1.1"
 
+is-leap-year@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/is-leap-year/-/is-leap-year-0.1.0.tgz#e3ee04508d878c3c68a5012361c5b806d1e0fbeb"
+  integrity sha1-4+4EUI2HjDxopQEjYcW4BtHg++s=
+
 is-number@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-3.0.0.tgz#24fd6201a4782cf50561c810276afc7d12d71195"
@@ -6244,6 +6256,11 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
+lodash@^3.10.0:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
+  integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
+
 loglevel@^1.4.1:
   version "1.6.4"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.4.tgz#f408f4f006db8354d0577dcf6d33485b3cb90d56"
@@ -6591,6 +6608,14 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
   integrity sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=
+
+n-gramify@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/n-gramify/-/n-gramify-1.0.0.tgz#8114b4bbdaaf70a5043e32503ee560fda1b96e66"
+  integrity sha1-gRS0u9qvcKUEPjJQPuVg/aG5bmY=
+  dependencies:
+    lodash "^3.10.0"
+    split-words "^1.0.0"
 
 nan@^2.12.1:
   version "2.14.0"
@@ -7183,6 +7208,14 @@ parse-asn1@^5.0.0:
     evp_bytestokey "^1.0.0"
     pbkdf2 "^3.0.3"
     safe-buffer "^5.1.1"
+
+parse-dates@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/parse-dates/-/parse-dates-1.0.7.tgz#cf83c0839538adaccbf85805c5575a1ca543413a"
+  integrity sha512-dJ/puxnqg88wdPx87oOEqkZW4V7AXjZ874E29T5TqUWLvVEO3Fa2+G0G0fdTG7ExWIdzlrkzruifYWh5PkoiUA==
+  dependencies:
+    dehumanize-date "^2.5.0"
+    n-gramify "^1.0.0"
 
 parse-json@^2.2.0:
   version "2.2.0"
@@ -9459,6 +9492,13 @@ split-string@^3.0.1, split-string@^3.0.2:
   dependencies:
     extend-shallow "^3.0.0"
 
+split-words@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/split-words/-/split-words-1.0.2.tgz#bcffef7bfeda88729fec330759c5d1380f8fa9e9"
+  integrity sha1-vP/ve/7aiHKf7DMHWcXROA+Pqek=
+  dependencies:
+    string "^3.3.0"
+
 sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
@@ -9608,6 +9648,11 @@ string.prototype.trimright@^2.1.0:
   dependencies:
     define-properties "^1.1.3"
     function-bind "^1.1.1"
+
+string@^3.3.0:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/string/-/string-3.3.3.tgz#5ea211cd92d228e184294990a6cc97b366a77cb0"
+  integrity sha1-XqIRzZLSKOGEKUmQpsyXs2anfLA=
 
 string_decoder@^1.0.0, string_decoder@^1.1.1:
   version "1.3.0"

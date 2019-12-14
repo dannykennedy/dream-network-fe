@@ -28,6 +28,7 @@ const actionTypes = {
     MARK_TAG_AS_DELETED_IN_POST: "MARK_TAG_AS_DELETED_IN_POST",
     ADD_TAG_TO_POST: "ADD_TAG_TO_POST",
     SET_TAG_TYPE: "SET_TAG_TYPE",
+    SET_TAG_DESCRIPTION: "SET_TAG_DESCRIPTION",
     SAVE_TAGS_IN_UI: "SAVE_TAGS_IN_UI",
     NO_OP: "NO_OP",
 };
@@ -55,6 +56,28 @@ function tagsToObject(tagsArray) {
 // STATE MACHINE
 export default (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.SET_TAG_DESCRIPTION:
+            const {
+                tagDescription,
+                tagId: tagID,
+                postId: postID,
+            } = action.payload;
+            return {
+                ...state,
+                userPosts: {
+                    ...state.userPosts,
+                    [postID]: {
+                        ...state.userPosts[postID],
+                        tags: {
+                            ...state.userPosts[postID].tags,
+                            [tagID]: {
+                                ...state.userPosts[postID].tags[tagID],
+                                tagDescription: tagDescription,
+                            },
+                        },
+                    },
+                },
+            };
         case actionTypes.SET_TAG_TYPE:
             const { tagType, tagId, postId } = action.payload;
             const tagTypeUpperCase = tagType.toUpperCase();
@@ -370,6 +393,17 @@ export const setTagType = (tagType, tagId, postId) => {
     return {
         type: actionTypes.SET_TAG_TYPE,
         payload: { tagType: tagType, tagId: tagId, postId: postId },
+    };
+};
+
+export const setTagDescription = (tagDescription, tagId, postId) => {
+    return {
+        type: actionTypes.SET_TAG_DESCRIPTION,
+        payload: {
+            tagDescription: tagDescription,
+            tagId: tagId,
+            postId: postId,
+        },
     };
 };
 

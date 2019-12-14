@@ -48,6 +48,7 @@ function TagsArea({ tags, postId, editingPost, getTagType, addTagToPost }) {
                                     name={tag.tagName}
                                     type={tag.tagType}
                                     tagId={tag.tagId}
+                                    tagDescription={tag.tagDescription}
                                     key={tag.tagId}
                                     postId={postId}
                                     editing={editingPost}

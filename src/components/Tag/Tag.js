@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FontAwesome from "react-fontawesome";
 import AutosizeInput from "react-input-autosize";
 import Spinner from "../Spinner";
+import TagDescriptionDropdown from "./TagDescriptionDropdown";
 import TagDropdown from "./TagDropdown";
 import { connect } from "react-redux";
 import {
@@ -11,8 +12,11 @@ import {
 import "./Tag.css";
 import { icons } from "../../theme/icons";
 import { tagTypes, mapEntitiesToTypes } from "./tagTypes";
+import { TagDescriptions } from "./TagDescriptions";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { findDatesInText } from "../../modules/recogniseDate";
+// let parse_date = require("parse-dates");
 
 export function Tag({
     name,
@@ -20,6 +24,7 @@ export function Tag({
     tagId,
     postId,
     user,
+    tagDescription,
     editing,
     editTagInCurrentlyEditingPost,
     markTagAsDeletedInCurrentlyEditingPost,
@@ -29,6 +34,8 @@ export function Tag({
     const [tagName, setTagName] = useState(name);
 
     let d = new Date();
+
+    //console.log("parsing dates: ", findDatesInText("I want to go on Friday"));
 
     return (
         <div className={"tag " + type} id={tagId}>
@@ -45,6 +52,14 @@ export function Tag({
                 )}
                 {editing && icons[type] && (
                     <TagDropdown tagType={type} tagId={tagId} postId={postId} />
+                )}
+                {editing && TagDescriptions[type] && (
+                    <TagDescriptionDropdown
+                        tagType={type}
+                        tagId={tagId}
+                        postId={postId}
+                        tagDescription={tagDescription}
+                    />
                 )}
                 {editing ? (
                     type === tagTypes.DATE ? (
@@ -81,7 +96,10 @@ export function Tag({
                     )
                 ) : (
                     <div className="tag-name">
-                        <span>{name}</span>
+                        <span>
+                            {tagDescription && <span>{tagDescription} - </span>}
+                            {name}
+                        </span>
                     </div>
                 )}
                 {user && editing && (
