@@ -5,7 +5,7 @@
 // Date posted is a date, and 14 May 2015 is a date
 // Principles 2
 export const TagDescriptions = {
-    PERSON: ["Author", "Subject"],
-    DATE: ["Posted on"],
-    OTHER: ["Subject"],
+    PERSON: ["Author", "Subject", "(None)"],
+    DATE: ["Posted on", "(None)"],
+    OTHER: ["Subject", "(None)"],
 };

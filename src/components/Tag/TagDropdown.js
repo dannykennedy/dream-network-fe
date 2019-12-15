@@ -54,8 +54,6 @@ const TagDropdown = ({ postId, tagId, tagType, setTagType }) => {
                     {Object.values(tagTypes)
                         .filter(type => type !== tagType) // Don't put current tag type in dropdown
                         .map((typeOption, i) => {
-                            console.log("typeOption here ", typeOption);
-
                             return (
                                 <button
                                     className="tag-dropdown-button"

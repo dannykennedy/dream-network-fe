@@ -59,28 +59,33 @@ const TagDescriptionDropdown = ({
                     className="tag-description-dropdown-content"
                     style={{ backgroundColor: tagColors[tagType] }}
                 >
-                    {TagDescriptions[tagType].map((descOption, i) => {
-                        console.log("typeOption here ", descOption);
+                    {TagDescriptions[tagType]
+                        .filter(descOption => descOption !== tagDescription)
+                        .map((descOption, i) => {
+                            return (
+                                <button
+                                    className="tag-description-dropdown-button"
+                                    key={i}
+                                    onClick={() => {
+                                        console.log(descOption);
+                                        if (descOption === "(None)") {
+                                            descOption = null;
+                                        }
+                                        setTagDescription(
+                                            descOption,
+                                            tagId,
+                                            postId
+                                        );
 
-                        return (
-                            <button
-                                className="tag-dropdown-button"
-                                key={i}
-                                onClick={() => {
-                                    console.log(descOption);
-                                    setTagDescription(
-                                        descOption,
-                                        tagId,
-                                        postId
-                                    );
-
-                                    setDropdownIsOpen(false);
-                                }}
-                            >
-                                <span>{descOption}</span>
-                            </button>
-                        );
-                    })}
+                                        setDropdownIsOpen(false);
+                                    }}
+                                >
+                                    <div>
+                                        <span>{descOption}</span>
+                                    </div>
+                                </button>
+                            );
+                        })}
                 </div>
             )}
         </div>

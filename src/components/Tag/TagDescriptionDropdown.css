@@ -22,16 +22,23 @@
 }
 
 .tag-description-dropdown-content {
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
     position: absolute;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     width: auto;
-    background-color: white;
+    color: white;
     padding: 0px 2px 2px 2px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+}
+
+button.tag-description-dropdown-button {
+    color: white;
+    font-size: inherit;
 }
 
 .tag-dropdown-content button {
