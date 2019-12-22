@@ -4,9 +4,9 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 
 // INITIAL STATE
 const initialState = {
-    userPosts: null,
-    publicPosts: null,
-    currentlyEditingPosts: {},
+    userItems: null,
+    publicItems: null,
+    currentlyEditingItems: {},
     loading: true,
 };
 
@@ -16,17 +16,17 @@ const actionTypes = {
     DATA_SUCCESS: "DATA_SUCCESS",
     LOGGEDOUT_DATA_SUCCESS: "LOGGEDOUT_DATA_SUCCESS",
     DATA_FAILURE: "DATA_FAILURE",
-    ADD_POST: "ADD_POST",
-    EDIT_POST: "EDIT_POST",
-    DELETE_POST: "DELETE_POST",
+    ADD_ITEM: "ADD_ITEM",
+    EDIT_ITEM: "EDIT_ITEM",
+    DELETE_ITEM: "DELETE_ITEM",
     ERROR: "ERROR",
-    REPLACE_POST_WITH_TAGGED_POST: "REPLACE_POST_WITH_TAGGED_POST",
+    REPLACE_ITEM_WITH_TAGGED_ITEM: "REPLACE_ITEM_WITH_TAGGED_ITEM",
     DELETE_TAG: "DELETE_TAG",
-    SET_CURRENTLY_EDITING_POST: "SET_CURRENTLY_EDITING_POST",
-    EDIT_TAG_IN_CURRENTLY_EDITING_POST: "EDIT_TAG_IN_CURRENTLY_EDITING_POST",
-    SAVE_CURRENTLY_EDITING_POST: "SAVE_CURRENTLY_EDITING_POST",
-    MARK_TAG_AS_DELETED_IN_POST: "MARK_TAG_AS_DELETED_IN_POST",
-    ADD_TAG_TO_POST: "ADD_TAG_TO_POST",
+    SET_CURRENTLY_EDITING_ITEM: "SET_CURRENTLY_EDITING_ITEM",
+    EDIT_TAG_IN_CURRENTLY_EDITING_ITEM: "EDIT_TAG_IN_CURRENTLY_EDITING_ITEM",
+    SAVE_CURRENTLY_EDITING_ITEM: "SAVE_CURRENTLY_EDITING_ITEM",
+    MARK_TAG_AS_DELETED_IN_ITEM: "MARK_TAG_AS_DELETED_IN_ITEM",
+    ADD_TAG_TO_ITEM: "ADD_TAG_TO_ITEM",
     SET_TAG_TYPE: "SET_TAG_TYPE",
     SET_TAG_DESCRIPTION: "SET_TAG_DESCRIPTION",
     SAVE_TAGS_IN_UI: "SAVE_TAGS_IN_UI",
@@ -37,7 +37,7 @@ function postsToObject(postsArray) {
     var ret = {};
 
     for (var i = 0; i < postsArray.length; ++i) {
-        ret[postsArray[i].postId] = {
+        ret[postsArray[i].itemId] = {
             ...postsArray[i],
             tags: tagsToObject(postsArray[i].tags),
         };
@@ -60,18 +60,18 @@ export default (state = initialState, action) => {
             const {
                 tagDescription,
                 tagId: tagID,
-                postId: postID,
+                itemId: postID,
             } = action.payload;
             return {
                 ...state,
-                userPosts: {
-                    ...state.userPosts,
+                userItems: {
+                    ...state.userItems,
                     [postID]: {
-                        ...state.userPosts[postID],
+                        ...state.userItems[postID],
                         tags: {
-                            ...state.userPosts[postID].tags,
+                            ...state.userItems[postID].tags,
                             [tagID]: {
-                                ...state.userPosts[postID].tags[tagID],
+                                ...state.userItems[postID].tags[tagID],
                                 tagDescription: tagDescription,
                             },
                         },
@@ -79,33 +79,33 @@ export default (state = initialState, action) => {
                 },
             };
         case actionTypes.SET_TAG_TYPE:
-            const { tagType, tagId, postId } = action.payload;
+            const { tagType, tagId, itemId } = action.payload;
             const tagTypeUpperCase = tagType.toUpperCase();
             console.log("gotta payload love you xx", action.payload);
 
             return {
                 ...state,
-                userPosts: {
-                    ...state.userPosts,
-                    [postId]: {
-                        ...state.userPosts[postId],
+                userItems: {
+                    ...state.userItems,
+                    [itemId]: {
+                        ...state.userItems[itemId],
                         tags: {
-                            ...state.userPosts[postId].tags,
+                            ...state.userItems[itemId].tags,
                             [tagId]: {
-                                ...state.userPosts[postId].tags[tagId],
+                                ...state.userItems[itemId].tags[tagId],
                                 tagType: tagTypeUpperCase,
                             },
                         },
                     },
                 },
-                currentlyEditingPosts: {
-                    ...state.currentlyEditingPosts,
-                    [postId]: {
-                        ...state.currentlyEditingPosts[postId],
+                currentlyEditingItems: {
+                    ...state.currentlyEditingItems,
+                    [itemId]: {
+                        ...state.currentlyEditingItems[itemId],
                         tags: {
-                            ...state.currentlyEditingPosts[postId].tags,
+                            ...state.currentlyEditingItems[itemId].tags,
                             [tagId]: {
-                                ...state.currentlyEditingPosts[postId].tags[
+                                ...state.currentlyEditingItems[itemId].tags[
                                     tagId
                                 ],
                                 tagType: tagType,
@@ -122,37 +122,37 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                userPosts: postsToObject(action.payload),
+                userItems: postsToObject(action.payload),
             };
         case actionTypes.LOGGEDOUT_DATA_SUCCESS:
             console.log("All data success");
             return {
                 ...state,
                 loading: false,
-                publicPosts: postsToObject(action.payload),
+                publicItems: postsToObject(action.payload),
             };
         // Add a post to the list of currently editing posts
-        case actionTypes.SET_CURRENTLY_EDITING_POST:
+        case actionTypes.SET_CURRENTLY_EDITING_ITEM:
             console.log("Currently editing: ", action.payload);
             return {
                 ...state,
-                currentlyEditingPosts: {
-                    ...state.currentlyEditingPosts,
-                    [action.payload.postId]: action.payload,
+                currentlyEditingItems: {
+                    ...state.currentlyEditingItems,
+                    [action.payload.itemId]: action.payload,
                 },
             };
-        // Update tag in state.currentlyEditingPost
-        case actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST:
+        // Update tag in state.currentlyEditingItem
+        case actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_ITEM:
             return {
                 ...state,
-                userPosts: {
-                    ...state.userPosts,
-                    [action.payload.postId]: {
-                        ...state.userPosts[action.payload.postId],
+                userItems: {
+                    ...state.userItems,
+                    [action.payload.itemId]: {
+                        ...state.userItems[action.payload.itemId],
                         tags: {
-                            ...state.userPosts[action.payload.postId].tags,
+                            ...state.userItems[action.payload.itemId].tags,
                             [action.payload.tagId]: {
-                                ...state.userPosts[action.payload.postId].tags[
+                                ...state.userItems[action.payload.itemId].tags[
                                     action.payload.tagId
                                 ],
                                 tagName: action.payload.tagName,
@@ -162,17 +162,17 @@ export default (state = initialState, action) => {
                     },
                 },
 
-                currentlyEditingPosts: {
-                    ...state.currentlyEditingPosts,
-                    [action.payload.postId]: {
-                        ...state.currentlyEditingPosts[action.payload.postId],
+                currentlyEditingItems: {
+                    ...state.currentlyEditingItems,
+                    [action.payload.itemId]: {
+                        ...state.currentlyEditingItems[action.payload.itemId],
                         tags: {
-                            ...state.currentlyEditingPosts[
-                                action.payload.postId
+                            ...state.currentlyEditingItems[
+                                action.payload.itemId
                             ].tags,
                             [action.payload.tagId]: {
-                                ...state.currentlyEditingPosts[
-                                    action.payload.postId
+                                ...state.currentlyEditingItems[
+                                    action.payload.itemId
                                 ].tags[action.payload.tagId],
                                 tagName: action.payload.tagName,
                             },
@@ -181,15 +181,15 @@ export default (state = initialState, action) => {
                 },
             };
 
-        case actionTypes.ADD_TAG_TO_POST:
+        case actionTypes.ADD_TAG_TO_ITEM:
             return {
                 ...state,
-                userPosts: {
-                    ...state.userPosts,
-                    [action.payload.postId]: {
-                        ...state.userPosts[action.payload.postId],
+                userItems: {
+                    ...state.userItems,
+                    [action.payload.itemId]: {
+                        ...state.userItems[action.payload.itemId],
                         tags: {
-                            ...state.userPosts[action.payload.postId].tags,
+                            ...state.userItems[action.payload.itemId].tags,
                             [action.payload.tagId]: action.payload,
                         },
                     },
@@ -197,19 +197,19 @@ export default (state = initialState, action) => {
             };
 
         // Mark tag as deleted (don't worry about deleting yet)
-        case actionTypes.MARK_TAG_AS_DELETED_IN_POST:
+        case actionTypes.MARK_TAG_AS_DELETED_IN_ITEM:
             // Delete from UI
             // Mark as 'deleted' in post
             return {
                 ...state,
-                userPosts: {
-                    ...state.userPosts,
-                    [action.payload.postId]: {
-                        ...state.userPosts[action.payload.postId],
+                userItems: {
+                    ...state.userItems,
+                    [action.payload.itemId]: {
+                        ...state.userItems[action.payload.itemId],
                         tags: {
-                            ...state.userPosts[action.payload.postId].tags,
+                            ...state.userItems[action.payload.itemId].tags,
                             [action.payload.tagId]: {
-                                ...state.userPosts[action.payload.postId].tags[
+                                ...state.userItems[action.payload.itemId].tags[
                                     action.payload.tagId
                                 ],
                                 isDeleted: true,
@@ -221,45 +221,45 @@ export default (state = initialState, action) => {
         case actionTypes.DATA_FAILURE:
             console.log("data failure");
             return state;
-        case actionTypes.ADD_POST:
+        case actionTypes.ADD_ITEM:
             console.log("adding a post", action.payload);
             return {
                 ...state,
-                userPosts: {
-                    [action.payload.postId]: action.payload,
-                    ...state.userPosts,
+                userItems: {
+                    [action.payload.itemId]: action.payload,
+                    ...state.userItems,
                 },
             };
-        case actionTypes.DELETE_POST:
+        case actionTypes.DELETE_ITEM:
             console.log("Deleting post: ", action.payload);
             const {
                 [action.payload]: val,
-                ...withoutDeletedPost
-            } = state.userPosts;
+                ...withoutDeletedItem
+            } = state.userItems;
             return {
                 ...state,
-                userPosts: withoutDeletedPost,
+                userItems: withoutDeletedItem,
             };
         // Optimistically update edited post in state
-        case actionTypes.EDIT_POST:
+        case actionTypes.EDIT_ITEM:
             console.log("Editing post", action.payload);
             // Replace post with edited post in state
             return {
                 ...state,
-                userPosts: {
-                    ...state.userPosts,
-                    [action.payload.postId]: {
-                        ...state.userPosts[action.payload.postId],
+                userItems: {
+                    ...state.userItems,
+                    [action.payload.itemId]: {
+                        ...state.userItems[action.payload.itemId],
                         entryText: action.payload.postText,
                     },
                 },
             };
-        case actionTypes.REPLACE_POST_WITH_TAGGED_POST:
+        case actionTypes.REPLACE_ITEM_WITH_TAGGED_ITEM:
             return {
                 ...state,
-                userPosts: {
-                    ...state.userPosts,
-                    [action.payload.postId]: action.payload,
+                userItems: {
+                    ...state.userItems,
+                    [action.payload.itemId]: action.payload,
                 },
             };
 
@@ -267,13 +267,13 @@ export default (state = initialState, action) => {
             console.log("finna save some tags ", action.payload);
             return {
                 ...state,
-                userPosts: {
-                    ...state.userPosts,
-                    [action.payload.postId]: {
-                        ...state.userPosts[action.payload.postId],
+                userItems: {
+                    ...state.userItems,
+                    [action.payload.itemId]: {
+                        ...state.userItems[action.payload.itemId],
                         tags: keyBy(
                             values(
-                                state.userPosts[action.payload.postId].tags
+                                state.userItems[action.payload.itemId].tags
                             ).map(tag => {
                                 return { ...tag, isNewTag: false };
                             }),
@@ -284,12 +284,12 @@ export default (state = initialState, action) => {
             };
 
         case actionTypes.DELETE_TAG:
-            if (!state.userPosts) {
+            if (!state.userItems) {
                 console.log("Can't delete tag without a user");
                 return state;
             }
 
-            const tagsToEdit = state.userPosts[action.payload.postId].tags;
+            const tagsToEdit = state.userItems[action.payload.itemId].tags;
             const {
                 [action.payload.tagId]: value,
                 ...remainingTags
@@ -311,9 +311,9 @@ export default (state = initialState, action) => {
 
 // INTERNAL FUNCTIONS
 
-const addPostToState = payload => {
+const addItemToState = payload => {
     return {
-        type: actionTypes.ADD_POST,
+        type: actionTypes.ADD_ITEM,
         payload,
     };
 };
@@ -336,16 +336,16 @@ const loggedOutDataSuccess = payload => {
     };
 };
 
-const replacePostWithTaggedPost = payload => {
+const replaceItemWithTaggedItem = payload => {
     return {
-        type: actionTypes.REPLACE_POST_WITH_TAGGED_POST,
+        type: actionTypes.REPLACE_ITEM_WITH_TAGGED_ITEM,
         payload,
     };
 };
 
-const deletePostFromUI = payload => {
+const deleteItemFromUI = payload => {
     return {
-        type: actionTypes.DELETE_POST,
+        type: actionTypes.DELETE_ITEM,
         payload,
     };
 };
@@ -363,24 +363,24 @@ const noOp = () => {
     };
 };
 
-const deleteTagFromUI = (tagId, postId) => {
+const deleteTagFromUI = (tagId, itemId) => {
     return {
         type: actionTypes.DELETE_TAG,
-        payload: { tagId: tagId, postId: postId },
+        payload: { tagId: tagId, itemId: itemId },
     };
 };
 
 const saveTagsInUI = post => {
     return {
         type: actionTypes.SAVE_TAGS_IN_UI,
-        payload: { postId: post.postId },
+        payload: { itemId: post.itemId },
     };
 };
 
-const replacePostWithEditedPost = (postId, newPostText) => {
+const replaceItemWithEditedItem = (itemId, newItemText) => {
     return {
-        type: actionTypes.EDIT_POST,
-        payload: { postId: postId, postText: newPostText },
+        type: actionTypes.EDIT_ITEM,
+        payload: { itemId: itemId, postText: newItemText },
     };
 };
 
@@ -389,53 +389,53 @@ const replacePostWithEditedPost = (postId, newPostText) => {
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
 
-export const setTagType = (tagType, tagId, postId) => {
+export const setTagType = (tagType, tagId, itemId) => {
     return {
         type: actionTypes.SET_TAG_TYPE,
-        payload: { tagType: tagType, tagId: tagId, postId: postId },
+        payload: { tagType: tagType, tagId: tagId, itemId: itemId },
     };
 };
 
-export const setTagDescription = (tagDescription, tagId, postId) => {
+export const setTagDescription = (tagDescription, tagId, itemId) => {
     return {
         type: actionTypes.SET_TAG_DESCRIPTION,
         payload: {
             tagDescription: tagDescription,
             tagId: tagId,
-            postId: postId,
+            itemId: itemId,
         },
     };
 };
 
-export const setCurrentlyEditingPost = payload => {
+export const setCurrentlyEditingItem = payload => {
     return {
-        type: actionTypes.SET_CURRENTLY_EDITING_POST,
+        type: actionTypes.SET_CURRENTLY_EDITING_ITEM,
         payload,
     };
 };
 
-export const editTagInCurrentlyEditingPost = (tagId, tagName, postId) => {
+export const editTagInCurrentlyEditingItem = (tagId, tagName, itemId) => {
     return {
-        type: actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_POST,
-        payload: { tagId: tagId, tagName: tagName, postId: postId },
+        type: actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_ITEM,
+        payload: { tagId: tagId, tagName: tagName, itemId: itemId },
     };
 };
 
-export const markTagAsDeletedInCurrentlyEditingPost = (tagId, postId) => {
+export const markTagAsDeletedInCurrentlyEditingItem = (tagId, itemId) => {
     return {
-        type: actionTypes.MARK_TAG_AS_DELETED_IN_POST,
-        payload: { tagId: tagId, postId: postId },
+        type: actionTypes.MARK_TAG_AS_DELETED_IN_ITEM,
+        payload: { tagId: tagId, itemId: itemId },
     };
 };
 
-export const addTagToPost = tag => {
+export const addTagToItem = tag => {
     return {
-        type: actionTypes.ADD_TAG_TO_POST,
+        type: actionTypes.ADD_TAG_TO_ITEM,
         payload: tag,
     };
 };
 
-// GET POSTS ON INITIAL LOAD
+// GET ITEMS ON INITIAL LOAD
 export const fetchData = userEmail => {
     return dispatch => {
         dispatch(dataRequest());
@@ -464,15 +464,15 @@ export const fetchAllData = () => {
     };
 };
 
-// ADD A POST
-export const addPost = post => {
+// ADD AN ITEM
+export const addItem = post => {
     return dispatch => {
         // Optimistically update UI
-        dispatch(addPostToState(post));
+        dispatch(addItemToState(post));
 
         // Then add to database
         fetch(`${baseUrl}/posts`, {
-            method: "POST",
+            method: "ITEM",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -494,9 +494,9 @@ export const addPost = post => {
                     }),
                 };
 
-                console.log("new Post: ", post);
+                console.log("new Item: ", post);
 
-                dispatch(replacePostWithTaggedPost(post));
+                dispatch(replaceItemWithTaggedItem(post));
             })
             .catch(err => {
                 console.log(err);
@@ -504,18 +504,18 @@ export const addPost = post => {
     };
 };
 
-export const editPost = (postId, newPost) => {
+export const editItem = (itemId, newItem) => {
     return dispatch => {
         // Optimistically update UI
-        dispatch(replacePostWithEditedPost(postId, newPost));
+        dispatch(replaceItemWithEditedItem(itemId, newItem));
 
         let body = {
-            postText: newPost,
-            postId: postId,
+            postText: newItem,
+            itemId: itemId,
         };
 
-        fetch(`${baseUrl}/posts/${postId}`, {
-            method: "POST",
+        fetch(`${baseUrl}/posts/${itemId}`, {
+            method: "ITEM",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -533,14 +533,14 @@ export const editPost = (postId, newPost) => {
     };
 };
 
-export const saveTagsFromCurrentPost = currentPost => {
-    let tagsArray = values(currentPost.tags);
+export const saveTagsFromCurrentItem = currentItem => {
+    let tagsArray = values(currentItem.tags);
     console.log("tags in FE: ", tagsArray);
     console.log("yeeehaw");
 
     return dispatch => {
         // Remove 'isNewTag' from tags
-        dispatch(saveTagsInUI(currentPost));
+        dispatch(saveTagsInUI(currentItem));
 
         // Update changed tags in DB
         fetch(`${baseUrl}/tags/`, {
@@ -558,7 +558,7 @@ export const saveTagsFromCurrentPost = currentPost => {
 
         // Add new tags to DB
         fetch(`${baseUrl}/tags/`, {
-            method: "POST",
+            method: "ITEM",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -573,7 +573,7 @@ export const saveTagsFromCurrentPost = currentPost => {
 };
 
 // Delete all tags marked as 'deleted' from current post
-export const deleteTagsFromCurrentPost = tags => {
+export const deleteTagsFromCurrentItem = tags => {
     console.log("deleting tags in fe...", tags);
     if (!tags.length) {
         return dispatch => {
@@ -605,21 +605,21 @@ export const deleteTagsFromCurrentPost = tags => {
     };
 };
 
-// DELETE A POST
-export const deletePost = postId => {
+// DELETE AN ITEM
+export const deleteItem = itemId => {
     return dispatch => {
         // Optimistically update UI
-        dispatch(deletePostFromUI(postId));
+        dispatch(deleteItemFromUI(itemId));
 
         // Then delete from database
-        fetch(`${baseUrl}/posts/${postId}`, {
+        fetch(`${baseUrl}/posts/${itemId}`, {
             method: "DELETE",
         })
             .then(response => {
                 console.log(response);
                 if (response.status !== 200) {
                     dispatch(
-                        alertError("Post could not be deleted at this time")
+                        alertError("Item could not be deleted at this time")
                     );
                 }
             })
@@ -630,10 +630,10 @@ export const deletePost = postId => {
 };
 
 // DELETE A TAG
-export const deleteTag = (tagId, postId) => {
+export const deleteTag = (tagId, itemId) => {
     return dispatch => {
         // Optimistically update UI
-        dispatch(deleteTagFromUI(tagId, postId));
+        dispatch(deleteTagFromUI(tagId, itemId));
 
         // Then delete from database
         fetch(`${baseUrl}/tags/${tagId}`, {
@@ -653,7 +653,7 @@ export const deleteTag = (tagId, postId) => {
     };
 };
 
-export const getTagType = (tagName, tagId, postId) => {
+export const getTagType = (tagName, tagId, itemId) => {
     return dispatch => {
         // Then delete from database
         fetch(`${baseUrl}/tags/${tagName}/type`, {
@@ -663,7 +663,7 @@ export const getTagType = (tagName, tagId, postId) => {
             .then(json => {
                 console.log("got type: ", json.type);
                 // Type may be undefined, in which case set "other"
-                dispatch(setTagType(json.type || "OTHER", tagId, postId));
+                dispatch(setTagType(json.type || "OTHER", tagId, itemId));
             })
             .catch(err => {
                 console.log(err);

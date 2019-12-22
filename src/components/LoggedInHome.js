@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import PostEditor from "./PostEditor";
-import PostsArea from "./PostsArea";
-import ChartsArea from "./PostsArea";
+import ItemEditor from "./ItemEditor";
+import ItemsArea from "./ItemsArea";
+import ChartsArea from "./ItemsArea";
 import { connect } from "react-redux";
 import { fetchData as _fetchData } from "../ducks/posts";
 
@@ -18,12 +18,12 @@ function LoggedInHome({ user, fetchData }) {
         <div>
             <div id={"posts-area"}>
                 <div>
-                    <PostEditor
+                    <ItemEditor
                         preferred_username={user.preferred_username}
                         given_name={user.given_name}
                         family_name={user.family_name}
                     />
-                    <PostsArea
+                    <ItemsArea
                         preferred_username={user.preferred_username}
                         given_name={user.given_name}
                         family_name={user.family_name}

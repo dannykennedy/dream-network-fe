@@ -6,9 +6,9 @@ import TagDescriptionDropdown from "./TagDescriptionDropdown";
 import TagDropdown from "./TagDropdown";
 import { connect } from "react-redux";
 import {
-    editTagInCurrentlyEditingPost as _editTagInCurrentlyEditingPost,
-    markTagAsDeletedInCurrentlyEditingPost as _markTagAsDeletedInCurrentlyEditingPost,
-} from "../../ducks/posts";
+    editTagInCurrentlyEditingItem as _editTagInCurrentlyEditingItem,
+    markTagAsDeletedInCurrentlyEditingItem as _markTagAsDeletedInCurrentlyEditingItem,
+} from "../../ducks/items";
 import "./Tag.css";
 import { icons } from "../../theme/icons";
 import { tagTypes, mapEntitiesToTypes } from "./tagTypes";
@@ -22,12 +22,12 @@ export function Tag({
     name,
     type,
     tagId,
-    postId,
+    itemId,
     user,
     tagDescription,
     editing,
-    editTagInCurrentlyEditingPost,
-    markTagAsDeletedInCurrentlyEditingPost,
+    editTagInCurrentlyEditingItem,
+    markTagAsDeletedInCurrentlyEditingItem,
 }) {
     type = mapEntitiesToTypes[type];
 
@@ -51,13 +51,13 @@ export function Tag({
                     </div>
                 )}
                 {editing && icons[type] && (
-                    <TagDropdown tagType={type} tagId={tagId} postId={postId} />
+                    <TagDropdown tagType={type} tagId={tagId} itemId={itemId} />
                 )}
                 {editing && TagDescriptions[type] && (
                     <TagDescriptionDropdown
                         tagType={type}
                         tagId={tagId}
-                        postId={postId}
+                        itemId={itemId}
                         tagDescription={tagDescription}
                     />
                 )}
@@ -69,10 +69,10 @@ export function Tag({
                             onChange={e => {
                                 setTagName(e);
                                 console.log(e);
-                                editTagInCurrentlyEditingPost(
+                                editTagInCurrentlyEditingItem(
                                     tagId,
                                     e.toDateString(),
-                                    postId
+                                    itemId
                                 );
                                 // setDate(e);
                             }}
@@ -86,10 +86,10 @@ export function Tag({
                                 // Change local state
                                 setTagName(event.target.value);
                                 // Change global state
-                                editTagInCurrentlyEditingPost(
+                                editTagInCurrentlyEditingItem(
                                     tagId,
                                     event.target.value,
-                                    postId
+                                    itemId
                                 );
                             }}
                         />
@@ -107,9 +107,9 @@ export function Tag({
                         <div
                             className="tag-remove-icon tag-icon"
                             onClick={function() {
-                                markTagAsDeletedInCurrentlyEditingPost(
+                                markTagAsDeletedInCurrentlyEditingItem(
                                     tagId,
-                                    postId
+                                    itemId
                                 );
                             }}
                         >
@@ -130,8 +130,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    markTagAsDeletedInCurrentlyEditingPost: _markTagAsDeletedInCurrentlyEditingPost,
-    editTagInCurrentlyEditingPost: _editTagInCurrentlyEditingPost,
+    markTagAsDeletedInCurrentlyEditingItem: _markTagAsDeletedInCurrentlyEditingItem,
+    editTagInCurrentlyEditingItem: _editTagInCurrentlyEditingItem,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tag);

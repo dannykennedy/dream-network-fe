@@ -6,6 +6,6 @@
 // Principles 2
 export const TagDescriptions = {
     PERSON: ["Author", "Subject", "(None)"],
-    DATE: ["Posted on", "(None)"],
+    DATE: ["Itemed on", "(None)"],
     OTHER: ["Subject", "(None)"],
 };

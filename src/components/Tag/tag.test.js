@@ -31,13 +31,13 @@ test("Tag snapshot test", () => {
             name="dog"
             type="OTHER"
             tagId="5"
-            postId="6"
+            itemId="6"
             user="1"
             editing={true}
-            editTagInCurrentlyEditingPost={function() {
+            editTagInCurrentlyEditingItem={function() {
                 console.log("hi");
             }}
-            markTagAsDeletedInCurrentlyEditingPost={function() {
+            markTagAsDeletedInCurrentlyEditingItem={function() {
                 console.log("hi");
             }}
         />

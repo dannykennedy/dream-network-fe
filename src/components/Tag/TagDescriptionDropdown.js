@@ -3,12 +3,12 @@ import FontAwesome from "react-fontawesome";
 import "./TagDescriptionDropdown.css";
 import { connect } from "react-redux";
 import { tagColors, hoveredTagColors } from "../../theme/Theme";
-import { setTagDescription as _setTagDescription } from "../../ducks/posts";
+import { setTagDescription as _setTagDescription } from "../../ducks/items";
 import { TagDescriptions } from "./TagDescriptions";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
 const TagDescriptionDropdown = ({
-    postId,
+    itemId,
     tagId,
     tagType,
     setTagDescription,
@@ -74,7 +74,7 @@ const TagDescriptionDropdown = ({
                                         setTagDescription(
                                             descOption,
                                             tagId,
-                                            postId
+                                            itemId
                                         );
 
                                         setDropdownIsOpen(false);

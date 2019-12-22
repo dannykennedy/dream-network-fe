@@ -2,25 +2,27 @@ import React from "react";
 import Card from "../Card";
 import { connect } from "react-redux";
 import LoadingNotice from "../LoadingNotice";
+import Searchbox from "../Searchbox";
 
-function PostsArea({ userPosts, publicPosts, user }) {
+function ItemsArea({ userItems, publicItems, user }) {
     if (!user) {
-        return !publicPosts ? (
+        return !publicItems ? (
             <LoadingNotice loadingText="Loading public posts" />
         ) : (
             <div>
-                {Object.values(publicPosts).map(post => {
-                    return <Card post={post} key={post.postId} />;
+                <Searchbox />
+                {Object.values(publicItems).map(post => {
+                    return <Card post={post} key={post.itemId} />;
                 })}
             </div>
         );
     } else {
-        return !userPosts ? (
+        return !userItems ? (
             <LoadingNotice loadingText="Loading user posts" />
         ) : (
             <div>
-                {Object.values(userPosts).map(post => {
-                    return <Card post={post} key={post.postId} />;
+                {Object.values(userItems).map(post => {
+                    return <Card post={post} key={post.itemId} />;
                 })}
             </div>
         );
@@ -30,10 +32,10 @@ function PostsArea({ userPosts, publicPosts, user }) {
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        userPosts: state.posts.userPosts,
-        publicPosts: state.posts.publicPosts,
+        userItems: state.posts.userItems,
+        publicItems: state.posts.publicItems,
         user: state.user.user,
     };
 };
 
-export default connect(mapStateToProps)(PostsArea);
+export default connect(mapStateToProps)(ItemsArea);

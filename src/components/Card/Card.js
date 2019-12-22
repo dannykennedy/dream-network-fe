@@ -2,17 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import CardUserInfo from "./CardUserInfo";
 import TagsArea from "../TagsArea/TagsArea";
 import { connect } from "react-redux";
-import PostEditor from "../PostEditor/PostEditor";
+import ItemEditor from "../ItemEditor/ItemEditor";
 import FontAwesome from "react-fontawesome";
 import "./Card.css";
 import "./Dropdown.css";
 import {
-    deletePost as _deletePost,
-    editPost as _editPost,
-    setCurrentlyEditingPost as _setCurrentlyEditingPost,
-    saveTagsFromCurrentPost as _saveTagsFromCurrentPost,
-    deleteTagsFromCurrentPost as _deleteTagsFromCurrentPost,
-} from "../../ducks/posts";
+    deleteItem as _deleteItem,
+    editItem as _editItem,
+    setCurrentlyEditingItem as _setCurrentlyEditingItem,
+    saveTagsFromCurrentItem as _saveTagsFromCurrentItem,
+    deleteTagsFromCurrentItem as _deleteTagsFromCurrentItem,
+} from "../../ducks/items";
 import { chain, values } from "lodash";
 import { Link } from "react-router-dom";
 
@@ -21,18 +21,18 @@ var HtmlToReactParser = require("html-to-react").Parser;
 function Card({
     post,
     user,
-    deletePost,
-    editPost,
-    setCurrentlyEditingPost,
-    saveTagsFromCurrentlyEditingPost,
-    saveTagsFromCurrentPost,
-    currentlyEditingPosts,
-    deleteTagsFromCurrentPost,
-    userPosts,
+    deleteItem,
+    editItem,
+    setCurrentlyEditingItem,
+    saveTagsFromCurrentlyEditingItem,
+    saveTagsFromCurrentItem,
+    currentlyEditingItems,
+    deleteTagsFromCurrentItem,
+    userItems,
 }) {
-    const { entryText, firstName, lastName, postId, timePosted, tags } = post;
+    const { entryText, firstName, lastName, itemId, timePosted, tags } = post;
     const node = useRef();
-    const [editingPost, setEditingPost] = useState(false);
+    const [editingItem, setEditingItem] = useState(false);
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
     const handleClick = e => {
@@ -51,12 +51,12 @@ function Card({
     }, []);
 
     useEffect(() => {
-        console.log(editingPost);
-    }, [editingPost]);
+        console.log(editingItem);
+    }, [editingItem]);
 
     var _htmlToReactParser = new HtmlToReactParser();
     return (
-        <div id={postId} className="item-card">
+        <div id={itemId} className="item-card">
             <div className="inner-card">
                 <div className="card-header">
                     <CardUserInfo
@@ -80,9 +80,9 @@ function Card({
                                         <button
                                             onClick={() => {
                                                 setDropdownIsOpen(false);
-                                                setEditingPost(true);
-                                                const currentlyEditingPost = {
-                                                    postId: postId,
+                                                setEditingItem(true);
+                                                const currentlyEditingItem = {
+                                                    itemId: itemId,
                                                     entryText: entryText.slice(
                                                         0
                                                     ),
@@ -91,8 +91,8 @@ function Card({
                                                         .value(),
                                                     deletedTags: [],
                                                 };
-                                                setCurrentlyEditingPost(
-                                                    currentlyEditingPost
+                                                setCurrentlyEditingItem(
+                                                    currentlyEditingItem
                                                 );
                                             }}
                                         >
@@ -101,14 +101,14 @@ function Card({
 
                                         <button>
                                             <Link
-                                                to={`/dream-network/${postId}`}
+                                                to={`/dream-network/${itemId}`}
                                             >
                                                 See full article
                                             </Link>
                                         </button>
 
                                         <button
-                                            onClick={() => deletePost(postId)}
+                                            onClick={() => deleteItem(itemId)}
                                         >
                                             Delete
                                         </button>
@@ -120,21 +120,21 @@ function Card({
                 </div>
                 <div className="card-body">
                     <div className="card-body-text">
-                        {editingPost ? (
-                            <PostEditor
-                                postId={postId}
+                        {editingItem ? (
+                            <ItemEditor
+                                itemId={itemId}
                                 content={entryText}
                                 saveButtonText={"Save Changes"}
                                 onSave={post => {
-                                    setEditingPost(false);
-                                    editPost(post.postId, post.entryText);
+                                    setEditingItem(false);
+                                    editItem(post.itemId, post.entryText);
 
-                                    saveTagsFromCurrentPost(
-                                        userPosts[post.postId]
+                                    saveTagsFromCurrentItem(
+                                        userItems[post.itemId]
                                     );
-                                    deleteTagsFromCurrentPost(
+                                    deleteTagsFromCurrentItem(
                                         values(
-                                            userPosts[post.postId].tags
+                                            userItems[post.itemId].tags
                                         ).filter(tag => tag.isDeleted)
                                     );
                                 }}
@@ -152,8 +152,8 @@ function Card({
                 </div>
                 <TagsArea
                     tags={tags}
-                    postId={postId}
-                    editingPost={editingPost}
+                    itemId={itemId}
+                    editingItem={editingItem}
                 />
             </div>
         </div>
@@ -164,17 +164,17 @@ function Card({
 const mapStateToProps = state => {
     return {
         user: state.user.user,
-        userPosts: state.posts.userPosts,
-        currentlyEditingPosts: state.posts.currentlyEditingPosts,
+        userItems: state.posts.userItems,
+        currentlyEditingItems: state.posts.currentlyEditingItems,
     };
 };
 
 const mapDispatchToProps = {
-    deletePost: _deletePost,
-    editPost: _editPost,
-    setCurrentlyEditingPost: _setCurrentlyEditingPost,
-    saveTagsFromCurrentPost: _saveTagsFromCurrentPost,
-    deleteTagsFromCurrentPost: _deleteTagsFromCurrentPost,
+    deleteItem: _deleteItem,
+    editItem: _editItem,
+    setCurrentlyEditingItem: _setCurrentlyEditingItem,
+    saveTagsFromCurrentItem: _saveTagsFromCurrentItem,
+    deleteTagsFromCurrentItem: _deleteTagsFromCurrentItem,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Card);

@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { icons } from "../../theme/icons";
 import { tagColors, hoveredTagColors } from "../../theme/Theme";
 import { tagTypes } from "./tagTypes";
-import { setTagType as _setTagType } from "../../ducks/posts";
+import { setTagType as _setTagType } from "../../ducks/items";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
-const TagDropdown = ({ postId, tagId, tagType, setTagType }) => {
+const TagDropdown = ({ itemId, tagId, tagType, setTagType }) => {
     const node = useRef();
 
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
@@ -65,7 +65,7 @@ const TagDropdown = ({ postId, tagId, tagType, setTagType }) => {
                                         setTagType(
                                             typeOption.toUpperCase(),
                                             tagId,
-                                            postId
+                                            itemId
                                         );
                                         setDropdownIsOpen(false);
                                     }}

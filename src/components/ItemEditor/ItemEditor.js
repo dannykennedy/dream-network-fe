@@ -4,15 +4,15 @@ import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "./PostEditor.css";
+import "./ItemEditor.css";
 import uuidV4 from "../../modules/uuid";
 // Dispatch
 import { connect } from "react-redux";
-import { addPost as _addPost } from "../../ducks/posts";
+import { addItem as _addItem } from "../../ducks/items";
 // Config
 import editorConfig from "../../modules/editorConfig";
 
-class PostEditor extends Component {
+class ItemEditor extends Component {
     constructor(props) {
         super(props);
         const html = props.content;
@@ -48,11 +48,11 @@ class PostEditor extends Component {
     };
 
     handleSubmit(postText, props) {
-        let postId = props.postId ? props.postId : uuidV4();
+        let itemId = props.itemId ? props.itemId : uuidV4();
 
         let post = {
             entryText: postText,
-            postId: postId,
+            itemId: itemId,
             firstName: props.user.given_name,
             lastName: props.user.family_name,
             timePosted: new Date().toISOString(),
@@ -61,7 +61,7 @@ class PostEditor extends Component {
             userName: props.user.preferred_username,
         };
         this.clearEditor();
-        props.onSave(post, postId);
+        props.onSave(post, itemId);
     }
 
     render() {
@@ -102,7 +102,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    addPost: _addPost,
+    addItem: _addItem,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemEditor);

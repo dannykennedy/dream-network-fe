@@ -5,9 +5,9 @@ import LoadingNotice from "../LoadingNotice";
 import uuidV4 from "../../modules/uuid";
 import { connect } from "react-redux";
 import {
-    addTagToPost as _addTagToPost,
+    addTagToItem as _addTagToItem,
     getTagType as _getTagType,
-} from "../../ducks/posts";
+} from "../../ducks/items";
 
 // Inspired by https://www.npmjs.com/package/react-tag-input
 // Look at this component in the future for autosuggestions
@@ -20,7 +20,7 @@ const isEnterKey = keyCode => {
     return keyCode === KeyCodes.enter || keyCode === KeyCodes.comma;
 };
 
-function TagsArea({ tags, postId, editingPost, getTagType, addTagToPost }) {
+function TagsArea({ tags, itemId, editingItem, getTagType, addTagToItem }) {
     const [inputText, setInputText] = useState("");
 
     const onAddTag = tagName => {
@@ -29,11 +29,11 @@ function TagsArea({ tags, postId, editingPost, getTagType, addTagToPost }) {
             tagId: id,
             tagName: tagName,
             tagType: "NONE",
-            postId: postId,
+            itemId: itemId,
             isNewTag: true,
         };
-        getTagType(tagName, id, postId);
-        addTagToPost(newTag);
+        getTagType(tagName, id, itemId);
+        addTagToItem(newTag);
     };
 
     return (
@@ -50,12 +50,12 @@ function TagsArea({ tags, postId, editingPost, getTagType, addTagToPost }) {
                                     tagId={tag.tagId}
                                     tagDescription={tag.tagDescription}
                                     key={tag.tagId}
-                                    postId={postId}
-                                    editing={editingPost}
+                                    itemId={itemId}
+                                    editing={editingItem}
                                 />
                             );
                         })}
-                    {editingPost && (
+                    {editingItem && (
                         <input
                             placeholder={"Add a tag"}
                             className={"add-tag-input"}
@@ -89,12 +89,12 @@ function TagsArea({ tags, postId, editingPost, getTagType, addTagToPost }) {
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        currentlyEditingPosts: state.posts.currentlyEditingPosts,
+        currentlyEditingItems: state.posts.currentlyEditingItems,
     };
 };
 
 const mapDispatchToProps = {
-    addTagToPost: _addTagToPost,
+    addTagToItem: _addTagToItem,
     getTagType: _getTagType,
 };
 
