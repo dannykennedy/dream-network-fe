@@ -3,7 +3,7 @@ import ItemEditor from "./ItemEditor";
 import ItemsArea from "./ItemsArea";
 import ChartsArea from "./ItemsArea";
 import { connect } from "react-redux";
-import { fetchData as _fetchData } from "../ducks/posts";
+import { fetchData as _fetchData } from "../ducks/items";
 
 function LoggedInHome({ user, fetchData }) {
     console.log("user!", user);
@@ -16,7 +16,7 @@ function LoggedInHome({ user, fetchData }) {
 
     return user ? (
         <div>
-            <div id={"posts-area"}>
+            <div id={"items-area"}>
                 <div>
                     <ItemEditor
                         preferred_username={user.preferred_username}

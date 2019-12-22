@@ -70,7 +70,7 @@ const App = withAuth(
                             <div id={"App-body"}>
                                 {authenticated ? (
                                     <div>
-                                        <div id={"posts-area"}>
+                                        <div id={"items-area"}>
                                             {user && (
                                                 <div>
                                                     <ItemEditor
@@ -85,7 +85,7 @@ const App = withAuth(
                                     </div>
                                 ) : (
                                     <div>
-                                        <div id={"posts-area"}>
+                                        <div id={"items-area"}>
                                             <ItemsArea
                                                 user={null}
                                                 preferred_username={null}
@@ -108,7 +108,7 @@ const App = withAuth(
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        userItems: state.posts.userItems,
+        userItems: state.items.userItems,
     };
 };
 

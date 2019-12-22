@@ -14,7 +14,7 @@ body {
     grid-template-columns: 100%;
 }
 
-#posts-area {
+#items-area {
     padding: 8px;
 }
 
@@ -128,7 +128,7 @@ button:focus {
         grid-template-columns: 2fr 1fr;
     }
 
-    #posts-area {
+    #items-area {
         padding: 20px;
     }
 }

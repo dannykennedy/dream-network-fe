@@ -42,14 +42,14 @@ function TagsArea({ tags, itemId, editingItem, getTagType, addTagToItem }) {
                 <div className={"tags-area"}>
                     {Object.values(tags)
                         .filter(tag => !tag.isDeleted)
-                        .map(tag => {
+                        .map((tag, i) => {
                             return (
                                 <Tag
                                     name={tag.tagName}
                                     type={tag.tagType}
                                     tagId={tag.tagId}
                                     tagDescription={tag.tagDescription}
-                                    key={tag.tagId}
+                                    key={tag.tagId + i}
                                     itemId={itemId}
                                     editing={editingItem}
                                 />
@@ -89,7 +89,7 @@ function TagsArea({ tags, itemId, editingItem, getTagType, addTagToItem }) {
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        currentlyEditingItems: state.posts.currentlyEditingItems,
+        currentlyEditingItems: state.items.currentlyEditingItems,
     };
 };
 

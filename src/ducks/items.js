@@ -33,13 +33,13 @@ const actionTypes = {
     NO_OP: "NO_OP",
 };
 
-function postsToObject(postsArray) {
+function itemsToObject(itemsArray) {
     var ret = {};
 
-    for (var i = 0; i < postsArray.length; ++i) {
-        ret[postsArray[i].itemId] = {
-            ...postsArray[i],
-            tags: tagsToObject(postsArray[i].tags),
+    for (var i = 0; i < itemsArray.length; ++i) {
+        ret[itemsArray[i].itemId] = {
+            ...itemsArray[i],
+            tags: tagsToObject(itemsArray[i].tags),
         };
     }
     return ret;
@@ -122,16 +122,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                userItems: postsToObject(action.payload),
+                userItems: itemsToObject(action.payload),
             };
         case actionTypes.LOGGEDOUT_DATA_SUCCESS:
             console.log("All data success");
             return {
                 ...state,
                 loading: false,
-                publicItems: postsToObject(action.payload),
+                publicItems: itemsToObject(action.payload),
             };
-        // Add a post to the list of currently editing posts
+        // Add a post to the list of currently editing items
         case actionTypes.SET_CURRENTLY_EDITING_ITEM:
             console.log("Currently editing: ", action.payload);
             return {
@@ -439,7 +439,7 @@ export const addTagToItem = tag => {
 export const fetchData = userEmail => {
     return dispatch => {
         dispatch(dataRequest());
-        fetch(`${baseUrl}/posts/${userEmail}`)
+        fetch(`${baseUrl}/items/${userEmail}`)
             .then(d => d.json())
             .then(json => {
                 dispatch(dataSuccess(json));
@@ -453,7 +453,7 @@ export const fetchData = userEmail => {
 export const fetchAllData = () => {
     return dispatch => {
         dispatch(dataRequest());
-        fetch(`${baseUrl}/posts/`)
+        fetch(`${baseUrl}/items/`)
             .then(d => d.json())
             .then(json => {
                 dispatch(loggedOutDataSuccess(json));
@@ -471,8 +471,8 @@ export const addItem = post => {
         dispatch(addItemToState(post));
 
         // Then add to database
-        fetch(`${baseUrl}/posts`, {
-            method: "ITEM",
+        fetch(`${baseUrl}/items`, {
+            method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -514,8 +514,8 @@ export const editItem = (itemId, newItem) => {
             itemId: itemId,
         };
 
-        fetch(`${baseUrl}/posts/${itemId}`, {
-            method: "ITEM",
+        fetch(`${baseUrl}/items/${itemId}`, {
+            method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -558,7 +558,7 @@ export const saveTagsFromCurrentItem = currentItem => {
 
         // Add new tags to DB
         fetch(`${baseUrl}/tags/`, {
-            method: "ITEM",
+            method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -612,7 +612,7 @@ export const deleteItem = itemId => {
         dispatch(deleteItemFromUI(itemId));
 
         // Then delete from database
-        fetch(`${baseUrl}/posts/${itemId}`, {
+        fetch(`${baseUrl}/items/${itemId}`, {
             method: "DELETE",
         })
             .then(response => {

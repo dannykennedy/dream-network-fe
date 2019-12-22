@@ -96,7 +96,7 @@ class ItemEditor extends Component {
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        posts: state.posts.posts,
+        items: state.items.items,
         user: state.user.user,
     };
 };

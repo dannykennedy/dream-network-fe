@@ -164,8 +164,8 @@ function Card({
 const mapStateToProps = state => {
     return {
         user: state.user.user,
-        userItems: state.posts.userItems,
-        currentlyEditingItems: state.posts.currentlyEditingItems,
+        userItems: state.items.userItems,
+        currentlyEditingItems: state.items.currentlyEditingItems,
     };
 };
 

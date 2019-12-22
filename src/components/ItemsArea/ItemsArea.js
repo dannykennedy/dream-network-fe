@@ -7,7 +7,7 @@ import Searchbox from "../Searchbox";
 function ItemsArea({ userItems, publicItems, user }) {
     if (!user) {
         return !publicItems ? (
-            <LoadingNotice loadingText="Loading public posts" />
+            <LoadingNotice loadingText="Loading public items" />
         ) : (
             <div>
                 <Searchbox />
@@ -32,8 +32,8 @@ function ItemsArea({ userItems, publicItems, user }) {
 // these parts of state are passed in as props
 const mapStateToProps = state => {
     return {
-        userItems: state.posts.userItems,
-        publicItems: state.posts.publicItems,
+        userItems: state.items.userItems,
+        publicItems: state.items.publicItems,
         user: state.user.user,
     };
 };
