@@ -1,4 +1,4 @@
-import { values, omit, keyBy } from "lodash";
+import { values, keyBy } from "lodash";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -71,6 +71,20 @@ export default (state = initialState, action) => {
                 searchTags: state.searchTags.filter(
                     tag => tag.tagId !== action.payload.tagId
                 ),
+            };
+        case actionTypes.SET_SEARCH_TAG_TYPE:
+            return {
+                ...state,
+                searchTags: state.searchTags.map(tag => {
+                    if (tag.tagId === action.payload.tagId) {
+                        return {
+                            ...tag,
+                            tagType: action.payload.tagType,
+                        };
+                    } else {
+                        return tag;
+                    }
+                }),
             };
         case actionTypes.SET_TAG_DESCRIPTION:
             const {
@@ -418,6 +432,13 @@ export const addSearchTag = (
             tagId: tagId,
             tagDescription: tagDescription,
         },
+    };
+};
+
+export const setSearchTagType = (tagType, tagId) => {
+    return {
+        type: actionTypes.SET_SEARCH_TAG_TYPE,
+        payload: { tagType: tagType, tagId: tagId },
     };
 };
 

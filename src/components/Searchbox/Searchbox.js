@@ -5,17 +5,23 @@ import { connect } from "react-redux";
 import {
     addSearchTag as _addSearchTag,
     removeSearchTag as _removeSearchTag,
+    setSearchTagType as _setSearchTagType,
 } from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
 import { tagTypes } from "../../constants/tagTypes";
 import uuidV4 from "../../modules/uuid";
 
-function Searchbox({ searchTags, addSearchTag, removeSearchTag }) {
+function Searchbox({
+    searchTags,
+    addSearchTag,
+    removeSearchTag,
+    setSearchTagType,
+}) {
     const [inputText, setInputText] = useState("");
 
     const onAddTag = tagName => {
         const tagId = uuidV4();
-        addSearchTag(tagName, "NONE", tagId);
+        addSearchTag(tagName, tagTypes.OTHER, tagId);
     };
 
     return (
@@ -23,7 +29,7 @@ function Searchbox({ searchTags, addSearchTag, removeSearchTag }) {
             <input
                 id="search-box"
                 value={inputText}
-                placeholder="Search for something"
+                placeholder="Search for articles, reviews, dreams..."
                 onKeyDown={e => {
                     if (isEnterKey(e.keyCode)) {
                         onAddTag(inputText);
@@ -42,11 +48,12 @@ function Searchbox({ searchTags, addSearchTag, removeSearchTag }) {
                     return (
                         <Tag
                             name={tag.tagName}
-                            type={tagTypes.OTHER}
+                            type={tag.tagType}
                             tagId={tag.tagId}
                             tagDescription={tag.tagDescription}
                             editing={true}
                             onDelete={removeSearchTag}
+                            onSetTagType={setSearchTagType}
                             key={tag.tagId}
                         ></Tag>
                     );
@@ -66,6 +73,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     addSearchTag: _addSearchTag,
     removeSearchTag: _removeSearchTag,
+    setSearchTagType: _setSearchTagType,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Searchbox);
