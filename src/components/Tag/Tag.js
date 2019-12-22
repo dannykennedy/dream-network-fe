@@ -5,10 +5,7 @@ import Spinner from "../Spinner";
 import TagDescriptionDropdown from "./TagDescriptionDropdown";
 import TagDropdown from "./TagDropdown";
 import { connect } from "react-redux";
-import {
-    editTagInCurrentlyEditingItem as _editTagInCurrentlyEditingItem,
-    markTagAsDeletedInCurrentlyEditingItem as _markTagAsDeletedInCurrentlyEditingItem,
-} from "../../ducks/items";
+import { markTagAsDeletedInCurrentlyEditingItem as _markTagAsDeletedInCurrentlyEditingItem } from "../../ducks/items";
 import "./Tag.css";
 import { icons } from "../../theme/icons";
 import { tagTypes, mapEntitiesToTypes } from "./tagTypes";
@@ -30,6 +27,7 @@ export function Tag({
     editTagInCurrentlyEditingItem,
     onSetTagType,
     onSetTagDescription,
+    onEditTagName,
 }) {
     type = mapEntitiesToTypes[type];
 
@@ -94,7 +92,7 @@ export function Tag({
                                 // Change local state
                                 setTagName(event.target.value);
                                 // Change global state
-                                editTagInCurrentlyEditingItem(
+                                onEditTagName(
                                     tagId,
                                     event.target.value,
                                     itemId
@@ -136,7 +134,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     markTagAsDeletedInCurrentlyEditingItem: _markTagAsDeletedInCurrentlyEditingItem,
-    editTagInCurrentlyEditingItem: _editTagInCurrentlyEditingItem,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tag);
