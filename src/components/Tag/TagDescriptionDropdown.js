@@ -64,6 +64,9 @@ const TagDescriptionDropdown = ({
                             return (
                                 <button
                                     className="tag-description-dropdown-button"
+                                    style={{
+                                        backgroundColor: tagColors[tagType],
+                                    }}
                                     key={i}
                                     onClick={() => {
                                         console.log(descOption);
