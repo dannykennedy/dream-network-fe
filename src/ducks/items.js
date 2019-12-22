@@ -8,6 +8,7 @@ const initialState = {
     publicItems: null,
     currentlyEditingItems: {},
     loading: true,
+    searchTags: [],
 };
 
 // TYPES OF ACTIONS THAT CAN BE DISPATCHED
@@ -30,6 +31,7 @@ const actionTypes = {
     SET_TAG_TYPE: "SET_TAG_TYPE",
     SET_TAG_DESCRIPTION: "SET_TAG_DESCRIPTION",
     SAVE_TAGS_IN_UI: "SAVE_TAGS_IN_UI",
+    ADD_SEARCH_TAG: "ADD_SEARCH_TAG",
     NO_OP: "NO_OP",
 };
 
@@ -56,6 +58,11 @@ function tagsToObject(tagsArray) {
 // STATE MACHINE
 export default (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.ADD_SEARCH_TAG:
+            return {
+                ...state,
+                searchTags: [...state.searchTags, action.payload],
+            };
         case actionTypes.SET_TAG_DESCRIPTION:
             const {
                 tagDescription,
@@ -310,7 +317,6 @@ export default (state = initialState, action) => {
 };
 
 // INTERNAL FUNCTIONS
-
 const addItemToState = payload => {
     return {
         type: actionTypes.ADD_ITEM,
@@ -388,6 +394,13 @@ const replaceItemWithEditedItem = (itemId, newItemText) => {
 
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
+
+export const addSearchTag = (tagName, tagType) => {
+    return {
+        type: actionTypes.ADD_SEARCH_TAG,
+        payload: { tagName: tagName, tagType: tagType },
+    };
+};
 
 export const setTagType = (tagType, tagId, itemId) => {
     return {

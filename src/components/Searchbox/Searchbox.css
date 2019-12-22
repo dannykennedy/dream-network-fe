@@ -1,0 +1,14 @@
+#search-box-area {
+    margin-bottom: 40px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+#search-box {
+    width: 100%;
+}
+
+#search-tags-area {
+    width: 100%;
+    background-color: #ccc;
+}

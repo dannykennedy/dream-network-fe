@@ -8,17 +8,10 @@ import {
     addTagToItem as _addTagToItem,
     getTagType as _getTagType,
 } from "../../ducks/items";
+import { isEnterKey } from "../../modules/keyCodes";
 
 // Inspired by https://www.npmjs.com/package/react-tag-input
 // Look at this component in the future for autosuggestions
-const KeyCodes = {
-    comma: 188,
-    enter: 13,
-};
-
-const isEnterKey = keyCode => {
-    return keyCode === KeyCodes.enter || keyCode === KeyCodes.comma;
-};
 
 function TagsArea({ tags, itemId, editingItem, getTagType, addTagToItem }) {
     const [inputText, setInputText] = useState("");
