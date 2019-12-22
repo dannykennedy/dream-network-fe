@@ -39,7 +39,7 @@ function TagsArea({
             itemId: itemId,
             isNewTag: true,
         };
-        getTagType(tagName, id, itemId);
+        getTagType(tagName, id, itemId, setTagType);
         addTagToItem(newTag);
     };
 

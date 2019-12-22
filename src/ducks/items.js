@@ -757,7 +757,7 @@ export const deleteTag = (tagId, itemId) => {
     };
 };
 
-export const getTagType = (tagName, tagId, itemId) => {
+export const getTagType = (tagName, tagId, itemId, setTagTypeCallback) => {
     return dispatch => {
         // Then delete from database
         fetch(`${baseUrl}/tags/${tagName}/type`, {
@@ -767,7 +767,9 @@ export const getTagType = (tagName, tagId, itemId) => {
             .then(json => {
                 console.log("got type: ", json.type);
                 // Type may be undefined, in which case set "other"
-                dispatch(setTagType(json.type || "OTHER", tagId, itemId));
+                dispatch(
+                    setTagTypeCallback(json.type || "OTHER", tagId, itemId)
+                );
             })
             .catch(err => {
                 console.log(err);
