@@ -411,8 +411,6 @@ export const addSearchTag = (tagName, tagType, tagId) => {
 };
 
 export const removeSearchTag = tagId => {
-    console.log("REMOVE IT!!!!");
-
     return {
         type: actionTypes.REMOVE_SEARCH_TAG,
         payload: { tagId: tagId },

@@ -107,6 +107,8 @@ export function Tag({
                         <div
                             className="tag-remove-icon tag-icon"
                             onClick={function() {
+                                console.log(`onDelete(${tagId}, ${itemId})`);
+
                                 onDelete(tagId, itemId);
                             }}
                         >

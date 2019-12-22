@@ -37,18 +37,16 @@ function Searchbox({ searchTags, addSearchTag, removeSearchTag }) {
                 }}
             ></input>
             <div id="search-tags-area">
-                {searchTags.map((tag, i) => {
+                {searchTags.map(tag => {
                     return (
-                        <span>
-                            <Tag
-                                name={tag.tagName}
-                                type={tagTypes.OTHER}
-                                tagId={tagTypes.tagId}
-                                editing={true}
-                                onDelete={removeSearchTag}
-                                key={tag.tagName + i}
-                            ></Tag>
-                        </span>
+                        <Tag
+                            name={tag.tagName}
+                            type={tagTypes.OTHER}
+                            tagId={tag.tagId}
+                            editing={true}
+                            onDelete={removeSearchTag}
+                            key={tag.tagId}
+                        ></Tag>
                     );
                 })}
             </div>
