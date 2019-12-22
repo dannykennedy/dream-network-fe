@@ -6,6 +6,7 @@ import {
     addSearchTag as _addSearchTag,
     removeSearchTag as _removeSearchTag,
     setSearchTagType as _setSearchTagType,
+    setSearchTagDescription as _setSearchTagDescription,
 } from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
 import { tagTypes } from "../../constants/tagTypes";
@@ -16,6 +17,7 @@ function Searchbox({
     addSearchTag,
     removeSearchTag,
     setSearchTagType,
+    setSearchTagDescription,
 }) {
     const [inputText, setInputText] = useState("");
 
@@ -51,6 +53,7 @@ function Searchbox({
                             type={tag.tagType}
                             tagId={tag.tagId}
                             tagDescription={tag.tagDescription}
+                            onSetTagDescription={setSearchTagDescription}
                             editing={true}
                             onDelete={removeSearchTag}
                             onSetTagType={setSearchTagType}
@@ -74,6 +77,7 @@ const mapDispatchToProps = {
     addSearchTag: _addSearchTag,
     removeSearchTag: _removeSearchTag,
     setSearchTagType: _setSearchTagType,
+    setSearchTagDescription: _setSearchTagDescription,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Searchbox);

@@ -15,7 +15,7 @@ import { tagTypes, mapEntitiesToTypes } from "./tagTypes";
 import { TagDescriptions } from "./TagDescriptions";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { findDatesInText } from "../../modules/recogniseDate";
+// import { findDatesInText } from "../../modules/recogniseDate";
 // let parse_date = require("parse-dates");
 
 export function Tag({
@@ -29,6 +29,7 @@ export function Tag({
     onDelete,
     editTagInCurrentlyEditingItem,
     onSetTagType,
+    onSetTagDescription,
 }) {
     type = mapEntitiesToTypes[type];
 
@@ -65,6 +66,7 @@ export function Tag({
                         tagId={tagId}
                         itemId={itemId}
                         tagDescription={tagDescription}
+                        onSetTagDescription={onSetTagDescription}
                     />
                 )}
                 {editing ? (

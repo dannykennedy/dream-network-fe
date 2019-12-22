@@ -3,7 +3,6 @@ import FontAwesome from "react-fontawesome";
 import "./TagDescriptionDropdown.css";
 import { connect } from "react-redux";
 import { tagColors, hoveredTagColors } from "../../theme/Theme";
-import { setTagDescription as _setTagDescription } from "../../ducks/items";
 import { TagDescriptions } from "./TagDescriptions";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
@@ -11,8 +10,8 @@ const TagDescriptionDropdown = ({
     itemId,
     tagId,
     tagType,
-    setTagDescription,
     tagDescription,
+    onSetTagDescription,
 }) => {
     const node = useRef();
 
@@ -71,7 +70,7 @@ const TagDescriptionDropdown = ({
                                         if (descOption === "(None)") {
                                             descOption = null;
                                         }
-                                        setTagDescription(
+                                        onSetTagDescription(
                                             descOption,
                                             tagId,
                                             itemId
@@ -96,7 +95,7 @@ const mapStateToProps = state => {
     return state;
 };
 
-const mapDispatchToProps = { setTagDescription: _setTagDescription };
+const mapDispatchToProps = {};
 
 export default connect(
     mapStateToProps,

@@ -33,6 +33,7 @@ const actionTypes = {
     SAVE_TAGS_IN_UI: "SAVE_TAGS_IN_UI",
     ADD_SEARCH_TAG: "ADD_SEARCH_TAG",
     SET_SEARCH_TAG_TYPE: "SET_SEARCH_TAG_TYPE",
+    SET_SEARCH_TAG_DESCRIPTION: "SET_SEARCH_TAG_DESCRIPTION",
     REMOVE_SEARCH_TAG: "REMOVE_SEARCH_TAG",
     NO_OP: "NO_OP",
 };
@@ -80,6 +81,20 @@ export default (state = initialState, action) => {
                         return {
                             ...tag,
                             tagType: action.payload.tagType,
+                        };
+                    } else {
+                        return tag;
+                    }
+                }),
+            };
+        case actionTypes.SET_SEARCH_TAG_DESCRIPTION:
+            return {
+                ...state,
+                searchTags: state.searchTags.map(tag => {
+                    if (tag.tagId === action.payload.tagId) {
+                        return {
+                            ...tag,
+                            tagDescription: action.payload.tagDescription,
                         };
                     } else {
                         return tag;
@@ -439,6 +454,13 @@ export const setSearchTagType = (tagType, tagId) => {
     return {
         type: actionTypes.SET_SEARCH_TAG_TYPE,
         payload: { tagType: tagType, tagId: tagId },
+    };
+};
+
+export const setSearchTagDescription = (tagDescription, tagId) => {
+    return {
+        type: actionTypes.SET_SEARCH_TAG_DESCRIPTION,
+        payload: { tagDescription: tagDescription, tagId: tagId },
     };
 };
 

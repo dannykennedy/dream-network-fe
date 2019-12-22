@@ -9,6 +9,7 @@ import {
     getTagType as _getTagType,
     markTagAsDeletedInCurrentlyEditingItem as _markTagAsDeletedInCurrentlyEditingItem,
     setTagType as _setTagType,
+    setTagDescription as _setTagDescription,
 } from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
 
@@ -23,6 +24,7 @@ function TagsArea({
     addTagToItem,
     markTagAsDeletedInCurrentlyEditingItem,
     setTagType,
+    setTagDescription,
 }) {
     const [inputText, setInputText] = useState("");
 
@@ -45,20 +47,21 @@ function TagsArea({
                 <div className={"tags-area"}>
                     {Object.values(tags)
                         .filter(tag => !tag.isDeleted)
-                        .map((tag, i) => {
+                        .map(tag => {
                             return (
                                 <Tag
                                     name={tag.tagName}
                                     type={tag.tagType}
                                     tagId={tag.tagId}
                                     tagDescription={tag.tagDescription}
-                                    key={tag.tagId + i}
+                                    key={tag.tagId}
                                     itemId={itemId}
                                     editing={editingItem}
                                     onDelete={
                                         markTagAsDeletedInCurrentlyEditingItem
                                     }
                                     onSetTagType={setTagType}
+                                    onSetTagDescription={setTagDescription}
                                 />
                             );
                         })}
@@ -105,6 +108,7 @@ const mapDispatchToProps = {
     getTagType: _getTagType,
     markTagAsDeletedInCurrentlyEditingItem: _markTagAsDeletedInCurrentlyEditingItem,
     setTagType: _setTagType,
+    setTagDescription: _setTagDescription,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsArea);
