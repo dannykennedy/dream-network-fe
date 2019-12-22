@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import FontAwesome from "react-fontawesome";
 import "./TagDropdown.css";
-import { connect } from "react-redux";
 import { icons } from "../../theme/icons";
 import { tagColors, hoveredTagColors } from "../../theme/Theme";
 import { tagTypes } from "./tagTypes";
-import { setTagType as _setTagType } from "../../ducks/items";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
-const TagDropdown = ({ itemId, tagId, tagType, setTagType }) => {
+const TagDropdown = ({ itemId, tagId, tagType, onSetTagType }) => {
     const node = useRef();
 
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
@@ -62,7 +60,7 @@ const TagDropdown = ({ itemId, tagId, tagType, setTagType }) => {
                                         backgroundColor: tagColors[typeOption],
                                     }}
                                     onClick={() => {
-                                        setTagType(
+                                        onSetTagType(
                                             typeOption.toUpperCase(),
                                             tagId,
                                             itemId
@@ -80,10 +78,4 @@ const TagDropdown = ({ itemId, tagId, tagType, setTagType }) => {
     );
 };
 
-const mapStateToProps = state => {
-    return state;
-};
-
-const mapDispatchToProps = { setTagType: _setTagType };
-
-export default connect(mapStateToProps, mapDispatchToProps)(TagDropdown);
+export default TagDropdown;

@@ -32,6 +32,7 @@ const actionTypes = {
     SET_TAG_DESCRIPTION: "SET_TAG_DESCRIPTION",
     SAVE_TAGS_IN_UI: "SAVE_TAGS_IN_UI",
     ADD_SEARCH_TAG: "ADD_SEARCH_TAG",
+    SET_SEARCH_TAG_TYPE: "SET_SEARCH_TAG_TYPE",
     REMOVE_SEARCH_TAG: "REMOVE_SEARCH_TAG",
     NO_OP: "NO_OP",
 };
@@ -403,10 +404,20 @@ const replaceItemWithEditedItem = (itemId, newItemText) => {
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
 
-export const addSearchTag = (tagName, tagType, tagId) => {
+export const addSearchTag = (
+    tagName,
+    tagType,
+    tagId,
+    tagDescription = null
+) => {
     return {
         type: actionTypes.ADD_SEARCH_TAG,
-        payload: { tagName: tagName, tagType: tagType, tagId: tagId },
+        payload: {
+            tagName: tagName,
+            tagType: tagType,
+            tagId: tagId,
+            tagDescription: tagDescription,
+        },
     };
 };
 

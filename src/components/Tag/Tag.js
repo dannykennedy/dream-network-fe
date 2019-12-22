@@ -28,6 +28,7 @@ export function Tag({
     editing,
     onDelete,
     editTagInCurrentlyEditingItem,
+    onSetTagType,
 }) {
     type = mapEntitiesToTypes[type];
 
@@ -51,7 +52,12 @@ export function Tag({
                     </div>
                 )}
                 {editing && icons[type] && (
-                    <TagDropdown tagType={type} tagId={tagId} itemId={itemId} />
+                    <TagDropdown
+                        tagType={type}
+                        tagId={tagId}
+                        itemId={itemId}
+                        onSetTagType={onSetTagType}
+                    />
                 )}
                 {editing && TagDescriptions[type] && (
                     <TagDescriptionDropdown
@@ -107,8 +113,6 @@ export function Tag({
                         <div
                             className="tag-remove-icon tag-icon"
                             onClick={function() {
-                                console.log(`onDelete(${tagId}, ${itemId})`);
-
                                 onDelete(tagId, itemId);
                             }}
                         >
