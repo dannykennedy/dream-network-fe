@@ -26,8 +26,8 @@ export function Tag({
     user,
     tagDescription,
     editing,
+    onDelete,
     editTagInCurrentlyEditingItem,
-    markTagAsDeletedInCurrentlyEditingItem,
 }) {
     type = mapEntitiesToTypes[type];
 
@@ -107,10 +107,7 @@ export function Tag({
                         <div
                             className="tag-remove-icon tag-icon"
                             onClick={function() {
-                                markTagAsDeletedInCurrentlyEditingItem(
-                                    tagId,
-                                    itemId
-                                );
+                                onDelete(tagId, itemId);
                             }}
                         >
                             <FontAwesome name="times" />

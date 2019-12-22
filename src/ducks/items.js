@@ -32,6 +32,7 @@ const actionTypes = {
     SET_TAG_DESCRIPTION: "SET_TAG_DESCRIPTION",
     SAVE_TAGS_IN_UI: "SAVE_TAGS_IN_UI",
     ADD_SEARCH_TAG: "ADD_SEARCH_TAG",
+    REMOVE_SEARCH_TAG: "REMOVE_SEARCH_TAG",
     NO_OP: "NO_OP",
 };
 
@@ -62,6 +63,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 searchTags: [...state.searchTags, action.payload],
+            };
+        case actionTypes.REMOVE_SEARCH_TAG:
+            return {
+                ...state,
+                searchTags: state.searchTags.filter(
+                    tag => tag.tagId !== action.payload.tagId
+                ),
             };
         case actionTypes.SET_TAG_DESCRIPTION:
             const {
@@ -395,10 +403,19 @@ const replaceItemWithEditedItem = (itemId, newItemText) => {
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
 
-export const addSearchTag = (tagName, tagType) => {
+export const addSearchTag = (tagName, tagType, tagId) => {
     return {
         type: actionTypes.ADD_SEARCH_TAG,
-        payload: { tagName: tagName, tagType: tagType },
+        payload: { tagName: tagName, tagType: tagType, tagId: tagId },
+    };
+};
+
+export const removeSearchTag = tagId => {
+    console.log("REMOVE IT!!!!");
+
+    return {
+        type: actionTypes.REMOVE_SEARCH_TAG,
+        payload: { tagId: tagId },
     };
 };
 

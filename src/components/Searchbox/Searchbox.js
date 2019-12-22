@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import Tag from "../Tag";
 import "./Searchbox.css";
 import { connect } from "react-redux";
-import { addSearchTag as _addSearchTag } from "../../ducks/items";
+import {
+    addSearchTag as _addSearchTag,
+    removeSearchTag as _removeSearchTag,
+} from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
 import { tagTypes } from "../../constants/tagTypes";
+import uuidV4 from "../../modules/uuid";
 
-function Searchbox({ searchTags, addSearchTag }) {
+function Searchbox({ searchTags, addSearchTag, removeSearchTag }) {
     const [inputText, setInputText] = useState("");
 
     const onAddTag = tagName => {
-        addSearchTag(tagName, "NONE");
+        const tagId = uuidV4();
+        addSearchTag(tagName, "NONE", tagId);
     };
 
     return (
@@ -32,10 +37,17 @@ function Searchbox({ searchTags, addSearchTag }) {
                 }}
             ></input>
             <div id="search-tags-area">
-                {searchTags.map(tag => {
+                {searchTags.map((tag, i) => {
                     return (
                         <span>
-                            <Tag name={tag.tagName} type={tagTypes.OTHER}></Tag>
+                            <Tag
+                                name={tag.tagName}
+                                type={tagTypes.OTHER}
+                                tagId={tagTypes.tagId}
+                                editing={true}
+                                onDelete={removeSearchTag}
+                                key={tag.tagName + i}
+                            ></Tag>
                         </span>
                     );
                 })}
@@ -53,6 +65,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     addSearchTag: _addSearchTag,
+    removeSearchTag: _removeSearchTag,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Searchbox);

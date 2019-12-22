@@ -7,13 +7,21 @@ import { connect } from "react-redux";
 import {
     addTagToItem as _addTagToItem,
     getTagType as _getTagType,
+    markTagAsDeletedInCurrentlyEditingItem as _markTagAsDeletedInCurrentlyEditingItem,
 } from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
 
 // Inspired by https://www.npmjs.com/package/react-tag-input
 // Look at this component in the future for autosuggestions
 
-function TagsArea({ tags, itemId, editingItem, getTagType, addTagToItem }) {
+function TagsArea({
+    tags,
+    itemId,
+    editingItem,
+    getTagType,
+    addTagToItem,
+    markTagAsDeletedInCurrentlyEditingItem,
+}) {
     const [inputText, setInputText] = useState("");
 
     const onAddTag = tagName => {
@@ -45,6 +53,9 @@ function TagsArea({ tags, itemId, editingItem, getTagType, addTagToItem }) {
                                     key={tag.tagId + i}
                                     itemId={itemId}
                                     editing={editingItem}
+                                    onDelete={
+                                        markTagAsDeletedInCurrentlyEditingItem
+                                    }
                                 />
                             );
                         })}
@@ -89,6 +100,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     addTagToItem: _addTagToItem,
     getTagType: _getTagType,
+    markTagAsDeletedInCurrentlyEditingItem: _markTagAsDeletedInCurrentlyEditingItem,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsArea);
