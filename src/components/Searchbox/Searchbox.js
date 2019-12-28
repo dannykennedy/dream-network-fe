@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Tag from "../Tag";
+import SearchQueryArea from "./SearchQueryArea";
 import "./Searchbox.css";
 import { connect } from "react-redux";
 import {
     addSearchTag as _addSearchTag,
-    removeSearchTag as _removeSearchTag,
-    setSearchTagType as _setSearchTagType,
-    setSearchTagDescription as _setSearchTagDescription,
-    editSearchTagName as _editSearchTagName,
     getTagType as _getTagType,
     filterItems as _filterItems,
+    setSearchTagType as _setSearchTagType,
 } from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
 import { mapEntitiesToTypes } from "../../constants/tagTypes";
@@ -19,10 +17,7 @@ import FontAwesome from "react-fontawesome";
 function Searchbox({
     searchTags,
     addSearchTag,
-    removeSearchTag,
     setSearchTagType,
-    setSearchTagDescription,
-    editSearchTagName,
     getTagType,
     filterItems,
 }) {
@@ -37,14 +32,6 @@ function Searchbox({
         const tagId = uuidV4();
         addSearchTag(tagName, mapEntitiesToTypes.NONE, tagId);
         getTagType(tagName, tagId, "", setSearchTagType);
-        // filterItems([
-        //     ...searchTags,
-        //     {
-        //         tagName: tagName,
-        //         tagType: mapEntitiesToTypes.NONE,
-        //         tagId: tagId,
-        //     },
-        // ]);
     };
 
     return (
@@ -70,25 +57,7 @@ function Searchbox({
                     }}
                 ></input>
             </div>
-            <div id="search-tags-area">
-                {searchTags.length > 0 && <span>Filtering by: </span>}
-                {searchTags.map(tag => {
-                    return (
-                        <Tag
-                            name={tag.tagName}
-                            type={tag.tagType}
-                            tagId={tag.tagId}
-                            tagDescription={tag.tagDescription}
-                            onSetTagDescription={setSearchTagDescription}
-                            editing={true}
-                            onDelete={removeSearchTag}
-                            onSetTagType={setSearchTagType}
-                            key={tag.tagId}
-                            onEditTagName={editSearchTagName}
-                        ></Tag>
-                    );
-                })}
-            </div>
+            <SearchQueryArea />
         </div>
     );
 }
@@ -102,12 +71,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     addSearchTag: _addSearchTag,
-    removeSearchTag: _removeSearchTag,
-    setSearchTagType: _setSearchTagType,
-    setSearchTagDescription: _setSearchTagDescription,
-    editSearchTagName: _editSearchTagName,
     getTagType: _getTagType,
     filterItems: _filterItems,
+    setSearchTagType: _setSearchTagType,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Searchbox);
