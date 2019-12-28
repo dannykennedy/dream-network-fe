@@ -65,14 +65,30 @@ function tagsToObject(tagsArray) {
 export default (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FILTER_ITEMS:
-            console.log("filterng");
+            console.log("filterng by", action.payload);
             return {
                 ...state,
-                currentlyShowingItems: values(
-                    state.currentlyShowingItems
-                ).filter(item => {
-                    return item;
-                }),
+                currentlyShowingItems: values(state.publicItems).filter(
+                    item => {
+                        // console.log(values(item.tags));
+                        let found = false;
+                        const tagsToSearch = values(item.tags);
+                        const searchTags = action.payload;
+
+                        for (let j = 0; j < searchTags.length; j++) {
+                            for (let i = 0; i < tagsToSearch.length; i++) {
+                                if (
+                                    tagsToSearch[i].tagName.toUpperCase() ===
+                                    searchTags[j].tagName.toUpperCase()
+                                ) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                        return found;
+                    }
+                ),
             };
 
         case actionTypes.ADD_SEARCH_TAG:
@@ -486,13 +502,6 @@ export const addSearchTag = (
     };
 };
 
-export const setSearchTagType = (tagType, tagId) => {
-    return {
-        type: actionTypes.SET_SEARCH_TAG_TYPE,
-        payload: { tagType: tagType, tagId: tagId },
-    };
-};
-
 export const setSearchTagDescription = (tagDescription, tagId) => {
     return {
         type: actionTypes.SET_SEARCH_TAG_DESCRIPTION,
@@ -559,6 +568,20 @@ export const addTagToItem = tag => {
         payload: tag,
     };
 };
+
+export const setSearchTagType = (tagType, tagId) => {
+    return {
+        type: actionTypes.SET_SEARCH_TAG_TYPE,
+        payload: { tagType: tagType, tagId: tagId },
+    };
+};
+
+// export const setSearchTagType = (tagType, tagId, searchTags) => {
+//     return dispatch => {
+//         dispatch(putSearchTagType);
+//         dispatch(filterItems(searchTags));
+//     };
+// };
 
 // GET ITEMS ON INITIAL LOAD
 export const fetchData = userEmail => {

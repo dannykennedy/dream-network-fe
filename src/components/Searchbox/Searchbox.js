@@ -32,7 +32,14 @@ function Searchbox({
         const tagId = uuidV4();
         addSearchTag(tagName, mapEntitiesToTypes.NONE, tagId);
         getTagType(tagName, tagId, "", setSearchTagType);
-        filterItems(searchTags);
+        filterItems([
+            ...searchTags,
+            {
+                tagName: tagName,
+                tagType: mapEntitiesToTypes.NONE,
+                tagId: tagId,
+            },
+        ]);
     };
 
     return (
