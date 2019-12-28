@@ -6,6 +6,7 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 const initialState = {
     userItems: null,
     publicItems: null,
+    currentlyShowingItems: null,
     currentlyEditingItems: {},
     loading: true,
     searchTags: [],
@@ -36,6 +37,7 @@ const actionTypes = {
     SET_SEARCH_TAG_DESCRIPTION: "SET_SEARCH_TAG_DESCRIPTION",
     EDIT_SEARCH_TAG_NAME: "EDIT_SEARCH_TAG_NAME",
     REMOVE_SEARCH_TAG: "REMOVE_SEARCH_TAG",
+    FILTER_ITEMS: "FILTER_ITEMS",
     NO_OP: "NO_OP",
 };
 
@@ -62,6 +64,17 @@ function tagsToObject(tagsArray) {
 // STATE MACHINE
 export default (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FILTER_ITEMS:
+            console.log("filterng");
+            return {
+                ...state,
+                currentlyShowingItems: values(
+                    state.currentlyShowingItems
+                ).filter(item => {
+                    return item;
+                }),
+            };
+
         case actionTypes.ADD_SEARCH_TAG:
             return {
                 ...state,
@@ -186,10 +199,12 @@ export default (state = initialState, action) => {
             };
         case actionTypes.LOGGEDOUT_DATA_SUCCESS:
             console.log("All data success");
+            let items = itemsToObject(action.payload);
             return {
                 ...state,
                 loading: false,
-                publicItems: itemsToObject(action.payload),
+                publicItems: { ...items },
+                currentlyShowingItems: { ...items },
             };
         // Add a post to the list of currently editing items
         case actionTypes.SET_CURRENTLY_EDITING_ITEM:
@@ -447,6 +462,12 @@ const replaceItemWithEditedItem = (itemId, newItemText) => {
 
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
+
+export const filterItems = searchTags => {
+    console.log("got search tags to filter: ", searchTags);
+
+    return { type: actionTypes.FILTER_ITEMS, payload: searchTags };
+};
 
 export const addSearchTag = (
     tagName,

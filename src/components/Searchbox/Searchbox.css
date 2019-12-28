@@ -1,11 +1,27 @@
-#search-box-area {
+#search-area {
     margin-bottom: 40px;
     margin-top: 20px;
     width: 100%;
 }
 
-#search-box {
+#search-bar-area {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+}
+
+#search-icon {
+    z-index: 2;
+    position: absolute;
+    left: 10px;
+    color: #555;
+}
+
+#search-bar {
     width: 100%;
+    padding-left: 35px;
+    font-size: inherit;
 }
 
 #search-tags-area {

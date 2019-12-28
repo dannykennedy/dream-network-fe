@@ -4,21 +4,21 @@ import { connect } from "react-redux";
 import LoadingNotice from "../LoadingNotice";
 import Searchbox from "../Searchbox";
 
-function ItemsArea({ userItems, publicItems, user }) {
+function ItemsArea({ userItems, publicItems, currentlyShowingItems, user }) {
     if (!user) {
         return !publicItems ? (
-            <LoadingNotice loadingText="Loading public items" />
+            <LoadingNotice loadingText="Loading posts" />
         ) : (
             <div>
                 <Searchbox />
-                {Object.values(publicItems).map(post => {
+                {Object.values(currentlyShowingItems).map(post => {
                     return <Card post={post} key={post.itemId} />;
                 })}
             </div>
         );
     } else {
         return !userItems ? (
-            <LoadingNotice loadingText="Loading user posts" />
+            <LoadingNotice loadingText="Loading your posts" />
         ) : (
             <div>
                 {Object.values(userItems).map(post => {
@@ -34,6 +34,7 @@ const mapStateToProps = state => {
     return {
         userItems: state.items.userItems,
         publicItems: state.items.publicItems,
+        currentlyShowingItems: state.items.currentlyShowingItems,
         user: state.user.user,
     };
 };

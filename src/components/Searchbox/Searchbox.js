@@ -9,10 +9,12 @@ import {
     setSearchTagDescription as _setSearchTagDescription,
     editSearchTagName as _editSearchTagName,
     getTagType as _getTagType,
+    filterItems as _filterItems,
 } from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
-import { tagTypes, mapEntitiesToTypes } from "../../constants/tagTypes";
+import { mapEntitiesToTypes } from "../../constants/tagTypes";
 import uuidV4 from "../../modules/uuid";
+import FontAwesome from "react-fontawesome";
 
 function Searchbox({
     searchTags,
@@ -22,6 +24,7 @@ function Searchbox({
     setSearchTagDescription,
     editSearchTagName,
     getTagType,
+    filterItems,
 }) {
     const [inputText, setInputText] = useState("");
 
@@ -29,26 +32,32 @@ function Searchbox({
         const tagId = uuidV4();
         addSearchTag(tagName, mapEntitiesToTypes.NONE, tagId);
         getTagType(tagName, tagId, "", setSearchTagType);
+        filterItems(searchTags);
     };
 
     return (
-        <div id="search-box-area">
-            <input
-                id="search-box"
-                value={inputText}
-                placeholder="Search for articles, reviews, dreams..."
-                onKeyDown={e => {
-                    if (isEnterKey(e.keyCode)) {
-                        onAddTag(inputText);
-                        setInputText("");
-                    }
-                }}
-                onChange={e => {
-                    if (!(e.target.value === "," || e.target.value === "\n")) {
-                        setInputText(e.target.value);
-                    }
-                }}
-            ></input>
+        <div id="search-area">
+            <div id="search-bar-area">
+                <FontAwesome name="search" id="search-icon" />
+                <input
+                    id="search-bar"
+                    value={inputText}
+                    placeholder="Search for articles, reviews, dreams..."
+                    onKeyDown={e => {
+                        if (isEnterKey(e.keyCode)) {
+                            onAddTag(inputText);
+                            setInputText("");
+                        }
+                    }}
+                    onChange={e => {
+                        if (
+                            !(e.target.value === "," || e.target.value === "\n")
+                        ) {
+                            setInputText(e.target.value);
+                        }
+                    }}
+                ></input>
+            </div>
             <div id="search-tags-area">
                 {searchTags.length > 0 && <span>Filtering by: </span>}
                 {searchTags.map(tag => {
@@ -86,6 +95,7 @@ const mapDispatchToProps = {
     setSearchTagDescription: _setSearchTagDescription,
     editSearchTagName: _editSearchTagName,
     getTagType: _getTagType,
+    filterItems: _filterItems,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Searchbox);
