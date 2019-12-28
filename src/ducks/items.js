@@ -66,29 +66,39 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FILTER_ITEMS:
             console.log("filterng by", action.payload);
+            // if (action.payload.length < 1){
+            //     return {...state, currentlyShowingItems: {...publicItems}
+            // }
             return {
                 ...state,
-                currentlyShowingItems: values(state.publicItems).filter(
-                    item => {
-                        // console.log(values(item.tags));
-                        let found = false;
-                        const tagsToSearch = values(item.tags);
-                        const searchTags = action.payload;
+                currentlyShowingItems:
+                    action.payload.length < 1
+                        ? { ...state.publicItems }
+                        : values(state.publicItems).filter(item => {
+                              // console.log(values(item.tags));
+                              let found = false;
+                              const tagsToSearch = values(item.tags);
+                              const searchTags = action.payload;
 
-                        for (let j = 0; j < searchTags.length; j++) {
-                            for (let i = 0; i < tagsToSearch.length; i++) {
-                                if (
-                                    tagsToSearch[i].tagName.toUpperCase() ===
-                                    searchTags[j].tagName.toUpperCase()
-                                ) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-                        return found;
-                    }
-                ),
+                              for (let j = 0; j < searchTags.length; j++) {
+                                  for (
+                                      let i = 0;
+                                      i < tagsToSearch.length;
+                                      i++
+                                  ) {
+                                      if (
+                                          tagsToSearch[
+                                              i
+                                          ].tagName.toUpperCase() ===
+                                          searchTags[j].tagName.toUpperCase()
+                                      ) {
+                                          found = true;
+                                          break;
+                                      }
+                                  }
+                              }
+                              return found;
+                          }),
             };
 
         case actionTypes.ADD_SEARCH_TAG:

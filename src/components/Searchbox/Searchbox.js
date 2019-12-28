@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tag from "../Tag";
 import "./Searchbox.css";
 import { connect } from "react-redux";
@@ -28,18 +28,23 @@ function Searchbox({
 }) {
     const [inputText, setInputText] = useState("");
 
+    // Every time the search tags update, filter the content
+    useEffect(() => {
+        filterItems(searchTags);
+    }, [searchTags, filterItems]);
+
     const onAddTag = tagName => {
         const tagId = uuidV4();
         addSearchTag(tagName, mapEntitiesToTypes.NONE, tagId);
         getTagType(tagName, tagId, "", setSearchTagType);
-        filterItems([
-            ...searchTags,
-            {
-                tagName: tagName,
-                tagType: mapEntitiesToTypes.NONE,
-                tagId: tagId,
-            },
-        ]);
+        // filterItems([
+        //     ...searchTags,
+        //     {
+        //         tagName: tagName,
+        //         tagType: mapEntitiesToTypes.NONE,
+        //         tagId: tagId,
+        //     },
+        // ]);
     };
 
     return (
