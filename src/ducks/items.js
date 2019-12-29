@@ -10,6 +10,7 @@ const initialState = {
     currentlyEditingItems: {},
     loading: true,
     searchTags: [],
+    searchingInProgress: false,
 };
 
 // TYPES OF ACTIONS THAT CAN BE DISPATCHED
@@ -32,13 +33,14 @@ const actionTypes = {
     SET_TAG_TYPE: "SET_TAG_TYPE",
     SET_TAG_DESCRIPTION: "SET_TAG_DESCRIPTION",
     SAVE_TAGS_IN_UI: "SAVE_TAGS_IN_UI",
-    ADD_SEARCH_TAG: "ADD_SEARCH_TAG",
+    ADD_SEARCH_TAGS: "ADD_SEARCH_TAGS",
     SET_SEARCH_TAG_TYPE: "SET_SEARCH_TAG_TYPE",
     SET_SEARCH_TAG_DESCRIPTION: "SET_SEARCH_TAG_DESCRIPTION",
     EDIT_SEARCH_TAG_NAME: "EDIT_SEARCH_TAG_NAME",
     REMOVE_SEARCH_TAG: "REMOVE_SEARCH_TAG",
     FILTER_ITEMS: "FILTER_ITEMS",
     NO_OP: "NO_OP",
+    SET_SEARCHING_IN_PROGRESS: "SET_SEARCHING_IN_PROGRESS",
 };
 
 function itemsToObject(itemsArray) {
@@ -64,6 +66,11 @@ function tagsToObject(tagsArray) {
 // STATE MACHINE
 export default (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.SET_SEARCHING_IN_PROGRESS:
+            return {
+                ...state,
+                searchingInProgress: action.payload,
+            };
         case actionTypes.FILTER_ITEMS:
             console.log("filterng by", action.payload);
             // if (action.payload.length < 1){
@@ -101,10 +108,12 @@ export default (state = initialState, action) => {
                           }),
             };
 
-        case actionTypes.ADD_SEARCH_TAG:
+        case actionTypes.ADD_SEARCH_TAGS:
+            console.log("got taghhhh", action.payload);
+
             return {
                 ...state,
-                searchTags: [...state.searchTags, action.payload],
+                searchTags: [...state.searchTags, ...action.payload],
             };
         case actionTypes.REMOVE_SEARCH_TAG:
             return {
@@ -489,26 +498,20 @@ const replaceItemWithEditedItem = (itemId, newItemText) => {
 // A lot of these functions rely on redux-thunk
 // Instead of returning an object, we're returning a function (dispatch) that returns an object
 
+export const setSearchInProgress = bool => {
+    return { type: actionTypes.SET_SEARCHING_IN_PROGRESS, payload: bool };
+};
+
 export const filterItems = searchTags => {
     console.log("got search tags to filter: ", searchTags);
 
     return { type: actionTypes.FILTER_ITEMS, payload: searchTags };
 };
 
-export const addSearchTag = (
-    tagName,
-    tagType,
-    tagId,
-    tagDescription = null
-) => {
+export const addSearchTags = tags => {
     return {
-        type: actionTypes.ADD_SEARCH_TAG,
-        payload: {
-            tagName: tagName,
-            tagType: tagType,
-            tagId: tagId,
-            tagDescription: tagDescription,
-        },
+        type: actionTypes.ADD_SEARCH_TAGS,
+        payload: tags,
     };
 };
 
@@ -592,6 +595,22 @@ export const setSearchTagType = (tagType, tagId) => {
 //         dispatch(filterItems(searchTags));
 //     };
 // };
+
+// Get tags from Search
+export const getSearchTags = searchText => {
+    return dispatch => {
+        dispatch(dataRequest());
+        fetch(`${baseUrl}/search/?q=${searchText}`)
+            .then(d => d.json())
+            .then(json => {
+                dispatch(setSearchInProgress(false));
+                dispatch(addSearchTags(json));
+            })
+            .catch(err => {
+                dispatch({ type: actionTypes.DATA_FAILURE, payload: err });
+            });
+    };
+};
 
 // GET ITEMS ON INITIAL LOAD
 export const fetchData = userEmail => {
@@ -694,7 +713,6 @@ export const editItem = (itemId, newItem) => {
 export const saveTagsFromCurrentItem = currentItem => {
     let tagsArray = values(currentItem.tags);
     console.log("tags in FE: ", tagsArray);
-    console.log("yeeehaw");
 
     return dispatch => {
         // Remove 'isNewTag' from tags
