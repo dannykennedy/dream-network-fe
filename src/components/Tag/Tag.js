@@ -8,8 +8,11 @@ import { connect } from "react-redux";
 import { markTagAsDeletedInCurrentlyEditingItem as _markTagAsDeletedInCurrentlyEditingItem } from "../../ducks/items";
 import "./Tag.css";
 import { icons } from "../../theme/icons";
-import { tagTypes, mapEntitiesToTypes } from "./tagTypes";
-import { TagDescriptions } from "./TagDescriptions";
+import {
+    tagTypes,
+    mapEntitiesToTypes,
+    TagDescriptions,
+} from "../../config/tagConfig";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import { findDatesInText } from "../../modules/recogniseDate";

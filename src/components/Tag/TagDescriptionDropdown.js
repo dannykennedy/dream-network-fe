@@ -3,7 +3,7 @@ import FontAwesome from "react-fontawesome";
 import "./TagDescriptionDropdown.css";
 import { connect } from "react-redux";
 import { tagColors, hoveredTagColors } from "../../theme/Theme";
-import { TagDescriptions } from "./TagDescriptions";
+import { TagDescriptions } from "../../config/tagConfig";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
 const TagDescriptionDropdown = ({

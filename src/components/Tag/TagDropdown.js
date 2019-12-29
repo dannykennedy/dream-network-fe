@@ -3,7 +3,7 @@ import FontAwesome from "react-fontawesome";
 import "./TagDropdown.css";
 import { icons } from "../../theme/icons";
 import { tagColors, hoveredTagColors } from "../../theme/Theme";
-import { tagTypes } from "./tagTypes";
+import { tagTypes } from "../../config/tagConfig";
 
 // https://medium.com/@pitipatdop/little-neat-trick-to-capture-click-outside-with-react-hook-ba77c37c7e82
 const TagDropdown = ({ itemId, tagId, tagType, onSetTagType }) => {
