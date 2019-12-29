@@ -15,6 +15,7 @@ import {
 } from "../../config/tagConfig";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { tagColors, hoveredTagColors } from "../../theme/Theme";
 // import { findDatesInText } from "../../modules/recogniseDate";
 // let parse_date = require("parse-dates");
 
@@ -104,11 +105,18 @@ export function Tag({
                         />
                     )
                 ) : (
-                    <div className="tag-name">
-                        <span>
-                            {tagDescription && <span>{tagDescription} - </span>}
-                            {name}
-                        </span>
+                    <div className="tag-text">
+                        {tagDescription && (
+                            <span
+                                className="tag-description"
+                                style={{
+                                    border: `1px solid ${hoveredTagColors[type]}`,
+                                }}
+                            >
+                                {tagDescription}
+                            </span>
+                        )}
+                        <span className="tag-name">{name}</span>
                     </div>
                 )}
                 {user && editing && (

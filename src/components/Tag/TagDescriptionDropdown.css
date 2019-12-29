@@ -38,7 +38,8 @@
 
 button.tag-description-dropdown-button {
     color: white;
-    font-size: inherit;
+    text-transform: uppercase;
+    font-size: 12px;
 }
 
 .tag-dropdown-content button {

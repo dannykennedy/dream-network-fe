@@ -8,7 +8,7 @@ export const tagColors = {
 };
 
 export const hoveredTagColors = {
-    date: "rgb(222,93,93)",
+    DATE: "rgb(222,93,93)",
     PERSON: "rgb(244, 152, 58)",
     LOCATION: "rgb(125,184,99)",
     OTHER: "rgb(82,151,242)",
