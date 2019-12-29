@@ -664,8 +664,8 @@ export const addItem = post => {
                     ...post,
                     tags: json.map(responseRow => {
                         return {
-                            tagName: responseRow.name,
-                            tagType: responseRow.type,
+                            tagName: responseRow.tagName,
+                            tagType: responseRow.tagType,
                             tagId: responseRow.tagId,
                         };
                     }),
