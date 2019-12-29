@@ -4,4 +4,5 @@ export const icons = {
     OTHER: "tag",
     DATE: "calendar-alt",
     NONE: null,
+    DOCUMENT: "file",
 };

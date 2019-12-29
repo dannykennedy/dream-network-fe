@@ -3,6 +3,7 @@ export const tagTypes = {
     LOCATION: "LOCATION",
     OTHER: "OTHER",
     DATE: "DATE",
+    DOCUMENT: "DOCUMENT",
 };
 
 export const mapEntitiesToTypes = {
@@ -15,5 +16,6 @@ export const mapEntitiesToTypes = {
     EVENT: tagTypes.OTHER,
     WORK_OF_ART: tagTypes.OTHER,
     CONSUMER_GOOD: tagTypes.OTHER,
+    DOCUMENT: tagTypes.DOCUMENT,
     NONE: "NONE",
 };

@@ -61,6 +61,13 @@
 .OTHER {
     background-color: rgb(121, 174, 245);
 }
+.DOCUMENT {
+    background-color: rgba(161, 145, 203, 0.8);
+}
+.DOCUMENT:hover {
+    background-color: rgba(161, 145, 203, 1);
+}
+
 .OTHER:hover {
     background-color: rgb(82, 151, 242);
     text-decoration: none;

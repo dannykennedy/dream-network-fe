@@ -670,9 +670,7 @@ export const addItem = post => {
                         };
                     }),
                 };
-
                 console.log("new Item: ", post);
-
                 dispatch(replaceItemWithTaggedItem(post));
             })
             .catch(err => {

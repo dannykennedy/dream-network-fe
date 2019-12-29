@@ -11,8 +11,6 @@ import {
     setSearchInProgress as _setSearchInProgress,
 } from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
-import { mapEntitiesToTypes } from "../../constants/tagTypes";
-import uuidV4 from "../../modules/uuid";
 import FontAwesome from "react-fontawesome";
 
 function Searchbox({
@@ -32,11 +30,8 @@ function Searchbox({
     }, [searchTags, filterItems]);
 
     const onEnterSearchText = searchText => {
-        // const tagId = uuidV4();
-        // addSearchTags(searchText, mapEntitiesToTypes.NONE, tagId);
         getSearchTags(searchText);
         setSearchInProgress(true);
-        // getTagType(searchText, tagId, "", setSearchTagType);
     };
 
     return (
