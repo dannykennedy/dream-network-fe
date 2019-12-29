@@ -7,6 +7,6 @@
 export const TagDescriptions = {
     PERSON: ["Author", "Subject", "(None)"],
     DATE: ["Itemed on", "(None)"],
-    OTHER: ["Subject", "(None)"],
+    OTHER: ["Subject", "Title", "(None)"],
     DOCUMENT: ["Featured in", "(None)"],
 };

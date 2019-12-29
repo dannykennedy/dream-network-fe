@@ -421,6 +421,8 @@ export default (state = initialState, action) => {
 
 // INTERNAL FUNCTIONS
 const addItemToState = payload => {
+    console.log("got ITEM!!!", payload);
+
     return {
         type: actionTypes.ADD_ITEM,
         payload,
@@ -662,13 +664,7 @@ export const addItem = post => {
 
                 post = {
                     ...post,
-                    tags: json.map(responseRow => {
-                        return {
-                            tagName: responseRow.tagName,
-                            tagType: responseRow.tagType,
-                            tagId: responseRow.tagId,
-                        };
-                    }),
+                    tags: json.map(responseRow => responseRow),
                 };
                 console.log("new Item: ", post);
                 dispatch(replaceItemWithTaggedItem(post));
