@@ -13,6 +13,44 @@ import { connect } from "react-redux";
 import { addItem as _addItem } from "../../ducks/items";
 // Config
 import editorConfig from "./editorConfig";
+import PropTypes from "prop-types";
+
+class CustomOptionz extends Component {
+    static propTypes = {
+        onChange: PropTypes.func,
+        editorState: PropTypes.object,
+    };
+
+    addStar = () => {
+        const { editorState, onChange } = this.props;
+
+        let html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        html = `<p>${striptags(html)}</p>`.replace(/\n/g, " ");
+        const contentBlock = htmlToDraft(html);
+        const contentState = ContentState.createFromBlockArray(
+            contentBlock.contentBlocks
+        );
+        const newEditorState = EditorState.createWithContent(contentState);
+
+        onChange(
+            EditorState.push(newEditorState, contentState, "change-block-data")
+        );
+    };
+
+    render() {
+        const eraserIcon =
+            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOC4xIDE0bDYuNC03LjJjLjYtLjcuNi0xLjgtLjEtMi41bC0yLjctMi43Yy0uMy0uNC0uOC0uNi0xLjMtLjZIOC42Yy0uNSAwLTEgLjItMS40LjZMLjUgOS4yYy0uNi43LS42IDEuOS4xIDIuNWwyLjcgMi43Yy4zLjQuOC42IDEuMy42SDE2di0xSDguMXptLTEuMy0uMXMwLS4xIDAgMGwtMi43LTIuN2MtLjQtLjQtLjQtLjkgMC0xLjNMNy41IDZoLTFsLTMgMy4zYy0uNi43LS42IDEuNy4xIDIuNEw1LjkgMTRINC42Yy0uMiAwLS40LS4xLS42LS4yTDEuMiAxMWMtLjMtLjMtLjMtLjggMC0xLjFMNC43IDZoMS44TDEwIDJoMUw3LjUgNmwzLjEgMy43LTMuNSA0Yy0uMS4xLS4yLjEtLjMuMnoiLz48L3N2Zz4=";
+        return (
+            <div
+                onClick={this.addStar}
+                className="rdw-option-wrapper"
+                title="Remove all formatting. Can't be undone."
+            >
+                <img src={eraserIcon} alt="Remove formatting"></img>
+            </div>
+        );
+    }
+}
 
 class ItemEditor extends Component {
     constructor(props) {
@@ -30,6 +68,10 @@ class ItemEditor extends Component {
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    // draftToHtml(
+    //     convertToRaw(editorState.getCurrentContent())
+    // )
 
     onEditorStateChange = editorState => {
         this.setState({
@@ -70,21 +112,6 @@ class ItemEditor extends Component {
         props.onSave(post, itemId);
     }
 
-    nukeFormatting(htmlContent) {
-        console.log("Nuking ", htmlContent);
-
-        const html = `<p>${striptags(htmlContent)}</p>`.replace(/\n/g, " ");
-        console.log("Nuked ", html);
-        const contentBlock = htmlToDraft(html);
-        const contentState = ContentState.createFromBlockArray(
-            contentBlock.contentBlocks
-        );
-        const editorState = EditorState.createWithContent(contentState);
-        this.setState({
-            editorState,
-        });
-    }
-
     render() {
         const { editorState } = this.state;
         return (
@@ -96,6 +123,7 @@ class ItemEditor extends Component {
                     onEditorStateChange={this.onEditorStateChange}
                     toolbar={editorConfig}
                     stripPastedStyles={true}
+                    toolbarCustomButtons={[<CustomOptionz />]}
                 />
                 <button
                     className="button-standard"
@@ -109,19 +137,6 @@ class ItemEditor extends Component {
                     }}
                 >
                     {this.props.saveButtonText || "Save"}
-                </button>
-
-                <button
-                    className="button-standard"
-                    onClick={() => {
-                        this.nukeFormatting(
-                            draftToHtml(
-                                convertToRaw(editorState.getCurrentContent())
-                            )
-                        );
-                    }}
-                >
-                    Nuke all formatting!
                 </button>
             </div>
         );
