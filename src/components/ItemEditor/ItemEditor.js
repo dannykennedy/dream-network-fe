@@ -15,13 +15,14 @@ import { addItem as _addItem } from "../../ducks/items";
 import editorConfig from "./editorConfig";
 import PropTypes from "prop-types";
 
-class CustomOptionz extends Component {
+// "Nuke formatting" option for PDF copy-paste etc.
+class RemoveFormattingOption extends Component {
     static propTypes = {
         onChange: PropTypes.func,
         editorState: PropTypes.object,
     };
 
-    addStar = () => {
+    removeFormatting = () => {
         const { editorState, onChange } = this.props;
 
         let html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
@@ -42,7 +43,7 @@ class CustomOptionz extends Component {
             "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOC4xIDE0bDYuNC03LjJjLjYtLjcuNi0xLjgtLjEtMi41bC0yLjctMi43Yy0uMy0uNC0uOC0uNi0xLjMtLjZIOC42Yy0uNSAwLTEgLjItMS40LjZMLjUgOS4yYy0uNi43LS42IDEuOS4xIDIuNWwyLjcgMi43Yy4zLjQuOC42IDEuMy42SDE2di0xSDguMXptLTEuMy0uMXMwLS4xIDAgMGwtMi43LTIuN2MtLjQtLjQtLjQtLjkgMC0xLjNMNy41IDZoLTFsLTMgMy4zYy0uNi43LS42IDEuNy4xIDIuNEw1LjkgMTRINC42Yy0uMiAwLS40LS4xLS42LS4yTDEuMiAxMWMtLjMtLjMtLjMtLjggMC0xLjFMNC43IDZoMS44TDEwIDJoMUw3LjUgNmwzLjEgMy43LTMuNSA0Yy0uMS4xLS4yLjEtLjMuMnoiLz48L3N2Zz4=";
         return (
             <div
-                onClick={this.addStar}
+                onClick={this.removeFormatting}
                 className="rdw-option-wrapper"
                 title="Remove all formatting. Can't be undone."
             >
@@ -123,7 +124,7 @@ class ItemEditor extends Component {
                     onEditorStateChange={this.onEditorStateChange}
                     toolbar={editorConfig}
                     stripPastedStyles={true}
-                    toolbarCustomButtons={[<CustomOptionz />]}
+                    toolbarCustomButtons={[<RemoveFormattingOption />]}
                 />
                 <button
                     className="button-standard"
