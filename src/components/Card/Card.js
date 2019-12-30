@@ -16,8 +16,7 @@ import {
 } from "../../ducks/items";
 import { chain, values } from "lodash";
 import { Link } from "react-router-dom";
-
-var HtmlToReactParser = require("html-to-react").Parser;
+let HtmlToReactParser = require("html-to-react").Parser;
 
 function Card({
     post,
@@ -31,13 +30,18 @@ function Card({
     showingFullText,
 }) {
     const { entryText, firstName, lastName, itemId, timePosted, tags } = post;
-
-    console.log(entryText);
-
-    const node = useRef();
-
     const [editingItem, setEditingItem] = useState(false);
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
+    const node = useRef();
+
+    // Truncate text if needed
+    var _htmlToReactParser = new HtmlToReactParser();
+    const textToShow = showingFullText
+        ? entryText
+        : truncate(entryText, 700, {
+              keepImageTag: true,
+              ellipsis: `...<a href='dream-network/${itemId}'>Read more</a>`,
+          });
 
     const handleClick = e => {
         if (node.current && node.current.contains(e.target)) {
@@ -48,17 +52,11 @@ function Card({
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClick);
-
         return () => {
             document.removeEventListener("mousedown", handleClick);
         };
     }, []);
 
-    useEffect(() => {
-        console.log(editingItem);
-    }, [editingItem]);
-
-    var _htmlToReactParser = new HtmlToReactParser();
     return (
         <div id={itemId} className="item-card">
             <div className="inner-card">
@@ -143,15 +141,8 @@ function Card({
                                     );
                                 }}
                             />
-                        ) : showingFullText ? (
-                            _htmlToReactParser.parse(entryText)
                         ) : (
-                            _htmlToReactParser.parse(
-                                truncate(entryText, 700, {
-                                    keepImageTag: true,
-                                    ellipsis: `...<a href='dream-network/${itemId}'>Read more</a>`,
-                                })
-                            )
+                            _htmlToReactParser.parse(textToShow)
                         )}
                     </div>
                     <div className="card-edit-area">
