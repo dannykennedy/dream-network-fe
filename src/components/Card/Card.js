@@ -4,6 +4,7 @@ import TagsArea from "../TagsArea/TagsArea";
 import { connect } from "react-redux";
 import ItemEditor from "../ItemEditor/ItemEditor";
 import FontAwesome from "react-fontawesome";
+import truncate from "html-truncate";
 import "./Card.css";
 import "./Dropdown.css";
 import {
@@ -24,14 +25,16 @@ function Card({
     deleteItem,
     editItem,
     setCurrentlyEditingItem,
-    saveTagsFromCurrentlyEditingItem,
     saveTagsFromCurrentItem,
-    currentlyEditingItems,
     deleteTagsFromCurrentItem,
     userItems,
 }) {
     const { entryText, firstName, lastName, itemId, timePosted, tags } = post;
+
+    console.log(entryText);
+
     const node = useRef();
+
     const [editingItem, setEditingItem] = useState(false);
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
@@ -140,7 +143,7 @@ function Card({
                                 }}
                             />
                         ) : (
-                            _htmlToReactParser.parse(entryText)
+                            _htmlToReactParser.parse(truncate(entryText, 700))
                         )}
                     </div>
                     <div className="card-edit-area">
@@ -165,7 +168,6 @@ const mapStateToProps = state => {
     return {
         user: state.user.user,
         userItems: state.items.userItems,
-        currentlyEditingItems: state.items.currentlyEditingItems,
     };
 };
 
