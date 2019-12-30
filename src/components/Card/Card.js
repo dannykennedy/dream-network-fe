@@ -4,7 +4,7 @@ import TagsArea from "../TagsArea/TagsArea";
 import { connect } from "react-redux";
 import ItemEditor from "../ItemEditor/ItemEditor";
 import FontAwesome from "react-fontawesome";
-import truncate from "html-truncate";
+import truncate from "html-truncate"; //https://www.npmjs.com/package/html-truncate
 import "./Card.css";
 import "./Dropdown.css";
 import {
@@ -143,7 +143,12 @@ function Card({
                                 }}
                             />
                         ) : (
-                            _htmlToReactParser.parse(truncate(entryText, 700))
+                            _htmlToReactParser.parse(
+                                truncate(entryText, 700, {
+                                    keepImageTag: true,
+                                    ellipsis: `...<a href='dream-network/${itemId}'>Read more</a>`,
+                                })
+                            )
                         )}
                     </div>
                     <div className="card-edit-area">
