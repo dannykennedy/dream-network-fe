@@ -28,6 +28,7 @@ function Card({
     saveTagsFromCurrentItem,
     deleteTagsFromCurrentItem,
     userItems,
+    showingFullText,
 }) {
     const { entryText, firstName, lastName, itemId, timePosted, tags } = post;
 
@@ -142,6 +143,8 @@ function Card({
                                     );
                                 }}
                             />
+                        ) : showingFullText ? (
+                            _htmlToReactParser.parse(entryText)
                         ) : (
                             _htmlToReactParser.parse(
                                 truncate(entryText, 700, {

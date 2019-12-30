@@ -12,7 +12,13 @@ function ItemsArea({ userItems, publicItems, currentlyShowingItems, user }) {
             <div>
                 <Searchbox />
                 {Object.values(currentlyShowingItems).map(post => {
-                    return <Card post={post} key={post.itemId} />;
+                    return (
+                        <Card
+                            post={post}
+                            key={post.itemId}
+                            showingFullText={false}
+                        />
+                    );
                 })}
             </div>
         );
@@ -22,7 +28,13 @@ function ItemsArea({ userItems, publicItems, currentlyShowingItems, user }) {
         ) : (
             <div>
                 {Object.values(userItems).map(post => {
-                    return <Card post={post} key={post.itemId} />;
+                    return (
+                        <Card
+                            post={post}
+                            key={post.itemId}
+                            showingFullText={false}
+                        />
+                    );
                 })}
             </div>
         );

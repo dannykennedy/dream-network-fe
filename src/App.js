@@ -57,6 +57,7 @@ const App = withAuth(
                                             <Card
                                                 post={post}
                                                 key={post.itemId}
+                                                showingFullText={true}
                                             />
                                         ) : (
                                             <LoadingNotice
