@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import { EditorState, convertToRaw, ContentState } from "draft-js";
+import { EditorState, convertToRaw, ContentState, Modifier } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
+import striptags from "striptags";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./ItemEditor.css";
 import uuidV4 from "../../modules/uuid";
+// import clearFormatting from "draft-js-clear-formatting";
 // Dispatch
 import { connect } from "react-redux";
 import { addItem as _addItem } from "../../ducks/items";
 // Config
-import editorConfig from "../../modules/editorConfig";
+import editorConfig from "./editorConfig";
 
 class ItemEditor extends Component {
     constructor(props) {
@@ -47,6 +49,10 @@ class ItemEditor extends Component {
         });
     };
 
+    clearEditorButton = () => {
+        return <div onClick={this.clearEditor}>Nukem!</div>;
+    };
+
     handleSubmit(postText, props) {
         let itemId = props.itemId ? props.itemId : uuidV4();
 
@@ -64,6 +70,21 @@ class ItemEditor extends Component {
         props.onSave(post, itemId);
     }
 
+    nukeFormatting(htmlContent) {
+        console.log("Nuking ", htmlContent);
+
+        const html = `<p>${striptags(htmlContent)}</p>`.replace(/\n/g, " ");
+        console.log("Nuked ", html);
+        const contentBlock = htmlToDraft(html);
+        const contentState = ContentState.createFromBlockArray(
+            contentBlock.contentBlocks
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        this.setState({
+            editorState,
+        });
+    }
+
     render() {
         const { editorState } = this.state;
         return (
@@ -74,8 +95,10 @@ class ItemEditor extends Component {
                     editorClassName="demo-editor"
                     onEditorStateChange={this.onEditorStateChange}
                     toolbar={editorConfig}
+                    stripPastedStyles={true}
                 />
                 <button
+                    className="button-standard"
                     onClick={() => {
                         this.handleSubmit(
                             draftToHtml(
@@ -84,9 +107,21 @@ class ItemEditor extends Component {
                             this.props
                         );
                     }}
-                    className="button-standard"
                 >
                     {this.props.saveButtonText || "Save"}
+                </button>
+
+                <button
+                    className="button-standard"
+                    onClick={() => {
+                        this.nukeFormatting(
+                            draftToHtml(
+                                convertToRaw(editorState.getCurrentContent())
+                            )
+                        );
+                    }}
+                >
+                    Nuke all formatting!
                 </button>
             </div>
         );

@@ -17,6 +17,7 @@ import Navbar from "./components/Navbar";
 import LoadingNotice from "./components/LoadingNotice";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Card from "./components/Card";
+import { EditorCustomToolbarOption } from "./components/ItemEditor/CustomOption";
 
 const App = withAuth(
     ({ fetchData, fetchAllData, setUser, auth, addItem, userItems }) => {
@@ -77,6 +78,8 @@ const App = withAuth(
                                                         content={""}
                                                         onSave={addItem}
                                                     />
+                                                    {/* <EditorCustomToolbarOption /> */}
+
                                                     <ItemsArea user={user} />
                                                 </div>
                                             )}
