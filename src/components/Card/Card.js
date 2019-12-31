@@ -62,8 +62,11 @@ function Card({
             <div className="inner-card">
                 <div className="card-header">
                     <CardUserInfo
-                        firstName={firstName}
-                        lastName={lastName}
+                        authors={[
+                            {
+                                name: `${firstName} ${lastName}`,
+                            },
+                        ]}
                         timePosted={timePosted}
                     />
                     <div className="card-options dropdown">
