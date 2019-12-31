@@ -27,7 +27,7 @@ export const mapEntitiesToTypes = {
 // Date posted is a date, and 14 May 2015 is a date
 // Principles 2
 export const TagDescriptions = {
-    PERSON: ["Author", "Subject", "(None)"],
+    PERSON: ["Author", "Posted By", "Subject", "(None)"],
     DATE: ["Itemed on", "(None)"],
     OTHER: ["Subject", "Title", "(None)"],
     DOCUMENT: ["Featured in", "(None)"],

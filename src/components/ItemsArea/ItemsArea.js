@@ -3,6 +3,7 @@ import Card from "../Card";
 import { connect } from "react-redux";
 import LoadingNotice from "../LoadingNotice";
 import Searchbox from "../Searchbox";
+import NoPosts from "./NoPosts";
 
 function ItemsArea({ userItems, publicItems, currentlyShowingItems, user }) {
     if (!user) {
@@ -27,6 +28,7 @@ function ItemsArea({ userItems, publicItems, currentlyShowingItems, user }) {
             <LoadingNotice loadingText="Loading your posts" />
         ) : (
             <div>
+                {Object.values(userItems).length < 1 && <NoPosts />}
                 {Object.values(userItems).map(post => {
                     return (
                         <Card

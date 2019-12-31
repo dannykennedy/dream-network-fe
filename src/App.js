@@ -89,8 +89,6 @@ const App = withAuth(
                                                         content={""}
                                                         onSave={addItem}
                                                     />
-                                                    {/* <EditorCustomToolbarOption /> */}
-
                                                     <ItemsArea user={user} />
                                                 </div>
                                             )}
