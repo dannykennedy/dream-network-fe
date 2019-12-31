@@ -7,20 +7,27 @@ import {
     addItem as _addItem,
 } from "./ducks/items";
 import { setUser as _setUser } from "./ducks/user";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { withAuth } from "@okta/okta-react";
+import { useAuth } from "./auth";
 // Components
 import ChartsArea from "./components/Chartsarea";
 import ItemsArea from "./components/ItemsArea/ItemsArea";
-import { withAuth } from "@okta/okta-react";
-import { useAuth } from "./auth";
 import ItemEditor from "./components/ItemEditor";
 import Navbar from "./components/Navbar";
 import LoadingNotice from "./components/LoadingNotice";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Card from "./components/Card";
-import { EditorCustomToolbarOption } from "./components/ItemEditor/CustomOption";
 
 const App = withAuth(
-    ({ fetchData, fetchAllData, setUser, auth, addItem, userItems }) => {
+    ({
+        fetchData,
+        fetchAllData,
+        setUser,
+        auth,
+        addItem,
+        userItems,
+        publicItems,
+    }) => {
         const [authenticated, user] = useAuth(auth);
 
         useEffect(() => {
@@ -48,12 +55,12 @@ const App = withAuth(
                             path="/dream-network/:itemId"
                             render={({ match }) => {
                                 let post;
-                                if (userItems) {
-                                    post = userItems[match.params.itemId];
+                                if (publicItems) {
+                                    post = publicItems[match.params.itemId];
                                 }
                                 return (
                                     <div>
-                                        {userItems ? (
+                                        {publicItems ? (
                                             <Card
                                                 post={post}
                                                 key={post.itemId}
@@ -113,6 +120,7 @@ const App = withAuth(
 const mapStateToProps = state => {
     return {
         userItems: state.items.userItems,
+        publicItems: state.items.publicItems,
     };
 };
 
