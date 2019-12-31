@@ -8,13 +8,13 @@
     display: flex;
     flex-direction: row;
     position: relative;
-    align-items: center;
 }
 
 #search-icon {
     z-index: 2;
     position: absolute;
     left: 10px;
+    top: 12px;
     color: #555;
 }
 
