@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import CardUserInfo from "./CardUserInfo";
+import CardInfoHeader from "./CardInfoHeader";
 import TagsArea from "../TagsArea/TagsArea";
 import { connect } from "react-redux";
 import ItemEditor from "../ItemEditor/ItemEditor";
@@ -34,6 +34,20 @@ function Card({
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
     const node = useRef();
 
+    let authorNames = Object.values(tags).filter(tag => {
+        return (
+            tag.tagDescription && tag.tagDescription.toLowerCase() === "author"
+        );
+    });
+    if (authorNames.length < 1) {
+        authorNames = [
+            {
+                tagName: `${firstName} ${lastName}`,
+            },
+        ];
+    }
+    console.log("authornames", authorNames);
+
     // Truncate text if needed
     var _htmlToReactParser = new HtmlToReactParser();
     const textToShow = showingFullText
@@ -61,12 +75,8 @@ function Card({
         <div id={itemId} className="item-card">
             <div className="inner-card">
                 <div className="card-header">
-                    <CardUserInfo
-                        authors={[
-                            {
-                                name: `${firstName} ${lastName}`,
-                            },
-                        ]}
+                    <CardInfoHeader
+                        authors={authorNames}
                         timePosted={timePosted}
                     />
                     <div className="card-options dropdown">
