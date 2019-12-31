@@ -59,18 +59,21 @@ const App = withAuth(
                                     post = publicItems[match.params.itemId];
                                 }
                                 return (
-                                    <div>
-                                        {publicItems ? (
-                                            <Card
-                                                post={post}
-                                                key={post.itemId}
-                                                showingFullText={true}
-                                            />
-                                        ) : (
-                                            <LoadingNotice
-                                                loadingText={"Loading post"}
-                                            />
-                                        )}
+                                    <div id={"App-body"}>
+                                        <div id={"items-area"}>
+                                            {publicItems ? (
+                                                <Card
+                                                    post={post}
+                                                    key={post.itemId}
+                                                    showingFullText={true}
+                                                />
+                                            ) : (
+                                                <LoadingNotice
+                                                    loadingText={"Loading post"}
+                                                />
+                                            )}
+                                        </div>
+                                        <ChartsArea />
                                     </div>
                                 );
                             }}

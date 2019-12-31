@@ -70,10 +70,6 @@ class ItemEditor extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    // draftToHtml(
-    //     convertToRaw(editorState.getCurrentContent())
-    // )
-
     onEditorStateChange = editorState => {
         this.setState({
             editorState,

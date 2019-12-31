@@ -38,7 +38,7 @@ function Card({
     var _htmlToReactParser = new HtmlToReactParser();
     const textToShow = showingFullText
         ? entryText
-        : truncate(entryText, 700, {
+        : truncate(entryText, 500, {
               keepImageTag: true,
               ellipsis: `...<a href='dream-network/${itemId}'>Read more</a>`,
           });
