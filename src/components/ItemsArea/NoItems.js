@@ -1,7 +1,7 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
 
-function NoPosts() {
+function NoItems() {
     return (
         <div
             style={{
@@ -21,4 +21,4 @@ function NoPosts() {
     );
 }
 
-export default NoPosts;
+export default NoItems;
