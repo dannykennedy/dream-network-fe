@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import CardInfoHeader from "./CardInfoHeader";
 import TagsArea from "../TagsArea/TagsArea";
 import { connect } from "react-redux";
@@ -25,7 +26,7 @@ function Card({
     saveTagsFromCurrentItem,
     deleteTagsFromCurrentItem,
     userItems,
-    showingFullText,
+    showingCardAsMainContent,
 }) {
     const { entryText, firstName, lastName, itemId, timePosted, tags } = post;
     const [editingItem, setEditingItem] = useState(false);
@@ -47,7 +48,7 @@ function Card({
 
     // Truncate text if needed
     var _htmlToReactParser = new HtmlToReactParser();
-    const textToShow = showingFullText
+    const textToShow = showingCardAsMainContent
         ? entryText
         : truncate(entryText, 500, {
               keepImageTag: true,
@@ -70,6 +71,11 @@ function Card({
 
     return (
         <div id={itemId} className="item-card">
+            {showingCardAsMainContent && (
+                <Helmet>
+                    <link rel="canonical" href={window.location.href} />
+                </Helmet>
+            )}
             <div className="inner-card">
                 <div className="card-header">
                     <CardInfoHeader

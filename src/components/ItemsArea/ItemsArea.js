@@ -17,7 +17,7 @@ function ItemsArea({ userItems, publicItems, currentlyShowingItems, user }) {
                         <Card
                             post={post}
                             key={post.itemId}
-                            showingFullText={false}
+                            showingCardAsMainContent={false}
                         />
                     );
                 })}
@@ -34,7 +34,7 @@ function ItemsArea({ userItems, publicItems, currentlyShowingItems, user }) {
                         <Card
                             post={post}
                             key={post.itemId}
-                            showingFullText={false}
+                            showingCardAsMainContent={false}
                         />
                     );
                 })}
