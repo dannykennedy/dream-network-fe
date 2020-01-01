@@ -10,11 +10,10 @@ import "./Dropdown.css";
 import {
     deleteItem as _deleteItem,
     editItem as _editItem,
-    setCurrentlyEditingItem as _setCurrentlyEditingItem,
     saveTagsFromCurrentItem as _saveTagsFromCurrentItem,
     deleteTagsFromCurrentItem as _deleteTagsFromCurrentItem,
 } from "../../ducks/items";
-import { chain, values } from "lodash";
+import { values } from "lodash";
 import { Link } from "react-router-dom";
 let HtmlToReactParser = require("html-to-react").Parser;
 
@@ -23,7 +22,6 @@ function Card({
     user,
     deleteItem,
     editItem,
-    setCurrentlyEditingItem,
     saveTagsFromCurrentItem,
     deleteTagsFromCurrentItem,
     userItems,
@@ -96,19 +94,6 @@ function Card({
                                             onClick={() => {
                                                 setDropdownIsOpen(false);
                                                 setEditingItem(true);
-                                                const currentlyEditingItem = {
-                                                    itemId: itemId,
-                                                    entryText: entryText.slice(
-                                                        0
-                                                    ),
-                                                    tags: chain(tags)
-                                                        .keyBy("tagId")
-                                                        .value(),
-                                                    deletedTags: [],
-                                                };
-                                                setCurrentlyEditingItem(
-                                                    currentlyEditingItem
-                                                );
                                             }}
                                         >
                                             Edit
@@ -186,7 +171,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     deleteItem: _deleteItem,
     editItem: _editItem,
-    setCurrentlyEditingItem: _setCurrentlyEditingItem,
     saveTagsFromCurrentItem: _saveTagsFromCurrentItem,
     deleteTagsFromCurrentItem: _deleteTagsFromCurrentItem,
 };

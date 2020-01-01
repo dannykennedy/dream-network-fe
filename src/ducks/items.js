@@ -7,7 +7,6 @@ const initialState = {
     userItems: null,
     publicItems: null,
     currentlyShowingItems: null,
-    currentlyEditingItems: {},
     loading: true,
     searchTags: [],
     searchingInProgress: false,
@@ -25,7 +24,6 @@ const actionTypes = {
     ERROR: "ERROR",
     REPLACE_ITEM_WITH_TAGGED_ITEM: "REPLACE_ITEM_WITH_TAGGED_ITEM",
     DELETE_TAG: "DELETE_TAG",
-    SET_CURRENTLY_EDITING_ITEM: "SET_CURRENTLY_EDITING_ITEM",
     EDIT_TAG_IN_CURRENTLY_EDITING_ITEM: "EDIT_TAG_IN_CURRENTLY_EDITING_ITEM",
     SAVE_CURRENTLY_EDITING_ITEM: "SAVE_CURRENTLY_EDITING_ITEM",
     MARK_TAG_AS_DELETED_IN_ITEM: "MARK_TAG_AS_DELETED_IN_ITEM",
@@ -206,21 +204,6 @@ export default (state = initialState, action) => {
                         },
                     },
                 },
-                currentlyEditingItems: {
-                    ...state.currentlyEditingItems,
-                    [itemId]: {
-                        ...state.currentlyEditingItems[itemId],
-                        tags: {
-                            ...state.currentlyEditingItems[itemId].tags,
-                            [tagId]: {
-                                ...state.currentlyEditingItems[itemId].tags[
-                                    tagId
-                                ],
-                                tagType: tagType,
-                            },
-                        },
-                    },
-                },
             };
         case actionTypes.DATA_REQUEST:
             console.log("request");
@@ -241,16 +224,6 @@ export default (state = initialState, action) => {
                 publicItems: { ...items },
                 currentlyShowingItems: { ...items },
             };
-        // Add a post to the list of currently editing items
-        case actionTypes.SET_CURRENTLY_EDITING_ITEM:
-            console.log("Currently editing: ", action.payload);
-            return {
-                ...state,
-                currentlyEditingItems: {
-                    ...state.currentlyEditingItems,
-                    [action.payload.itemId]: action.payload,
-                },
-            };
         // Update tag in state.currentlyEditingItem
         case actionTypes.EDIT_TAG_IN_CURRENTLY_EDITING_ITEM:
             return {
@@ -267,24 +240,6 @@ export default (state = initialState, action) => {
                                 ],
                                 tagName: action.payload.tagName,
                                 edited: true,
-                            },
-                        },
-                    },
-                },
-
-                currentlyEditingItems: {
-                    ...state.currentlyEditingItems,
-                    [action.payload.itemId]: {
-                        ...state.currentlyEditingItems[action.payload.itemId],
-                        tags: {
-                            ...state.currentlyEditingItems[
-                                action.payload.itemId
-                            ].tags,
-                            [action.payload.tagId]: {
-                                ...state.currentlyEditingItems[
-                                    action.payload.itemId
-                                ].tags[action.payload.tagId],
-                                tagName: action.payload.tagName,
                             },
                         },
                     },
@@ -553,13 +508,6 @@ export const setTagDescription = (tagDescription, tagId, itemId) => {
             tagId: tagId,
             itemId: itemId,
         },
-    };
-};
-
-export const setCurrentlyEditingItem = payload => {
-    return {
-        type: actionTypes.SET_CURRENTLY_EDITING_ITEM,
-        payload,
     };
 };
 
