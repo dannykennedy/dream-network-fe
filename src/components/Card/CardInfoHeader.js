@@ -21,9 +21,13 @@ function CardInfoHeader({ timePosted, authors }) {
                 <div className="card-author">
                     {authors.map((author, i) => {
                         return i < authors.length - 1 ? (
-                            <span>{author.tagName}, </span>
+                            <span key={author.tagName + i}>
+                                {author.tagName},{" "}
+                            </span>
                         ) : (
-                            <span>{author.tagName}</span>
+                            <span key={author.tagName + i}>
+                                {author.tagName}
+                            </span>
                         );
                     })}
                 </div>

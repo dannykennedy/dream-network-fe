@@ -44,7 +44,6 @@ function Card({
             },
         ];
     }
-    console.log("authornames", authorNames);
 
     // Truncate text if needed
     var _htmlToReactParser = new HtmlToReactParser();

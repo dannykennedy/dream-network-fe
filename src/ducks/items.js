@@ -70,17 +70,12 @@ export default (state = initialState, action) => {
                 searchingInProgress: action.payload,
             };
         case actionTypes.FILTER_ITEMS:
-            console.log("filterng by", action.payload);
-            // if (action.payload.length < 1){
-            //     return {...state, currentlyShowingItems: {...publicItems}
-            // }
             return {
                 ...state,
                 currentlyShowingItems:
                     action.payload.length < 1
                         ? { ...state.publicItems }
                         : values(state.publicItems).filter(item => {
-                              // console.log(values(item.tags));
                               let found = false;
                               const tagsToSearch = values(item.tags);
                               const searchTags = action.payload;
@@ -107,8 +102,6 @@ export default (state = initialState, action) => {
             };
 
         case actionTypes.ADD_SEARCH_TAGS:
-            console.log("got taghhhh", action.payload);
-
             return {
                 ...state,
                 searchTags: [...state.searchTags, ...action.payload],
