@@ -61,8 +61,12 @@ function Card({
         ? entryText
         : truncate(entryText, 500, {
               keepImageTag: true,
-              ellipsis: `...<a href='dream-network/${itemId}'>Read more</a>`,
+              ellipsis: `...`,
           });
+
+    // Test
+    var domthing = new DOMParser().parseFromString(textToShow, "text/html");
+    console.log("READMORE", domthing.getElementsByTagName("body")[0].innerHTML);
 
     const handleClick = e => {
         if (node.current && node.current.contains(e.target)) {
@@ -117,9 +121,7 @@ function Card({
                                         </button>
 
                                         <button>
-                                            <Link
-                                                to={`/dream-network/${itemId}`}
-                                            >
+                                            <Link to={`/${itemId}`}>
                                                 See full article
                                             </Link>
                                         </button>

@@ -84,8 +84,9 @@ const App = withAuth(
                             </div>
                         </Route>
                         <Route
-                            path="/dream-network/:itemId"
+                            path="/:itemId"
                             render={({ match }) => {
+                                console.log("gotta match!", match);
                                 let post;
                                 if (publicItems) {
                                     post = publicItems[match.params.itemId];
