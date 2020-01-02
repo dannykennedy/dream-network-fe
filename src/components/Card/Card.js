@@ -33,18 +33,27 @@ function Card({
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
     const node = useRef();
 
-    let authorNames = Object.values(tags).filter(tag => {
-        return (
-            tag.tagDescription && tag.tagDescription.toLowerCase() === "author"
-        );
-    });
-    if (authorNames.length < 1) {
-        authorNames = [
-            {
-                tagName: `${firstName} ${lastName}`,
-            },
-        ];
-    }
+    let authorNames = [
+        {
+            tagName: `${firstName} ${lastName}`,
+        },
+    ];
+    // if (tags !== []) {
+    //     authorNames = Object.values(tags).filter(tag => {
+    //         return (
+    //             tag.tagDescription &&
+    //             tag.tagDescription.toLowerCase() === "author"
+    //         );
+    //     });
+    // }
+    // if (authorNames === []) {
+    //     authorNames = [
+    //         {
+    //             tagName: `${firstName} ${lastName}`,
+    //         },
+    //     ];
+    // }
+    // console.log("authornames", authorNames);
 
     // Truncate text if needed
     var _htmlToReactParser = new HtmlToReactParser();
@@ -72,6 +81,9 @@ function Card({
     return (
         <div id={itemId} className="item-card">
             {showingCardAsMainContent && (
+                // If reading the full article, then this should be the canonical copy
+                // Each item should exist at only one place, there is no hierarchy.
+                // TODO: Unless a custom canonical URL is specified
                 <Helmet>
                     <link rel="canonical" href={window.location.href} />
                 </Helmet>

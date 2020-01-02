@@ -51,35 +51,6 @@ const App = withAuth(
                 <Navbar authenticated={authenticated} auth={auth} />
                 <Router>
                     <Switch>
-                        <Route
-                            path="/dream-network/:itemId"
-                            render={({ match }) => {
-                                let post;
-                                if (publicItems) {
-                                    post = publicItems[match.params.itemId];
-                                }
-                                return (
-                                    <div id={"App-body"}>
-                                        <div id={"items-area"}>
-                                            {publicItems ? (
-                                                <Card
-                                                    post={post}
-                                                    key={post.itemId}
-                                                    showingCardAsMainContent={
-                                                        true
-                                                    }
-                                                />
-                                            ) : (
-                                                <LoadingNotice
-                                                    loadingText={"Loading post"}
-                                                />
-                                            )}
-                                        </div>
-                                        <ChartsArea />
-                                    </div>
-                                );
-                            }}
-                        ></Route>
                         <Route exact={true} path="/dream-network">
                             <div id={"App-body"}>
                                 {authenticated ? (
@@ -112,6 +83,35 @@ const App = withAuth(
                                 )}
                             </div>
                         </Route>
+                        <Route
+                            path="/dream-network/:itemId"
+                            render={({ match }) => {
+                                let post;
+                                if (publicItems) {
+                                    post = publicItems[match.params.itemId];
+                                }
+                                return (
+                                    <div id={"App-body"}>
+                                        <div id={"items-area"}>
+                                            {publicItems ? (
+                                                <Card
+                                                    post={post}
+                                                    key={post.itemId}
+                                                    showingCardAsMainContent={
+                                                        true
+                                                    }
+                                                />
+                                            ) : (
+                                                <LoadingNotice
+                                                    loadingText={"Loading post"}
+                                                />
+                                            )}
+                                        </div>
+                                        <ChartsArea />
+                                    </div>
+                                );
+                            }}
+                        ></Route>
                     </Switch>
                 </Router>
             </div>
