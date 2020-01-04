@@ -29,7 +29,7 @@ export const mapEntitiesToTypes = {
 export const TagDescriptions = {
     PERSON: ["Author", "Posted By", "Subject", "(None)"],
     DATE: ["Itemed on", "(None)"],
-    OTHER: ["Subject", "Title", "(None)"],
+    OTHER: ["Subject", "Title", "Custom slug", "(None)"],
     DOCUMENT: ["Featured in", "(None)"],
     LOCATION: ["Subject", "(None)"],
 };

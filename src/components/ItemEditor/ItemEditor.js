@@ -10,7 +10,10 @@ import uuidV4 from "../../modules/uuid";
 // import clearFormatting from "draft-js-clear-formatting";
 // Dispatch
 import { connect } from "react-redux";
-import { addItem as _addItem } from "../../ducks/items";
+import {
+    addItem as _addItem,
+    addCustomSlug as _addCustomSlug,
+} from "../../ducks/items";
 // Config
 import editorConfig from "./editorConfig";
 import PropTypes from "prop-types";
@@ -150,6 +153,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     addItem: _addItem,
+    addCustomSlug: _addCustomSlug,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemEditor);

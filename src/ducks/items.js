@@ -584,6 +584,28 @@ export const fetchAllData = () => {
     };
 };
 
+export const addCustomSlug = slugText => {
+    return dispatch => {
+        dispatch(dataRequest());
+        // Then add to database
+        fetch(`${baseUrl}/tags/custom-slug`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ customSlug: slugText }),
+        })
+            .then(data => data.json())
+            .then(json => {
+                console.log("got responso: ", json);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+};
+
 // ADD AN ITEM
 export const addItem = post => {
     return dispatch => {
@@ -602,13 +624,23 @@ export const addItem = post => {
             .then(data => data.json())
             .then(json => {
                 console.log("got tags: ", json);
-
                 post = {
                     ...post,
                     tags: json.map(responseRow => responseRow),
                 };
-                console.log("new Item: ", post);
                 dispatch(replaceItemWithTaggedItem(post));
+            })
+            .then(response => {
+                console.log("I'm getting the custom slug");
+
+                fetch(`${baseUrl}/tags/custom-slug`, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ customSlug: "I am a dog" }),
+                });
             })
             .catch(err => {
                 console.log(err);

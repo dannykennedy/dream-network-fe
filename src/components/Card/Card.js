@@ -65,8 +65,8 @@ function Card({
           });
 
     // Test
-    var domthing = new DOMParser().parseFromString(textToShow, "text/html");
-    console.log("READMORE", domthing.getElementsByTagName("body")[0].innerHTML);
+    // var domthing = new DOMParser().parseFromString(textToShow, "text/html");
+    // console.log("READMORE", domthing.getElementsByTagName("body")[0].innerHTML);
 
     const handleClick = e => {
         if (node.current && node.current.contains(e.target)) {
