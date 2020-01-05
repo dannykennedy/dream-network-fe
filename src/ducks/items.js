@@ -1,4 +1,8 @@
 import { values, keyBy } from "lodash";
+import { getTitle } from "../modules/getTitle";
+import urlSlug from "url-slug";
+import { makeTag } from "../components/Tag/makeTag";
+import uuidV4 from "../modules/uuid";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -588,14 +592,15 @@ export const addCustomSlug = slugText => {
     return dispatch => {
         dispatch(dataRequest());
         // Then add to database
-        fetch(`${baseUrl}/tags/custom-slug`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ customSlug: slugText }),
-        })
+        fetch(`${baseUrl}/items/${"dannykennedy@email.com"}`)
+            // fetch(`${baseUrl}/tags/custom-slug`, {
+            //     method: "POST",
+            //     headers: {
+            //         Accept: "application/json",
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify({ customSlug: slugText }),
+            // })
             .then(data => data.json())
             .then(json => {
                 console.log("got responso: ", json);
@@ -630,17 +635,34 @@ export const addItem = post => {
                 };
                 dispatch(replaceItemWithTaggedItem(post));
             })
+            // Then add slug tag
             .then(response => {
-                console.log("I'm getting the custom slug");
-
                 fetch(`${baseUrl}/tags/custom-slug`, {
                     method: "POST",
                     headers: {
                         Accept: "application/json",
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ customSlug: "I am a dog" }),
-                });
+                    body: JSON.stringify(post),
+                })
+                    .then(data => data.json())
+                    .then(json => {
+                        console.log("got responso: ", json);
+                        console.log("first option", json[0].affectedRows);
+                        console.log("second option", json[1].affectedRows);
+
+                        let slug = urlSlug(getTitle(post.entryText));
+
+                        let newTag = makeTag(
+                            uuidV4(),
+                            slug,
+                            "OTHER",
+                            post.itemId,
+                            false,
+                            "Custom slug"
+                        );
+                        dispatch(addTagToItem(newTag));
+                    });
             })
             .catch(err => {
                 console.log(err);

@@ -13,6 +13,7 @@ import {
     editTagInCurrentlyEditingItem as _editTagInCurrentlyEditingItem,
 } from "../../ducks/items";
 import { isEnterKey } from "../../modules/keyCodes";
+import { makeTag } from "../Tag/makeTag";
 
 // Inspired by https://www.npmjs.com/package/react-tag-input
 // Look at this component in the future for autosuggestions
@@ -32,13 +33,7 @@ function TagsArea({
 
     const onAddTag = tagName => {
         const id = uuidV4();
-        const newTag = {
-            tagId: id,
-            tagName: tagName,
-            tagType: "NONE",
-            itemId: itemId,
-            isNewTag: true,
-        };
+        const newTag = makeTag(id, tagName, "NONE", itemId, true);
         getTagType(tagName, id, itemId, setTagType);
         addTagToItem(newTag);
     };
