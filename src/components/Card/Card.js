@@ -28,7 +28,15 @@ function Card({
     userItems,
     showingCardAsMainContent,
 }) {
-    const { entryText, firstName, lastName, itemId, timePosted, tags } = post;
+    const {
+        entryText,
+        firstName,
+        lastName,
+        itemId,
+        timePosted,
+        tags,
+        describedTags,
+    } = post;
     const [editingItem, setEditingItem] = useState(false);
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
     const node = useRef();
@@ -121,7 +129,13 @@ function Card({
                                         </button>
 
                                         <button>
-                                            <Link to={`/${itemId}`}>
+                                            <Link
+                                                to={
+                                                    describedTags["Custom slug"]
+                                                        ? `/${itemId}/${describedTags["Custom slug"].tagName}`
+                                                        : `/${itemId}`
+                                                }
+                                            >
                                                 See full article
                                             </Link>
                                         </button>

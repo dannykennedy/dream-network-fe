@@ -52,6 +52,7 @@ function itemsToObject(itemsArray) {
         ret[itemsArray[i].itemId] = {
             ...itemsArray[i],
             tags: tagsToObject(itemsArray[i].tags),
+            describedTags: describedTagsToObject(itemsArray[i].tags),
         };
     }
     return ret;
@@ -61,6 +62,16 @@ function tagsToObject(tagsArray) {
     var ret = {};
     for (var i = 0; i < tagsArray.length; ++i) {
         ret[tagsArray[i].tagId] = tagsArray[i];
+    }
+    return ret;
+}
+
+function describedTagsToObject(tagsArray) {
+    var ret = {};
+    for (var i = 0; i < tagsArray.length; ++i) {
+        if (tagsArray[i].tagDescription) {
+            ret[tagsArray[i].tagDescription] = tagsArray[i];
+        }
     }
     return ret;
 }

@@ -86,7 +86,7 @@ const App = withAuth(
                         <Route
                             path="/:itemId"
                             render={({ match }) => {
-                                console.log("gotta match!", match);
+                                console.log("gotta match", match);
                                 let post;
                                 if (publicItems) {
                                     post = publicItems[match.params.itemId];
