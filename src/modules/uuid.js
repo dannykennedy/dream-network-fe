@@ -16,8 +16,11 @@ export default function uuidV4() {
 }
 
 export function idGen() {
+    // 1578795600000 = milliseconds from 1970 to Jan 12, 2020
     let datePart = (new Date().getTime() - 1578795600000).toString();
-    let randomPart = (Math.floor(Math.random() * 16777215) + 1).toString(); // 4 hex digits
+    // 4 hex digits
+    // # of digits could easily be raised without affecting insert order
+    let randomPart = (Math.floor(Math.random() * 16777214) + 1).toString();
     randomPart = randomPart.padStart(8, "0");
-    return datePart + randomPart;
+    return parseInt(datePart + randomPart);
 }
