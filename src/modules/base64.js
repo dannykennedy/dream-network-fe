@@ -5,7 +5,7 @@
 // var n = base64.decode('BJlgLS'); // 1234567890
 export var Base64 = (function() {
     var ALPHA =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~-";
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
 
     var Base64 = function() {};
 

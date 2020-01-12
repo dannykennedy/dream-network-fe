@@ -17,6 +17,7 @@ import ItemEditor from "./components/ItemEditor";
 import Navbar from "./components/Navbar";
 import LoadingNotice from "./components/LoadingNotice";
 import Card from "./components/Card";
+import { Base64 } from "./modules/base64";
 
 const App = withAuth(
     ({
@@ -84,12 +85,20 @@ const App = withAuth(
                             </div>
                         </Route>
                         <Route
-                            path="/:itemId"
+                            path="/:itemId/:slug"
                             render={({ match }) => {
                                 console.log("gotta match", match);
                                 let post;
                                 if (publicItems) {
-                                    post = publicItems[match.params.itemId];
+                                    let intId = new Base64().decode(
+                                        match.params.itemId
+                                    );
+                                    post = publicItems[intId];
+                                    console.log(
+                                        "im match iz",
+                                        match.params.itemId
+                                    );
+                                    console.log("here im post iz", post);
                                 }
                                 return (
                                     <div id={"App-body"}>

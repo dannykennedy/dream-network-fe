@@ -30,6 +30,8 @@ function Card({
     userItems,
     showingCardAsMainContent,
 }) {
+    console.log("do I gotta post??", post);
+
     const {
         entryText,
         firstName,
