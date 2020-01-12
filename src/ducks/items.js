@@ -2,7 +2,7 @@ import { values, keyBy } from "lodash";
 import { getTitle } from "../modules/getTitle";
 import urlSlug from "url-slug";
 import { makeTag } from "../components/Tag/makeTag";
-import uuidV4 from "../modules/uuid";
+import idGen from "../modules/uuid";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -665,7 +665,7 @@ export const addItem = post => {
                         let slug = urlSlug(getTitle(post.entryText));
 
                         let newTag = makeTag(
-                            uuidV4(),
+                            idGen(),
                             slug,
                             "OTHER",
                             post.itemId,

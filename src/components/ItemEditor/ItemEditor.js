@@ -6,7 +6,7 @@ import htmlToDraft from "html-to-draftjs";
 import striptags from "striptags";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./ItemEditor.css";
-import uuidV4 from "../../modules/uuid";
+import idGen from "../../modules/uuid";
 // import clearFormatting from "draft-js-clear-formatting";
 // Dispatch
 import { connect } from "react-redux";
@@ -96,7 +96,7 @@ class ItemEditor extends Component {
     };
 
     handleSubmit(postText, props) {
-        let itemId = props.itemId ? props.itemId : uuidV4();
+        let itemId = props.itemId ? props.itemId : idGen();
 
         let post = {
             entryText: postText,

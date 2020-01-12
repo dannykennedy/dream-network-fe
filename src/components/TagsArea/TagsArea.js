@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Tag from "../Tag";
 import "./TagsArea.css";
 import LoadingNotice from "../LoadingNotice";
-import uuidV4 from "../../modules/uuid";
+import idGen from "../../modules/uuid";
 import { connect } from "react-redux";
 import {
     addTagToItem as _addTagToItem,
@@ -32,7 +32,7 @@ function TagsArea({
     const [inputText, setInputText] = useState("");
 
     const onAddTag = tagName => {
-        const id = uuidV4();
+        const id = idGen();
         const newTag = makeTag(id, tagName, "NONE", itemId, true);
         getTagType(tagName, id, itemId, setTagType);
         addTagToItem(newTag);
