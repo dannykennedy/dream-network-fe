@@ -14,3 +14,10 @@ export default function uuidV4() {
     }
     return uuid;
 }
+
+export function idGen() {
+    let datePart = (new Date().getTime() - 1578795600000).toString();
+    let randomPart = (Math.floor(Math.random() * 16777215) + 1).toString(); // 4 hex digits
+    randomPart = randomPart.padStart(8, "0");
+    return datePart + randomPart;
+}
