@@ -6,7 +6,7 @@ import htmlToDraft from "html-to-draftjs";
 import striptags from "striptags";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./ItemEditor.css";
-import idGen from "../../modules/uuid";
+import idGen from "../../modules/idGen";
 // import clearFormatting from "draft-js-clear-formatting";
 // Dispatch
 import { connect } from "react-redux";

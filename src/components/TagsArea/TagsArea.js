@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Tag from "../Tag";
 import "./TagsArea.css";
 import LoadingNotice from "../LoadingNotice";
-import idGen from "../../modules/uuid";
+import idGen from "../../modules/idGen";
 import { connect } from "react-redux";
 import {
     addTagToItem as _addTagToItem,

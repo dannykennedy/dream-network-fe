@@ -16,6 +16,8 @@ import {
 } from "../../ducks/items";
 import { values } from "lodash";
 import { Link } from "react-router-dom";
+import { Base64 } from "../../modules/base64";
+
 let HtmlToReactParser = require("html-to-react").Parser;
 
 function Card({
@@ -132,7 +134,13 @@ function Card({
                                             <Link
                                                 to={
                                                     describedTags["Custom slug"]
-                                                        ? `/${itemId}/${describedTags["Custom slug"].tagName}`
+                                                        ? `/${new Base64().encode(
+                                                              itemId
+                                                          )}/${
+                                                              describedTags[
+                                                                  "Custom slug"
+                                                              ].tagName
+                                                          }`
                                                         : `/${itemId}`
                                                 }
                                             >
