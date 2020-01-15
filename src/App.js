@@ -45,6 +45,8 @@ const App = withAuth(
             setUser(user);
         }, [user, setUser]);
 
+        console.log("I'm in the app");
+
         // useEffect(() => {}, [userItems]);
 
         return (
@@ -87,35 +89,20 @@ const App = withAuth(
                         <Route
                             path="/:itemId/:slug"
                             render={({ match }) => {
-                                console.log("gotta match", match);
+                                let itemId = match.params.itemId;
                                 let post;
                                 if (publicItems) {
-                                    let intId = new Base64().decode(
-                                        match.params.itemId
-                                    );
+                                    let intId = new Base64().decode(itemId);
                                     post = publicItems[intId];
-                                    console.log(
-                                        "im match iz",
-                                        match.params.itemId
-                                    );
-                                    console.log("here im post iz", post);
                                 }
                                 return (
                                     <div id={"App-body"}>
                                         <div id={"items-area"}>
-                                            {publicItems ? (
-                                                <Card
-                                                    post={post}
-                                                    key={post.itemId}
-                                                    showingCardAsMainContent={
-                                                        true
-                                                    }
-                                                />
-                                            ) : (
-                                                <LoadingNotice
-                                                    loadingText={"Loading post"}
-                                                />
-                                            )}
+                                            <Card
+                                                post={post}
+                                                itemIdBase64={itemId}
+                                                showingCardAsMainContent={true}
+                                            />
                                         </div>
                                         <ChartsArea />
                                     </div>

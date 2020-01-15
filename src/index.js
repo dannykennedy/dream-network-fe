@@ -18,6 +18,8 @@ import { Security, ImplicitCallback } from "@okta/okta-react";
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
 
+console.log("I'm in index");
+
 // Need to wrap app in a store provider component, otherwise "cannot get store in the context of App"
 const render = () => {
     ReactDOM.render(
@@ -35,8 +37,8 @@ const render = () => {
                             component={ImplicitCallback}
                         />
                         <Route path="/dream-network" component={App} />
-
-                        <Redirect exact from="/" to="/dream-network" />
+                        <Route path="/:item" component={App} />
+                        <Redirect from="/" to="/dream-network" />
                     </Switch>
                 </StoreProvider>
             </Security>
