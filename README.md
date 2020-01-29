@@ -1,3 +1,10 @@
+# Dream Network
+
+A site created to archive the magazine "Dream Network Journal". [See the fundraising campaign](https://chuffed.org/project/dream-network-journal). Allows for both input and viewing of articles, with automatic tagging based on Google NLP. Work in progress. I'm creating a statically generated version first, at [github.com/dannykennedy/graphsby](https://github.com/dannykennedy/graphsby).
+<br><br>
+
+![App screenshot](readme-pic.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
